@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<title>Frost Camp Plus & Jackpot</title>
+<title>Frost Camp Master</title>
 <style>
 :root{--p:rgba(24,48,70,.88);--l:rgba(255,255,255,.22);--g:#52df73}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -48,6 +48,8 @@ canvas{position:fixed;inset:0;width:100%;height:100%}
 .reel.spinning{animation:reelPulse .14s infinite alternate}@keyframes reelPulse{to{transform:translateY(2px);filter:brightness(1.18)}}
 .spinBtn{width:100%;border:0;border-radius:15px;padding:13px;background:linear-gradient(#a578ff,#6549cc);color:#fff;font-weight:1000;cursor:pointer}.spinBtn:disabled{opacity:.42}
 .jackpotResult{min-height:37px;border-radius:12px;background:#eef5f9;padding:9px 10px;text-align:center;font-size:12px;font-weight:950;margin-top:9px}
+.worldEvent{position:absolute;left:50%;top:max(78px,calc(env(safe-area-inset-top) + 68px));transform:translateX(-50%);background:rgba(25,47,67,.86);border:1px solid rgba(255,255,255,.2);border-radius:999px;padding:7px 11px;font-size:10px;font-weight:950;opacity:0;transition:.2s;white-space:nowrap;box-shadow:0 8px 20px #17334c22}.worldEvent.show{opacity:1}
+.workerCarry{font-size:9px}
 .cleaveRing{position:fixed;pointer-events:none;border:4px solid #8affb4;border-radius:50%;opacity:0;z-index:5}.cleaveRing.go{animation:cleaveRing .5s ease-out}@keyframes cleaveRing{0%{opacity:.9;transform:translate(-50%,-50%) scale(.3)}100%{opacity:0;transform:translate(-50%,-50%) scale(1.35)}}
 @media(pointer:fine){.powerBtns{right:14px;bottom:14px}}
 
@@ -90,7 +92,7 @@ canvas{position:fixed;inset:0;width:100%;height:100%}
   <button id="upgradeBtn" class="upgradeBtn">⬆️ GELİŞTİR</button>
  </div>
  <div id="joy" class="joy"><div id="stick" class="stick"></div></div>
- <div class="powerBtns">
+ <div id="worldEvent" class="worldEvent"></div><div class="powerBtns">
  <button id="cleaveBtn" class="skillBtn"><small>TOPLU KESİM</small><b id="cleaveText">⚡ %0</b></button>
  <button id="jackpotBtn" class="jackpotBtn"><small>ENERJİ JACKPOT</small><b id="jackpotText">🎰 %0</b></button>
 </div>
@@ -119,7 +121,7 @@ canvas{position:fixed;inset:0;width:100%;height:100%}
  <div class="slotEnergy"><i id="jackpotBar"></i></div><div id="jackpotEnergyText" class="slotEnergyText">0 / 100 Enerji</div>
  <div class="reels"><div id="reel1" class="reel">🪵</div><div id="reel2" class="reel">🪨</div><div id="reel3" class="reel">🥩</div></div>
  <button id="spinBtn" class="spinBtn">100 ENERJİ İLE ÇEVİR</button>
- <div id="jackpotResult" class="jackpotResult">Enerji toplamak için odun kes, avlan ve kaynak topla.</div>
+ <div id="jackpotResult" class="jackpotResult">Enerji toplamak için odun kes, avlan ve kaynak topla.</div><div id="jackpotPity" style="text-align:center;font-size:9px;opacity:.55;margin-top:5px">Garanti: 0 / 7</div>
  <div class="buttons"><button id="jackpotClose" class="close" style="width:100%">Kapat</button></div>
 </div></div>
 
@@ -158,7 +160,7 @@ window.onerror=(m)=>{document.title='ERROR: '+m};
 const canvas=$('game'),ctx=canvas.getContext('2d');
 let W=1,H=1,DPR=1,last=0,running=false,saveClock=0,incomeClock=0;
 const C={x:1000,y:1000};
-const player={x:1000,y:870,money:0,wood:0,stone:0,meat:0,hunger:100,warm:100,axe:0,axeOwned:[0],camp:0,bag:0,boot:0,cook:0,work:0,cleave:0,jackpotEnergy:0};
+const player={x:1000,y:870,money:0,wood:0,stone:0,meat:0,hunger:100,warm:100,axe:0,axeOwned:[0],camp:0,bag:0,boot:0,cook:0,work:0,cleave:0,jackpotEnergy:0,jackpotPity:0};
 const base={level:1,progress:0,cost:16};
 const buildings=[
  {id:'lumber',name:'Oduncu Kulübesi',icon:'🪵',unlock:2,x:915,y:1080},
@@ -180,7 +182,7 @@ function impact(x,y,type){shake=Math.max(shake,type==='stone'?4.5:3);particle(x,
 const rand=(a,b)=>a+Math.random()*(b-a),clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 const d=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
 
-function spawn(min,max){const a=Math.random()*Math.PI*2,r=rand(min,max);return{x:C.x+Math.cos(a)*r,y:C.y+Math.sin(a)*r}}
+function spawn(min,max){if(max<min)[min,max]=[max,min];const a=Math.random()*Math.PI*2,r=rand(min,max);return{x:C.x+Math.cos(a)*r,y:C.y+Math.sin(a)*r}}
 function initWorld(){
  for(let i=0;i<42;i++){const p=spawn(290,820);trees.push({x:p.x,y:p.y,hp:3,dead:0})}
  for(let i=0;i<18;i++){const p=spawn(470,850);rocks.push({x:p.x,y:p.y,hp:4,dead:0})}
@@ -193,12 +195,12 @@ function capWood(){return 22+player.bag*4+storageBonus()}
 function capMeat(){return 10+player.bag*2+(base.level>=6?4:0)}
 function capStone(){return 14+player.bag*2+storageBonus()}
 
-const SAVE='frost_fixed_v1';
+const SAVE='frost_master_v2',LEGACY_SAVE='frost_fixed_v1';
 let offlineReward=null;
 function load(){
  try{
-  const s=JSON.parse(localStorage.getItem(SAVE)||'null');if(!s)return;
-  Object.assign(player,s.player||{});if(!Array.isArray(player.axeOwned))player.axeOwned=[0];if(!player.axeOwned.includes(0))player.axeOwned.unshift(0);player.axe=clamp(Number(player.axe)||0,0,4);player.camp=Number(player.camp)||0;player.cleave=clamp(Number(player.cleave)||0,0,100);player.jackpotEnergy=clamp(Number(player.jackpotEnergy)||0,0,100);Object.assign(base,s.base||{});workers=s.workers||0;
+  let raw=localStorage.getItem(SAVE);if(!raw)raw=localStorage.getItem(LEGACY_SAVE);const s=JSON.parse(raw||'null');if(!s)return;
+  Object.assign(player,s.player||{});if(!Array.isArray(player.axeOwned))player.axeOwned=[0];if(!player.axeOwned.includes(0))player.axeOwned.unshift(0);player.axe=clamp(Number(player.axe)||0,0,4);if(!player.axeOwned.includes(player.axe))player.axe=0;player.camp=Number(player.camp)||0;player.cleave=clamp(Number(player.cleave)||0,0,100);player.jackpotEnergy=clamp(Number(player.jackpotEnergy)||0,0,100);player.jackpotPity=clamp(Number(player.jackpotPity)||0,0,7);Object.assign(base,s.base||{});workers=s.workers||0;
   const mins=Math.min(240,Math.floor((Date.now()-(s.at||Date.now()))/60000));
   if(mins>=2){offlineReward={money:mins*Math.max(1,workers)*2,wood:Math.floor(mins*Math.max(1,workers)*.35),meat:Math.floor(mins*Math.max(1,workers)*.05)};$('offline').style.display='block';$('offline').textContent=`Sen yokken +${offlineReward.money} 💵, +${offlineReward.wood} 🪵, +${offlineReward.meat} 🥩 üretildi.`}
  }catch(e){}
@@ -214,8 +216,8 @@ const defs=[
  {name:'Üretim Saati',desc:'Para üret.',metric:'earn',goal:25,reward:{money:130}}
 ];
 let ev={slot:Math.floor(Date.now()/EVENT_MS),idx:0,progress:0,claimed:false};
-function loadEv(){try{const s=JSON.parse(localStorage.getItem('frost_fixed_event')||'null');if(s)ev=s}catch(e){};syncEv()}
-function saveEv(){try{localStorage.setItem('frost_fixed_event',JSON.stringify(ev))}catch(e){}}
+function loadEv(){try{const s=JSON.parse(localStorage.getItem('frost_master_event_v2')||localStorage.getItem('frost_fixed_event')||'null');if(s)ev=s}catch(e){};syncEv()}
+function saveEv(){try{localStorage.setItem('frost_master_event_v2',JSON.stringify(ev))}catch(e){}}
 function syncEv(){const slot=Math.floor(Date.now()/EVENT_MS);if(slot!==ev.slot){ev={slot,idx:Math.abs((slot*7+3)%defs.length),progress:0,claimed:false};saveEv()}}
 function evAdd(metric,n){syncEv();const e=defs[ev.idx];if(!ev.claimed&&e.metric===metric){ev.progress=clamp(ev.progress+n,0,e.goal);saveEv()}}
 function rewardText(r){return 'Ödül: '+Object.entries(r).map(([k,v])=>({money:'💵',wood:'🪵',stone:'🪨',meat:'🥩'}[k]+' '+v)).join('  ')}
@@ -226,18 +228,31 @@ function updateEvent(){
 }
 $('eventBtn').onclick=()=>{$('eventModal').style.display='grid';updateEvent()};
 $('eventClose').onclick=()=>$('eventModal').style.display='none';
-$('eventClaim').onclick=()=>{const e=defs[ev.idx];if(ev.claimed||ev.progress<e.goal)return;for(const k in e.reward)player[k]+=e.reward[k];ev.claimed=true;saveEv();$('eventModal').style.display='none';toast('Etkinlik ödülü alındı')};
+$('eventClaim').onclick=()=>{const e=defs[ev.idx];if(ev.claimed||ev.progress<e.goal)return;for(const k in e.reward){const v=e.reward[k];if(k==='money')player.money+=v;else if(k==='wood')player.wood=Math.min(capWood(),player.wood+v);else if(k==='stone')player.stone=Math.min(capStone(),player.stone+v);else if(k==='meat')player.meat=Math.min(capMeat(),player.meat+v)}ev.claimed=true;saveEv();$('eventModal').style.display='none';toast('Etkinlik ödülü alındı')};
 
 
+
+
+let worldEvent={type:'none',t:0,next:150};
+function setWorldEvent(type,duration){
+ worldEvent={type,t:duration,next:rand(150,230)};
+ const names={storm:'🌨️ Kar Fırtınası • ısı daha hızlı düşer',migration:'🦌 Geyik Göçü • av ödülü x2',rush:'⚒️ Üretim Coşkusu • işçiler x2'};
+ const el=$('worldEvent');el.textContent=names[type]||'';el.classList.add('show');buildingToast(names[type]||'Dünya olayı')
+}
+function updateWorldEvent(dt){
+ if(worldEvent.type!=='none'){worldEvent.t-=dt;if(worldEvent.t<=0){worldEvent.type='none';const el=$('worldEvent');el.classList.remove('show');toast('Dünya olayı sona erdi')}}else{worldEvent.next-=dt;if(worldEvent.next<=0){const types=['storm','migration','rush'];setWorldEvent(types[Math.floor(Math.random()*types.length)],45)}}
+}
 
 function addCleave(n){player.cleave=clamp(player.cleave+n,0,100)}
 function addJackpotEnergy(n){player.jackpotEnergy=clamp(player.jackpotEnergy+n,0,100)}
 
 function activateCleave(){
  if(player.cleave<100){toast('Toplu Kesim henüz hazır değil');return}
- const nearby=trees.filter(t=>t.dead<=0&&d(player,t)<=150).sort((a,b)=>d(player,a)-d(player,b)).slice(0,5);
+ if(player.wood>=capWood()){toast('Çanta dolu • önce kampa bırak');return}
+ const ax=currentAxe(),maxTrees=ax.id>=4?7:5,range=ax.id>=4?205:180;
+ const nearby=trees.filter(t=>t.dead<=0&&d(player,t)<=range).sort((a,b)=>d(player,a)-d(player,b)).slice(0,maxTrees);
  if(!nearby.length){toast('Yakında ağaç yok');return}
- const ax=currentAxe();let total=0;
+ let total=0;
  player.cleave=0;shake=10;flash();
  const pp=iso(player.x,player.y),ring=$('cleaveRing');ring.style.left=pp.x+'px';ring.style.top=pp.y+'px';ring.style.width='210px';ring.style.height='210px';ring.classList.remove('go');void ring.offsetWidth;ring.classList.add('go');
  nearby.forEach((t,i)=>{
@@ -253,32 +268,44 @@ function activateCleave(){
 }
 
 const SLOT_SYMBOLS=[
- {icon:'🪵',key:'wood',base:5,mult:3,label:'Odun'},
- {icon:'🪨',key:'stone',base:3,mult:4,label:'Taş'},
- {icon:'🥩',key:'meat',base:2,mult:5,label:'Et'},
- {icon:'💵',key:'money',base:45,mult:4,label:'Para'}
+ {icon:'🪵',key:'wood',base:5,mult:3,label:'Odun',weight:30},
+ {icon:'🪨',key:'stone',base:3,mult:4,label:'Taş',weight:24},
+ {icon:'🥩',key:'meat',base:2,mult:5,label:'Et',weight:22},
+ {icon:'💵',key:'money',base:45,mult:4,label:'Para',weight:22},
+ {icon:'💎',key:'money',base:120,mult:8,label:'Elmas',weight:2}
 ];
 let slotSpinning=false;
-function slotPick(){return SLOT_SYMBOLS[Math.floor(Math.random()*SLOT_SYMBOLS.length)]}
+function slotPick(){
+ const total=SLOT_SYMBOLS.reduce((s,x)=>s+x.weight,0);let r=Math.random()*total;
+ for(const x of SLOT_SYMBOLS){r-=x.weight;if(r<=0)return x}
+ return SLOT_SYMBOLS[0]
+}
+function addReward(key,amount){
+ if(key==='money'){player.money+=amount;return amount}
+ if(key==='wood'){const before=player.wood;player.wood=clamp(player.wood+amount,0,capWood());return player.wood-before}
+ if(key==='stone'){const before=player.stone;player.stone=clamp(player.stone+amount,0,capStone());return player.stone-before}
+ if(key==='meat'){const before=player.meat;player.meat=clamp(player.meat+amount,0,capMeat());return player.meat-before}
+ return 0
+}
 function applySlotReward(result){
- const counts={};result.forEach(s=>counts[s.key]=(counts[s.key]||0)+1);
- const triple=result[0].key===result[1].key&&result[1].key===result[2].key;
+ const triple=result[0].icon===result[1].icon&&result[1].icon===result[2].icon;
+ const pair=!triple&&(result[0].icon===result[1].icon||result[0].icon===result[2].icon||result[1].icon===result[2].icon);
  if(triple){
-   const s=result[0],amount=s.base*s.mult*3;
-   player[s.key]+=amount;
-   particle(player.x,player.y,'spark',30);shake=10;flash();
-   $('jackpotResult').textContent=`🎉 JACKPOT! 3x ${s.icon} • ${s.mult}x çarpan • +${amount}`;
-   buildingToast(`🎰 JACKPOT ${s.mult}x!`);
+   const s=result[0],raw=s.base*s.mult*3,amount=addReward(s.key,raw);
+   player.jackpotPity=0;particle(player.x,player.y,'spark',34);shake=11;flash();
+   $('jackpotResult').textContent=`🎉 JACKPOT! 3x ${s.icon} • ${s.mult}x • +${amount}`;
+   buildingToast(`🎰 JACKPOT ${s.mult}x!`)
+ }else if(pair){
+   const same=result.find((s,i)=>result.some((x,j)=>i!==j&&x.icon===s.icon));
+   const amount=addReward(same.key,same.base*3);
+   player.jackpotPity=clamp(player.jackpotPity+1,0,7);
+   $('jackpotResult').textContent=`✨ İKİLİ! ${same.icon}${same.icon} • 1.5x bonus • +${amount}`
  }else{
-   let rewardText=[];
-   Object.entries(counts).forEach(([key,count])=>{
-     const s=SLOT_SYMBOLS.find(x=>x.key===key);
-     const amount=s.base*count;
-     player[key]+=amount;rewardText.push(`${s.icon} +${amount}`);
-   });
-   $('jackpotResult').textContent='Ödül: '+rewardText.join('  •  ');
+   let txt=[];for(const s of result){const amount=addReward(s.key,s.base);txt.push(`${s.icon} +${amount}`)}
+   player.jackpotPity=clamp(player.jackpotPity+1,0,7);
+   $('jackpotResult').textContent='Ödül: '+txt.join('  •  ')
  }
- save();updateHUD();updateJackpotUI()
+ save();hud();updateJackpotUI()
 }
 function spinJackpot(){
  if(slotSpinning)return;
@@ -287,26 +314,30 @@ function spinJackpot(){
  const reels=[$('reel1'),$('reel2'),$('reel3')];reels.forEach(r=>r.classList.add('spinning'));
  $('jackpotResult').textContent='Çevriliyor...';
  let ticks=0;
- const timer=setInterval(()=>{ticks++;reels.forEach(r=>r.textContent=slotPick().icon);if(ticks>=15){clearInterval(timer);const result=[slotPick(),slotPick(),slotPick()];let stopped=0;result.forEach((s,i)=>setTimeout(()=>{reels[i].textContent=s.icon;reels[i].classList.remove('spinning');stopped++;if(stopped===3){slotSpinning=false;applySlotReward(result)}},i*270))}},85)
+ const timer=setInterval(()=>{ticks++;reels.forEach(r=>r.textContent=slotPick().icon);if(ticks>=15){clearInterval(timer);let result;if(player.jackpotPity>=7){const g=slotPick();result=[g,g,g]}else result=[slotPick(),slotPick(),slotPick()];let stopped=0;result.forEach((s,i)=>setTimeout(()=>{reels[i].textContent=s.icon;reels[i].classList.remove('spinning');stopped++;if(stopped===3){slotSpinning=false;applySlotReward(result)}},i*270))}},85)
 }
 function updateJackpotUI(){
  const e=Math.floor(player.jackpotEnergy);
  $('jackpotText').textContent=e>=100?'🎰 ÇEVİR!':`🎰 %${e}`;
  $('jackpotBtn').classList.toggle('ready',e>=100);
  $('jackpotBar').style.width=e+'%';$('jackpotEnergyText').textContent=`${e} / 100 Enerji`;
- $('spinBtn').disabled=e<100||slotSpinning
+ $('spinBtn').disabled=e<100||slotSpinning;$('jackpotPity').textContent=`Garanti: ${Math.floor(player.jackpotPity)} / 7`
 }
 $('cleaveBtn').onclick=activateCleave;
 $('jackpotBtn').onclick=()=>{$('jackpotModal').style.display='grid';updateJackpotUI()};
 $('jackpotClose').onclick=()=>$('jackpotModal').style.display='none';
 $('spinBtn').onclick=spinJackpot;
 
+['eventModal','jackpotModal','axeModal','upgradeModal'].forEach(id=>{const el=$(id);el.addEventListener('pointerdown',e=>{if(e.target===el&&!(id==='jackpotModal'&&slotSpinning))el.style.display='none'})});
+addEventListener('keydown',e=>{if(e.key==='Escape'&&!slotSpinning){['eventModal','jackpotModal','axeModal','upgradeModal'].forEach(id=>$(id).style.display='none')}})
+
+
 const AXES=[
- {id:0,name:'Eski Balta',icon:'🪓',speed:1.00,yield:0,crit:0,costMoney:0,costStone:0,desc:'Yıpranmış ama iş görür.'},
- {id:1,name:'Demir Balta',icon:'🪓',speed:1.20,yield:0,crit:5,costMoney:180,costStone:4,desc:'Daha hızlı ve dengeli.'},
- {id:2,name:'Çelik Balta',icon:'⚒️',speed:1.45,yield:1,crit:9,costMoney:430,costStone:10,desc:'Her ağaçtan +1 odun.'},
- {id:3,name:'Titan Balta',icon:'⛏️',speed:1.75,yield:1,crit:15,costMoney:900,costStone:22,desc:'Yüksek hız ve kritik şansı.'},
- {id:4,name:'Buzkıran',icon:'❄️',speed:2.10,yield:2,crit:22,costMoney:1800,costStone:45,desc:'Efsanevi balta. +2 odun.'}
+ {id:0,name:'Eski Balta',icon:'🪓',speed:1.00,yield:0,crit:0,costMoney:0,costStone:0,passive:'Yok',desc:'Yıpranmış ama iş görür.'},
+ {id:1,name:'Demir Balta',icon:'🪓',speed:1.20,yield:0,crit:5,costMoney:180,costStone:4,passive:'%5 kritik',desc:'Daha hızlı ve dengeli.'},
+ {id:2,name:'Çelik Balta',icon:'⚒️',speed:1.45,yield:1,crit:9,costMoney:430,costStone:10,passive:'%15 çift odun',desc:'Her ağaçtan +1 odun ve çift odun şansı.'},
+ {id:3,name:'Titan Balta',icon:'⛏️',speed:1.75,yield:1,crit:15,costMoney:900,costStone:22,passive:'Kritik → yakın ağaca hasar',desc:'Kritik vuruş yakındaki ağaca da sıçrar.'},
+ {id:4,name:'Buzkıran',icon:'❄️',speed:2.10,yield:2,crit:22,costMoney:1800,costStone:45,passive:'Toplu Kesim 7 ağaç',desc:'Efsanevi balta. Toplu kesim menzili ve kapasitesi artar.'}
 ];
 function currentAxe(){return AXES[player.axe]||AXES[0]}
 function axeOwned(id){return player.axeOwned.includes(id)}
@@ -332,7 +363,7 @@ function updateAxeUI(){
   const label=eq?'KUŞANILDI':own?'KUŞAN':cost;
   return `<div class="axeItem ${eq?'equipped':''} ${!own?'locked':''}">
    <div class="axeMini">${x.icon}</div>
-   <div class="axeInfo"><b>${x.name}</b><small>${x.speed.toFixed(2)}x hız · +${x.yield} odun · %${x.crit} kritik</small></div>
+   <div class="axeInfo"><b>${x.name}</b><small>${x.speed.toFixed(2)}x hız · +${x.yield} odun · %${x.crit} kritik<br>${x.passive}</small></div>
    <button class="axeAction ${own?'':'buy'}" data-axe="${x.id}" ${eq||(!own&&!afford)?'disabled':''}>${label}</button>
   </div>`
  }).join('');
@@ -372,7 +403,59 @@ function animal(a){const p=iso(a.x,a.y),z=scale(),bob=Math.abs(Math.sin(gameTime
 function camp(){const p=iso(C.x,C.y),z=scale();shadow(p.x,p.y+24*z,55*z,15*z);ctx.fillStyle='#95613e';ctx.fillRect(p.x-38*z,p.y-8*z,76*z,42*z);tri(p.x,p.y-43*z,p.x-48*z,p.y-8*z,p.x+48*z,p.y-8*z,'#d95b41');const flick=6+Math.sin(gameTime*8)*2;ctx.fillStyle='#ff9f2f';ctx.beginPath();ctx.arc(p.x-58*z,p.y+27*z,9*z,0,Math.PI*2);ctx.fill();ctx.fillStyle='#ffe064';ctx.beginPath();ctx.arc(p.x-58*z,p.y+25*z,flick*z*.55,0,Math.PI*2);ctx.fill();if(Math.random()<.10)particle(C.x-80,C.y-25,'spark',1);if(Math.random()<.025)particle(C.x-65,C.y-45,'smoke',1);ctx.fillStyle='#29485cbb';ctx.font=`900 ${10*z}px system-ui`;ctx.textAlign='center';ctx.fillText(`KAMP LV.${base.level}`,p.x,p.y-50*z)}
 function building(b){if(base.level<b.unlock)return;const p=iso(b.x,b.y),z=scale();shadow(p.x,p.y+17*z,33*z,11*z);const roof={lumber:'#b76e3d',hunter:'#8f684c',kitchen:'#ce7651',quarry:'#768b9a',store:'#7a633f'}[b.id]||'#a66';ctx.fillStyle='#8e603f';ctx.fillRect(p.x-27*z,p.y-5*z,54*z,31*z);tri(p.x,p.y-31*z,p.x-34*z,p.y-5*z,p.x+34*z,p.y-5*z,roof);ctx.fillStyle='#f4ca84';ctx.fillRect(p.x-7*z,p.y+8*z,14*z,18*z);ctx.font=`${15*z}px serif`;ctx.textAlign='center';ctx.fillText(b.icon,p.x,p.y-38*z)}
 function playerDraw(){const p=iso(player.x,player.y),z=scale(),bob=wasMoving?Math.sin(movePhase*2)*3*z:Math.sin(gameTime*2.2)*.7*z,lean=wasMoving?Math.sin(movePhase)*.04:0;p.y+=bob;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(lean);ctx.translate(-p.x,-p.y);shadow(p.x,p.y+15*z,18*z,7*z);for(let i=0;i<Math.min(8,Math.floor(player.wood));i++){const wob=Math.sin(gameTime*5+i)*.6*z;ctx.fillStyle='#c9844f';ctx.fillRect(p.x+16*z+wob,p.y-30*z-i*6*z,26*z,7*z)}ctx.fillStyle='#27add7';ctx.beginPath();ctx.arc(p.x,p.y-8*z,15*z,0,Math.PI*2);ctx.fill();ctx.fillStyle='#f1d0b4';ctx.beginPath();ctx.arc(p.x,p.y-26*z,8*z,0,Math.PI*2);ctx.fill();const swing=player.work>0?Math.sin(Math.min(1,player.work/.55)*Math.PI)*1.05:0;ctx.save();ctx.translate(p.x+8*z,p.y-10*z);ctx.rotate(-.7+swing);ctx.strokeStyle='#7b5435';ctx.lineWidth=4*z;ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(20*z,0);ctx.stroke();const ax=currentAxe();ctx.strokeStyle=ax.id>=4?'#bff5ff':ax.id>=3?'#d7e1e8':ax.id>=2?'#aebdc7':'#768b98';ctx.lineWidth=(6+ax.id*.5)*z;ctx.beginPath();ctx.moveTo(18*z,0);ctx.lineTo((23+ax.id)*z,-(6+ax.id)*z);ctx.stroke();if(ax.id>=4){ctx.strokeStyle='#80eaff';ctx.lineWidth=2*z;ctx.beginPath();ctx.moveTo(18*z,1*z);ctx.lineTo(27*z,-10*z);ctx.stroke()}ctx.restore();ctx.strokeStyle='#43e4ff';ctx.lineWidth=3*z;ctx.beginPath();ctx.arc(p.x,p.y+5*z,22*z,0,Math.PI*2);ctx.stroke();ctx.restore()}
-function worker(i){const roles=['lumber','hunter','quarry','kitchen'],role=roles[i%roles.length],b=buildings.find(x=>x.id===role&&base.level>=x.unlock),cx=b?b.x:C.x,cy=b?b.y:C.y,a=i*1.7+gameTime*.7,p=iso(cx+Math.cos(a)*(42+(i%3)*8),cy+Math.sin(a)*32),z=scale();ctx.fillStyle={lumber:'#3ba9cf',hunter:'#d89348',quarry:'#8799a6',kitchen:'#ca765f'}[role];ctx.beginPath();ctx.arc(p.x,p.y,9*z,0,Math.PI*2);ctx.fill();ctx.fillStyle='#f0d0b5';ctx.beginPath();ctx.arc(p.x,p.y-10*z,5*z,0,Math.PI*2);ctx.fill()}
+
+const workerAgents=[];
+function syncWorkers(){
+ while(workerAgents.length<workers){
+   const i=workerAgents.length,roles=['wood','hunt','stone','cook'];
+   workerAgents.push({id:i,role:roles[i%roles.length],x:C.x+rand(-35,35),y:C.y+rand(-35,35),phase:'seek',target:null,t:0,carry:0})
+ }
+ if(workerAgents.length>workers)workerAgents.length=workers
+}
+function workerHome(w){
+ const map={wood:'lumber',hunt:'hunter',stone:'quarry',cook:'kitchen'},b=buildings.find(x=>x.id===map[w.role]&&base.level>=x.unlock);
+ return b||{x:C.x,y:C.y}
+}
+function workerTarget(w){
+ let list=w.role==='wood'?trees:w.role==='hunt'?animals:w.role==='stone'?rocks:[];
+ list=list.filter(o=>o.dead<=0&&Math.hypot(o.x-C.x,o.y-C.y)<radius());
+ if(!list.length)return null;
+ return list.reduce((a,b)=>d(w,a)<d(w,b)?a:b)
+}
+function moveAgent(w,to,speed,dt){
+ const dx=to.x-w.x,dy=to.y-w.y,l=Math.hypot(dx,dy)||1;
+ w.x+=dx/l*speed*dt;w.y+=dy/l*speed*dt;return l
+}
+function updateWorkers(dt){
+ syncWorkers();
+ for(const w of workerAgents){
+  if(w.role==='cook'){const h=workerHome(w);w.t+=dt;w.x=h.x+Math.cos(w.t*.7+w.id)*28;w.y=h.y+Math.sin(w.t*.7+w.id)*20;continue}
+  if(w.phase==='seek'){
+    if(!w.target||w.target.dead>0)w.target=workerTarget(w);
+    if(!w.target)continue;
+    if(moveAgent(w,w.target,70,dt)<28){w.phase='work';w.t=0}
+  }else if(w.phase==='work'){
+    w.t+=dt;
+    if(w.t>1.35){w.carry=1;w.phase='return';w.target=null}
+  }else{
+    const h=workerHome(w);
+    if(moveAgent(w,h,76,dt)<30){
+      const boost=1+player.camp*.10;
+      if(w.role==='wood')player.wood=Math.min(capWood(),player.wood+.6*boost);
+      if(w.role==='hunt')player.meat=Math.min(capMeat(),player.meat+.22*boost);
+      if(w.role==='stone')player.stone=Math.min(capStone(),player.stone+.18*boost);
+      w.carry=0;w.phase='seek'
+    }
+  }
+ }
+}
+
+function worker(i){
+ const w=workerAgents[i];if(!w)return;const p=iso(w.x,w.y),z=scale(),bob=w.phase==='work'?Math.abs(Math.sin(gameTime*8+i))*2*z:Math.abs(Math.sin(gameTime*5+i))*1.3*z;
+ shadow(p.x,p.y+6*z,8*z,4*z);ctx.fillStyle={wood:'#3ba9cf',hunt:'#d89348',stone:'#8799a6',cook:'#ca765f'}[w.role]||'#3ba9cf';
+ ctx.beginPath();ctx.arc(p.x,p.y-bob,9*z,0,Math.PI*2);ctx.fill();ctx.fillStyle='#f0d0b5';ctx.beginPath();ctx.arc(p.x,p.y-10*z-bob,5*z,0,Math.PI*2);ctx.fill();
+ if(w.carry){ctx.font=`${10*z}px serif`;ctx.textAlign='center';ctx.fillText(w.role==='wood'?'🪵':w.role==='hunt'?'🥩':'🪨',p.x+11*z,p.y-14*z)}
+}
 function crate(c){const p=iso(c.x,c.y),z=scale(),bob=Math.sin(gameTime*3+c.x)*1.4*z,glow=.16+.10*Math.sin(gameTime*4+c.y);ctx.fillStyle=`rgba(255,195,60,${glow})`;ctx.beginPath();ctx.arc(p.x,p.y,24*z,0,Math.PI*2);ctx.fill();ctx.fillStyle='#9e6c42';ctx.fillRect(p.x-12*z,p.y-10*z+bob,24*z,20*z);ctx.strokeStyle='#69492f';ctx.strokeRect(p.x-12*z,p.y-10*z+bob,24*z,20*z)}
 
 
@@ -389,7 +472,7 @@ function toast(m){const t=$('toast');t.textContent=m;t.classList.add('show');cle
 function buildingToast(m){const t=$('buildingToast');t.textContent=m;t.classList.add('show');clearTimeout(buildingToast.x);buildingToast.x=setTimeout(()=>t.classList.remove('show'),1800)}
 
 function update(dt){
- gameTime+=dt;
+ gameTime+=dt;updateWorldEvent(dt);updateWorkers(dt);
  for(const q of particles){q.t+=dt;q.x+=q.vx*dt;q.y+=q.vy*dt;q.vy+=42*dt;if(q.type==='smoke'){q.vx*=.98;q.vy=-12}}
  for(let i=particles.length-1;i>=0;i--)if(particles[i].t>=particles[i].life)particles.splice(i,1);
  for(const f of floaters)f.t+=dt;for(let i=floaters.length-1;i>=0;i--)if(floaters[i].t>=floaters[i].life)floaters.splice(i,1);
@@ -400,14 +483,14 @@ function update(dt){
  let x=jx,y=jy;if(keys.w||keys.arrowup)y--;if(keys.s||keys.arrowdown)y++;if(keys.a||keys.arrowleft)x--;if(keys.d||keys.arrowright)x++;
  let l=Math.hypot(x,y);if(l>1){x/=l;y/=l}
  wasMoving=l>.01;if(wasMoving){movePhase+=dt*7;const wx=y*2+x,wy=y*2-x,wl=Math.hypot(wx,wy)||1,s=235*(1+player.boot*.08)*(player.hunger?1:.72),ox=player.x,oy=player.y;let nx=player.x+wx/wl*s*dt,ny=player.y+wy/wl*s*dt,rr=Math.hypot(nx-C.x,ny-C.y),mr=radius()-28;if(rr>mr){const a=Math.atan2(ny-C.y,nx-C.x);nx=C.x+Math.cos(a)*mr;ny=C.y+Math.sin(a)*mr}player.x=nx;player.y=ny;evAdd('walk',Math.hypot(nx-ox,ny-oy));lastFoot+=dt;if(lastFoot>.17){lastFoot=0;footprints.push({x:player.x,y:player.y,t:0,life:2.4,rot:Math.atan2(wy,wx)*.2});if(footprints.length>24)footprints.shift()}}
- player.hunger=clamp(player.hunger-dt*.06,0,100);player.warm=clamp(player.warm-dt*.025,0,100);
+ player.hunger=clamp(player.hunger-dt*.06,0,100);player.warm=clamp(player.warm-dt*(worldEvent.type==='storm'?.075:.025),0,100);
  if(player.hunger<35&&player.meat>=1){player.meat--;player.hunger=clamp(player.hunger+48*(1+player.cook*.25),0,100);toast('🥩 Et yedin')}
  if(player.warm<35&&d(player,C)<150)player.warm=clamp(player.warm+dt*14,0,100);
 
  const c=nearest(crates,60),a=nearest(animals,68),t=nearest(trees,76),r=nearest(rocks,70);
- if(c){c.open=true;c.t=0;player.money+=50;player.wood+=3;addJackpotEnergy(12);particle(c.x,c.y,'spark',14);floater(c.x,c.y-20,'+50 💵  +3 🪵');shake=6;toast('Sandık +50 💵 +3 🪵')}
- if(a&&player.meat<capMeat()){player.work+=dt;if(player.work>.55){player.work=0;a.hp--;impact(a.x,a.y,'wood');if(a.hp<=0){const g=a.type==='deer'?3:1;player.meat+=g;evAdd('meat',g);addJackpotEnergy(10);floater(a.x,a.y-15,`+${g} 🥩`);particle(a.x,a.y,'spark',5);a.dead=8;a.hp=a.max;toast(`+${g} 🥩`)}}}
- else if(t&&player.wood<capWood()){player.work+=dt;const ax=currentAxe(),cut=Math.max(.16,.46/ax.speed);if(player.work>cut){player.work=0;const critical=Math.random()*100<ax.crit;t.hp-=critical?2:1;t.hit=1;impact(t.x,t.y,'wood');addCleave(9);addJackpotEnergy(2);if(critical){showCrit();particle(t.x,t.y,'spark',5);shake=Math.max(shake,5)}if(t.hp<=0){t.dead=5;t.hp=3;let gain=3+ax.yield+(critical?1:0);gain=Math.min(gain,Math.max(0,capWood()-player.wood));player.wood+=gain;evAdd('wood',gain);addCleave(16);addJackpotEnergy(6);floater(t.x,t.y-18,`+${gain} 🪵`);particle(t.x,t.y,'woodchip',10+ax.id*2);toast(`+${gain} 🪵`)}}}
+ if(c){c.open=true;c.t=0;player.money+=50;player.wood=Math.min(capWood(),player.wood+3);addJackpotEnergy(12);particle(c.x,c.y,'spark',14);floater(c.x,c.y-20,'+50 💵  +3 🪵');shake=6;toast('Sandık +50 💵 +3 🪵')}
+ if(a&&player.meat<capMeat()){player.work+=dt;if(player.work>.55){player.work=0;a.hp--;impact(a.x,a.y,'wood');if(a.hp<=0){let g=a.type==='deer'?3:1;if(worldEvent.type==='migration')g*=2;player.meat=Math.min(capMeat(),player.meat+g);evAdd('meat',g);addJackpotEnergy(10);floater(a.x,a.y-15,`+${g} 🥩`);particle(a.x,a.y,'spark',5);a.dead=8;a.hp=a.max;toast(`+${g} 🥩`)}}}
+ else if(t&&player.wood<capWood()){player.work+=dt;const ax=currentAxe(),cut=Math.max(.16,.46/ax.speed);if(player.work>cut){player.work=0;const critical=Math.random()*100<ax.crit;t.hp-=critical?2:1;t.hit=1;impact(t.x,t.y,'wood');addCleave(9);addJackpotEnergy(2);if(critical){showCrit();particle(t.x,t.y,'spark',5);shake=Math.max(shake,5)}if(t.hp<=0){t.dead=5;t.hp=3;let gain=3+ax.yield+(critical?1:0);if(ax.id===2&&Math.random()<.15)gain*=2;if(ax.id===3&&critical){const splash=trees.filter(o=>o!==t&&o.dead<=0&&d(t,o)<90).sort((a,b)=>d(t,a)-d(t,b)).slice(0,2);splash.forEach(o=>{o.hp--;o.hit=1;impact(o.x,o.y,'wood');if(o.hp<=0){o.dead=5;o.hp=3}})}gain=Math.min(gain,Math.max(0,capWood()-player.wood));player.wood+=gain;evAdd('wood',gain);addCleave(16);addJackpotEnergy(6);floater(t.x,t.y-18,`+${gain} 🪵`);particle(t.x,t.y,'woodchip',10+ax.id*2);toast(`+${gain} 🪵`)}}}
  else if(r&&player.stone<capStone()){player.work+=dt;if(player.work>.68){player.work=0;r.hp--;r.hit=1;impact(r.x,r.y,'stone');if(r.hp<=0){r.dead=7;r.hp=4;player.stone+=2;addJackpotEnergy(9);floater(r.x,r.y-12,'+2 🪨');particle(r.x,r.y,'chip',10);toast('+2 🪨')}}}
  else player.work=0;
 
@@ -416,18 +499,18 @@ function update(dt){
  crates.forEach(o=>{if(o.open){o.t+=dt;if(o.t>90){const p=spawn(420,Math.max(450,radius()-20));o.x=p.x;o.y=p.y;o.open=false}}});
 
  if(d(player,C)<115&&player.wood>0){const n=Math.min(player.wood,dt*8);player.wood-=n;base.progress+=n;evAdd('deposit',n);addJackpotEnergy(n*.18);if(base.progress>=base.cost){base.progress-=base.cost;base.level++;base.cost=Math.round(base.cost*1.68);workers++;const cash=30*base.level;player.money+=cash;evAdd('earn',cash);const unlocked=buildings.find(b=>b.unlock===base.level);particle(C.x,C.y,'spark',24);floater(C.x,C.y-65,`KAMP LV.${base.level}!`);shake=8;flash();if(unlocked)buildingToast(`${unlocked.icon} ${unlocked.name} açıldı!`);else buildingToast(`🏕️ Kamp LV.${base.level}`);toast(`+${cash} 💵`)}}
- incomeClock+=dt;if(incomeClock>=1){incomeClock--;if(workers){const cash=workers+(base.level>=4?1:0);player.money+=cash;evAdd('earn',cash);if(base.level>=2&&Math.random()<.48)player.wood=Math.min(capWood(),player.wood+Math.max(.25,workers*.18));if(base.level>=3&&Math.random()<.16)player.meat=Math.min(capMeat(),player.meat+Math.max(.12,workers*.05));if(base.level>=5&&Math.random()<.12)player.stone=Math.min(capStone(),player.stone+Math.max(.1,workers*.04));if(base.level>=4&&player.hunger<85&&player.meat>0&&Math.random()<.12){player.hunger=clamp(player.hunger+2.5,0,100)}}}
+ incomeClock+=dt;if(incomeClock>=1){incomeClock--;if(workers){const mult=(1+player.camp*.10)*(worldEvent.type==='rush'?2:1),cash=Math.max(1,Math.floor((workers+(base.level>=4?1:0))*mult));player.money+=cash;evAdd('earn',cash);if(base.level>=4&&player.hunger<85&&player.meat>0&&Math.random()<.12){player.hunger=clamp(player.hunger+2.5,0,100)}}}
  saveClock+=dt;if(saveClock>5){saveClock=0;save()}
  camX+=(((player.x-player.y)*.5)-camX)*Math.min(1,dt*5);camY+=(((player.x+player.y)*.25)-camY)*Math.min(1,dt*5);
  hud()
 }
-function hud(){$('money').textContent=Math.floor(player.money);$('wood').textContent=Math.floor(player.wood);$('stone').textContent=Math.floor(player.stone);$('meat').textContent=Math.floor(player.meat);$('hungerText').textContent=Math.round(player.hunger);$('warmText').textContent=Math.round(player.warm);$('hungerBar').style.width=player.hunger+'%';$('warmBar').style.width=player.warm+'%';$('levelChip').textContent=`LV.${base.level}`;const next=buildings.find(b=>b.unlock>base.level);$('quest').textContent=`Kampı LV.${base.level+1} yap`;$('questSub').textContent=next?`${next.icon} LV.${next.unlock}: ${next.name}`:'Kampı büyüt • üretimi artır';$('questBar').style.width=Math.min(100,base.progress/base.cost*100)+'%';const cv=Math.floor(player.cleave);$('cleaveText').textContent=cv>=100?'⚡ HAZIR!':`⚡ %${cv}`;$('cleaveBtn').classList.toggle('ready',cv>=100);updateEvent();updateUpgrades();updateJackpotUI()}
+function hud(){$('money').textContent=Math.floor(player.money);$('wood').textContent=Math.floor(player.wood);$('stone').textContent=Math.floor(player.stone);$('meat').textContent=Math.floor(player.meat);$('hungerText').textContent=Math.round(player.hunger);$('warmText').textContent=Math.round(player.warm);$('hungerBar').style.width=player.hunger+'%';$('warmBar').style.width=player.warm+'%';$('levelChip').textContent=`LV.${base.level}`;const next=buildings.find(b=>b.unlock>base.level);$('quest').textContent=`Kampı LV.${base.level+1} yap`;$('questSub').textContent=next?`${next.icon} LV.${next.unlock}: ${next.name}`:'Kampı büyüt • üretimi artır';$('questBar').style.width=Math.min(100,base.progress/base.cost*100)+'%';const cv=Math.floor(player.cleave);$('cleaveText').textContent=cv>=100?'⚡ HAZIR!':`⚡ %${cv}`;$('cleaveBtn').classList.toggle('ready',cv>=100);updateEvent();updateUpgrades();updateJackpotUI();syncWorkers()}
 function draw(){ctx.save();if(shake>0)ctx.translate(rand(-shake,shake),rand(-shake,shake));ground();drawFootprints();const list=[];trees.forEach(o=>{if(o.dead<=0&&Math.hypot(o.x-C.x,o.y-C.y)<radius())list.push({z:o.x+o.y,f:()=>tree(o)})});rocks.forEach(o=>{if(o.dead<=0&&Math.hypot(o.x-C.x,o.y-C.y)<radius())list.push({z:o.x+o.y,f:()=>rock(o)})});animals.forEach(o=>{if(o.dead<=0&&Math.hypot(o.x-C.x,o.y-C.y)<radius())list.push({z:o.x+o.y,f:()=>animal(o)})});crates.forEach(o=>{if(!o.open&&Math.hypot(o.x-C.x,o.y-C.y)<radius())list.push({z:o.x+o.y,f:()=>crate(o)})});buildings.forEach(b=>{if(base.level>=b.unlock)list.push({z:b.x+b.y,f:()=>building(b)})});list.push({z:C.x+C.y,f:camp});for(let i=0;i<workers;i++)list.push({z:C.x+C.y+30+i,f:()=>worker(i)});list.push({z:player.x+player.y+.5,f:playerDraw});list.sort((a,b)=>a.z-b.z).forEach(o=>o.f());drawParticles();ctx.restore()}
 function loop(ts){if(!running)return;const dt=Math.min(.032,(ts-last)/1000||0);last=ts;update(dt);draw();requestAnimationFrame(loop)}
 
-initWorld();load();loadEv();updateAxeUI();updateJackpotUI();camX=(player.x-player.y)*.5;camY=(player.x+player.y)*.25;hud();draw();document.title='Frost Camp Plus & Jackpot';
+initWorld();load();loadEv();syncWorkers();updateAxeUI();updateJackpotUI();camX=(player.x-player.y)*.5;camY=(player.x+player.y)*.25;hud();draw();document.title='Frost Camp Master';
 setInterval(updateEvent,1000);addEventListener('beforeunload',save);
-$('play').onclick=()=>{if(offlineReward){player.money+=offlineReward.money;player.wood+=offlineReward.wood;player.meat+=offlineReward.meat;offlineReward=null}$('start').style.display='none';running=true;last=performance.now();requestAnimationFrame(loop)};
+$('play').onclick=()=>{if(offlineReward){player.money+=offlineReward.money;player.wood=Math.min(capWood(),player.wood+offlineReward.wood);player.meat=Math.min(capMeat(),player.meat+offlineReward.meat);offlineReward=null}$('start').style.display='none';running=true;last=performance.now();requestAnimationFrame(loop)};
 })();
 </script>
 </body>
