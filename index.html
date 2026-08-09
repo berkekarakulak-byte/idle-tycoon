@@ -1,98 +1,385 @@
 <!doctype html>
 <html lang="tr">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><title>Idle Timeline</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover" />
+<title>Frost Camp Idle</title>
 <style>
-:root{--bg:#08090d;--p:#11131a;--p2:#171a23;--p3:#1d2130;--tx:#f5f7fb;--mu:#9198aa;--ac:#8d7cff;--ac2:#31d3a4;--gd:#f2c76f;--rd:#ff7289;--bd:rgba(255,255,255,.075);--sh:0 10px 28px rgba(0,0,0,.24)}*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html{touch-action:manipulation;-webkit-text-size-adjust:100%;overscroll-behavior:none}body{margin:0;background:radial-gradient(circle at 50% -20%,rgba(141,124,255,.12),transparent 30%),var(--bg);color:var(--tx);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;touch-action:manipulation;overscroll-behavior:none}button,a,[role="button"]{font:inherit;touch-action:manipulation;user-select:none;-webkit-user-select:none}.app{width:min(1020px,calc(100% - 14px));margin:auto;padding:8px 0 22px}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px}.brand{display:flex;gap:9px;align-items:center}.logo{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;background:linear-gradient(135deg,var(--ac),#5d48dc)}h1{font-size:18px;margin:0}.sub,.muted{color:var(--mu)}.sub{font-size:10px}.tools{display:flex;gap:5px}.icon{border:1px solid var(--bd);background:var(--p);color:var(--mu);border-radius:9px;padding:7px 9px;cursor:pointer}.layout{display:grid;grid-template-columns:minmax(0,1fr) 286px;gap:8px}.panel{background:var(--p);border:1px solid var(--bd);border-radius:13px;box-shadow:var(--sh)}.main,.side{padding:10px}.hero{display:flex;justify-content:space-between;gap:8px}.ey{font-size:9px;text-transform:uppercase;letter-spacing:1.2px;color:var(--ac2);font-weight:800}.hero h2{font-size:25px;line-height:1;margin:4px 0}.desc{font-size:10px;color:var(--mu)}.scene{height:104px;margin:8px 0;border:1px solid var(--bd);border-radius:12px;position:relative;overflow:hidden;background:linear-gradient(#2d355b,#171a23 65%)}.scene.night{filter:brightness(.66) saturate(.86)}.weather{position:absolute;inset:0;padding:8px;font-size:17px;letter-spacing:22px;opacity:.62}.world{position:absolute;inset:auto 0 10px;display:flex;justify-content:center;align-items:end;gap:4px;font-size:27px}.citizen{position:absolute;bottom:7px;animation:walk 9s linear infinite;font-size:16px}.citizen.b{animation-delay:-4.5s;transform:scaleX(-1)}@keyframes walk{from{left:-20px}to{left:100%}}.event{display:none;padding:8px 9px;border-radius:10px;border:1px solid rgba(242,199,111,.24);background:rgba(242,199,111,.07);margin-bottom:7px}.event.show{display:flex;justify-content:space-between;align-items:center;gap:8px}.event b{font-size:10px;color:var(--gd)}.event small{display:block;color:var(--mu);font-size:8px}.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-bottom:6px}.stat{padding:6px 7px;border-radius:8px;background:var(--p2);border:1px solid var(--bd)}.stat span{display:block;font-size:8px;color:var(--mu)}.stat b{font-size:12px}.action{width:100%;border:0;border-radius:10px;padding:10px 11px;color:white;text-align:left;background:linear-gradient(135deg,var(--ac),#624ce4);cursor:pointer}.action strong{display:block;font-size:15px}.action small{color:rgba(255,255,255,.72)}.prow{display:flex;justify-content:space-between;color:var(--mu);font-size:9px;margin:7px 1px 4px}.bar{height:5px;border-radius:99px;background:#0b0d12;overflow:hidden}.bar>i{display:block;height:100%;background:linear-gradient(90deg,var(--ac2),var(--ac));transition:.2s}.head{display:flex;justify-content:space-between;align-items:center;margin:10px 0 6px}.head b{font-size:10px}.head span{font-size:8px;color:var(--mu)}.list{display:grid;gap:5px}.card{background:var(--p2);border:1px solid var(--bd);border-radius:8px;padding:6px 7px}.row{display:flex;justify-content:space-between;align-items:center;gap:7px}.card b{font-size:10px}.card small{font-size:8px;color:var(--mu);display:block;margin-top:2px}.btn{border:0;border-radius:7px;padding:6px 8px;background:var(--ac2);color:#07140f;font-size:9px;font-weight:800;cursor:pointer}.btn.alt{background:var(--gd);color:#261d08}.btn.dark{background:var(--p3);color:var(--tx);border:1px solid var(--bd)}.btn.red{background:rgba(255,114,137,.14);color:#ff9daf;border:1px solid rgba(255,114,137,.25)}button:disabled{opacity:.3;filter:grayscale(1);cursor:not-allowed}.qbar{height:4px;background:#0b0d12;border-radius:99px;overflow:hidden;margin-top:5px}.qbar i{display:block;height:100%;background:linear-gradient(90deg,var(--ac2),var(--ac))}.qmeta{display:flex;justify-content:space-between;font-size:8px;color:var(--mu);margin-top:3px}.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-bottom:7px}.tab{border:1px solid var(--bd);background:transparent;color:var(--mu);font-size:8px;padding:6px 2px;border-radius:7px;cursor:pointer}.tab.active{color:var(--tx);background:rgba(141,124,255,.12);border-color:rgba(141,124,255,.3)}.pane{display:none}.pane.active{display:block}.lock{padding:18px 9px;text-align:center;color:var(--mu);font-size:9px;border:1px dashed var(--bd);border-radius:9px}.badge{font-size:7px;padding:3px 5px;border-radius:99px;background:rgba(141,124,255,.13);color:#ccc5ff}.age{display:flex;gap:7px;align-items:center;padding:6px;border-radius:8px;color:var(--mu);font-size:9px}.age.current{background:rgba(141,124,255,.12);color:var(--tx)}.primary{width:100%;margin-top:7px;border:0;border-radius:8px;padding:8px;background:linear-gradient(135deg,#ff9b56,#ff7088);color:#fff;font-size:9px;font-weight:800;cursor:pointer}.toast{position:fixed;left:50%;bottom:16px;transform:translate(-50%,12px);opacity:0;background:#151822;border:1px solid var(--bd);border-radius:9px;padding:8px 11px;font-size:10px;transition:.2s;pointer-events:none;z-index:30}.toast.show{opacity:1;transform:translate(-50%,0)}.modal{position:fixed;inset:0;background:rgba(0,0,0,.66);display:none;place-items:center;padding:12px;z-index:20}.modal.show{display:grid}.modalbox{width:min(440px,100%);max-height:85vh;overflow:auto;background:var(--p);border:1px solid var(--bd);border-radius:14px;padding:12px}.modalhead{display:flex;justify-content:space-between;align-items:center}.modalhead h3{font-size:13px;margin:0}.choices{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-top:8px}.choice{padding:8px;border:1px solid var(--bd);background:var(--p2);border-radius:8px;text-align:center;cursor:pointer}.choice.active{border-color:var(--ac);background:rgba(141,124,255,.12)}.choice b{display:block;font-size:9px}.choice small{font-size:7px;color:var(--mu)}.market-up{color:var(--ac2)}.market-down{color:var(--rd)}@media(max-width:820px){.layout{grid-template-columns:1fr}.side{order:2}}@media(max-width:520px){.app{width:min(100% - 10px,1020px);padding-top:5px}.top{margin-bottom:6px}.logo{width:29px;height:29px;border-radius:9px}h1{font-size:16px}.sub{display:none}.main,.side{padding:8px}.panel{border-radius:11px;box-shadow:none}.hero h2{font-size:21px}.desc{display:none}.scene{height:82px;margin:6px 0}.world{font-size:23px}.stats{grid-template-columns:repeat(3,1fr)}.stats .stat:nth-child(4),.stats .stat:nth-child(5){display:none}.stat{padding:5px 6px}.action{padding:9px 10px}.action strong{font-size:14px}.head{margin:8px 0 5px}.card{padding:6px}.choices{grid-template-columns:1fr}.tools .txt{display:none}.tabs{position:sticky;top:0;z-index:3;background:var(--p);padding-bottom:4px}.side{max-height:none}}
+  :root{
+    --glass: rgba(18,34,55,.72);
+    --glass2: rgba(255,255,255,.16);
+    --text:#fff;
+    --green:#38d05b;
+    --gold:#ffd45b;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#dff4ff;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;touch-action:none}
+  #wrap{position:fixed;inset:0;overflow:hidden}
+  canvas{width:100%;height:100%;display:block;background:linear-gradient(#bceaff,#eaf9ff)}
+  .hud{position:fixed;inset:0;pointer-events:none;color:var(--text);text-shadow:0 2px 3px rgba(0,0,0,.35)}
+  .stats{position:absolute;right:14px;top:max(14px,env(safe-area-inset-top));display:grid;gap:7px;min-width:126px}
+  .stat{display:flex;align-items:center;gap:8px;background:linear-gradient(90deg,rgba(24,48,76,.85),rgba(24,48,76,.52));border:1px solid rgba(255,255,255,.25);border-radius:13px;padding:8px 10px;box-shadow:0 5px 14px rgba(13,35,53,.16);font-weight:900}
+  .ico{width:30px;height:24px;border-radius:8px;display:grid;place-items:center;font-size:18px;background:rgba(255,255,255,.16)}
+  .value{margin-left:auto;font-size:20px}
+  .quest{position:absolute;left:16px;top:94px;width:min(240px,55vw);background:var(--glass);border:1px solid rgba(255,255,255,.2);border-radius:16px;padding:10px 12px;box-shadow:0 8px 24px rgba(16,46,67,.18)}
+  .quest .qtitle{font-size:11px;font-weight:800;opacity:.7;letter-spacing:.8px}
+  .quest .qtext{font-size:13px;font-weight:800;margin:3px 0 7px}
+  .bar{height:7px;background:rgba(255,255,255,.18);border-radius:99px;overflow:hidden}
+  .bar>i{display:block;height:100%;width:0;background:linear-gradient(90deg,#51e86c,#b7ff6d);border-radius:99px;transition:.2s}
+  .toast{position:absolute;left:50%;top:18%;transform:translate(-50%,-12px);background:rgba(18,34,55,.88);padding:10px 16px;border-radius:999px;font-weight:900;font-size:13px;opacity:0;transition:.22s;white-space:nowrap}
+  .toast.show{opacity:1;transform:translate(-50%,0)}
+  .controls{position:absolute;left:18px;bottom:max(18px,env(safe-area-inset-bottom));width:118px;height:118px;border-radius:50%;background:rgba(24,48,76,.17);border:2px solid rgba(255,255,255,.35);pointer-events:auto;box-shadow:inset 0 0 0 10px rgba(255,255,255,.06)}
+  .stick{position:absolute;width:54px;height:54px;left:32px;top:32px;border-radius:50%;background:rgba(255,255,255,.8);box-shadow:0 5px 15px rgba(18,34,55,.28);transition:transform .03s linear}
+  .startOverlay{position:fixed;inset:0;display:grid;place-items:center;background:linear-gradient(rgba(172,228,255,.2),rgba(231,249,255,.8));z-index:9}
+  .startCard{width:min(86vw,370px);background:rgba(255,255,255,.86);border:1px solid rgba(255,255,255,.9);box-shadow:0 22px 70px rgba(15,56,81,.22);backdrop-filter:blur(16px);border-radius:28px;padding:26px;color:#16304d;text-align:center}
+  .startCard h1{margin:0;font-size:34px;line-height:.95;letter-spacing:-1.8px}
+  .startCard h1 span{display:block;color:#f2b513;font-size:22px;letter-spacing:.4px}
+  .play{border:0;width:100%;font:900 22px inherit;color:#fff;background:linear-gradient(#48de68,#23b84a);border-radius:16px;padding:14px 18px;box-shadow:0 7px 0 #15953a,0 14px 26px rgba(34,184,76,.25);cursor:pointer}
+  .play:active{transform:translateY(4px);box-shadow:0 3px 0 #15953a}
+  .eventBtn{position:absolute;right:14px;top:151px;pointer-events:auto;border:1px solid rgba(255,255,255,.3);background:linear-gradient(#ffc94a,#e99917);color:#fff;border-radius:15px;padding:9px 11px;min-width:112px;box-shadow:0 7px 18px rgba(91,56,9,.22);font-weight:950;text-align:center;cursor:pointer;text-shadow:0 2px 3px rgba(104,65,0,.3)}
+  .eventBtn .et{font-size:11px}.eventBtn .ev{font-size:15px;margin-top:1px}.eventBtn.ready{animation:eventPulse 1.35s infinite}
+  @keyframes eventPulse{50%{transform:scale(1.045)}}
+  .eventModal{position:fixed;inset:0;z-index:20;display:none;place-items:center;padding:18px;background:rgba(10,28,42,.42);pointer-events:auto;text-shadow:none}
+  .eventCard{width:min(88vw,390px);background:rgba(255,255,255,.95);color:#17324d;border-radius:24px;padding:20px;box-shadow:0 24px 70px rgba(10,31,47,.28)}
+  .eventHead{display:flex;gap:12px;align-items:center}.eventIcon{width:56px;height:56px;border-radius:16px;display:grid;place-items:center;background:linear-gradient(145deg,#ffd75d,#f19b1b);font-size:29px;flex:none}
+  .eventCard h2{margin:0;font-size:21px}.eventCard p{margin:4px 0 0;font-size:13px;opacity:.7;line-height:1.35}
+  .eventProgress{display:flex;justify-content:space-between;font-size:12px;font-weight:900;margin:18px 0 7px}.eventBar{height:9px;background:#dce8ef;border-radius:99px;overflow:hidden}.eventBar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#35ca58,#99ec58);border-radius:99px}
+  .eventReward{margin:14px 0;background:#eef6fa;border-radius:14px;padding:11px 12px;font-weight:900;font-size:13px}.eventActions{display:flex;gap:9px}.eventClose,.eventClaim{border:0;border-radius:13px;padding:12px 14px;font-weight:900;cursor:pointer}.eventClose{background:#e8eef2;color:#365064}.eventClaim{flex:1;color:#fff;background:linear-gradient(#48de68,#23b84a)}.eventClaim:disabled{opacity:.42;filter:grayscale(.7)}
+  .pcKeys{position:absolute;left:14px;bottom:14px;font-size:11px;font-weight:850;opacity:.52;display:none}
+  @media (pointer:fine){.controls{display:none}.pcKeys{display:block}}
+  @media(min-width:800px){
+    .controls{width:130px;height:130px}.stick{left:38px;top:38px}
+  }
 </style>
 </head>
 <body>
-<main class="app"><header class="top"><div class="brand"><div class="logo">⏳</div><div><h1>Idle Timeline</h1><div class="sub">Yaşayan medeniyetini büyüt.</div></div></div><div class="tools"><button class="icon" id="sound">🔊</button><button class="icon" id="save"><span class="txt">Kaydet </span>💾</button></div></header>
-<section class="layout"><div class="panel main"><div class="hero"><div><div class="ey">Aktif çağ</div><h2 id="ageName"></h2><div class="desc" id="ageDesc"></div></div><div id="ageIcon" style="font-size:34px"></div></div>
-<div class="scene" id="scene"><div class="weather" id="weather"></div><div class="world" id="world"></div><div class="citizen">🚶</div><div class="citizen b">🚶</div></div>
-<div class="event" id="event"><div><b id="eventTitle"></b><small id="eventText"></small></div><button class="btn alt" id="eventBtn">Al</button></div>
-<div class="stats"><div class="stat"><span>Kaynak</span><b id="resource"></b></div><div class="stat"><span>Gelir</span><b id="income"></b></div><div class="stat"><span>Tıklama</span><b id="click"></b></div><div class="stat"><span>Nüfus</span><b id="pop"></b></div><div class="stat"><span>Mutluluk</span><b id="happy"></b></div></div>
-<button class="action" id="action"><strong id="actionName"></strong><small id="actionGain"></small></button><div class="prow"><span>Çağ ilerlemesi</span><span id="progressText"></span></div><div class="bar"><i id="progress"></i></div>
-<div class="head"><b>Geliştirmeler</b><span id="bonus"></span></div><div class="list" id="upgrades"></div><div class="head"><b>Dinamik görevler</b><span>Ödüller otomatik</span></div><div class="list" id="quests"></div></div>
-<aside class="panel side"><div class="tabs"><button class="tab active" data-tab="core">Çağ</button><button class="tab" data-tab="city">Şehir</button><button class="tab" data-tab="explore">Keşif</button><button class="tab" data-tab="meta">Meta</button></div>
-<div class="pane active" id="pane-core"><div class="list" id="timeline"></div><button class="primary" id="advance"></button><div class="head"><b>Rehber</b><span id="npcName"></span></div><div class="card"><div class="row"><b id="npcFace"></b><span class="badge" id="storyStep"></span></div><small id="npcText"></small></div><div class="head"><b>Prestij</b><span id="wisdom"></span></div><div class="card"><small id="prestigeText"></small><button class="btn alt" style="width:100%;margin-top:6px" id="prestige">Zamanı Sıfırla</button></div></div>
-<div class="pane" id="pane-city"></div><div class="pane" id="pane-explore"></div><div class="pane" id="pane-meta"></div></aside></section></main>
-<div class="toast" id="toast"></div><div class="modal" id="modal"><div class="modalbox"><div class="modalhead"><h3 id="modalTitle"></h3><button class="icon" id="modalClose">✕</button></div><div id="modalBody"></div></div></div>
+<div id="wrap"><canvas id="game"></canvas></div>
+
+<div class="hud">
+  <div class="stats">
+    <div class="stat"><div class="ico">💵</div><div id="money" class="value">0</div></div>
+    <div class="stat"><div class="ico">🪵</div><div id="wood" class="value">0</div></div>
+    <div class="stat"><div class="ico">🪨</div><div id="stone" class="value">0</div></div>
+  </div>
+  <div class="quest">
+    <div id="qtext" class="qtext">10 odun topla</div>
+    <div class="bar"><i id="qbar"></i></div>
+  </div>
+  <div id="toast" class="toast">+1 🪵</div>
+  <button id="eventBtn" class="eventBtn"><div class="et">🎁 ETKİNLİK</div><div id="eventTime" class="ev">HAZIR</div></button>
+  <div id="joy" class="controls"><div id="stick" class="stick"></div></div>
+  <div class="pcKeys">WASD / Ok tuşları</div>
+</div>
+
+<div id="start" class="startOverlay">
+  <div class="startCard">
+    <h1>FROST CAMP<span>IDLE SURVIVAL</span></h1>
+    <button id="play" class="play">OYNA</button>
+  </div>
+</div>
+
+
+<div id="eventModal" class="eventModal">
+  <div class="eventCard">
+    <div class="eventHead"><div id="eventIcon" class="eventIcon">🪵</div><div><h2 id="eventName">Odun Hücumu</h2><p id="eventDesc">Hedefi tamamla ve ödülü al.</p></div></div>
+    <div class="eventProgress"><span>İlerleme</span><span id="eventProgressText">0 / 18</span></div>
+    <div class="eventBar"><i id="eventBar"></i></div>
+    <div id="eventReward" class="eventReward">Ödül: 💵 80</div>
+    <div class="eventActions"><button id="eventClose" class="eventClose">Kapat</button><button id="eventClaim" class="eventClaim" disabled>ÖDÜLÜ AL</button></div>
+  </div>
+</div>
+
 <script>
-'use strict';
-const A=[
-{name:'Taş Devri',icon:'🪨',desc:'Ateşi yak ve ilk yerleşimi kur.',currency:'Kaynak',action:'Taş Topla',target:1200,base:1,world:['🌲','🔥','⛺'],npc:['🧔','Kabile Reisi'],boss:['🦣','Mamut'],ups:[['Keskin Taş','Tıklama gücü','click',14,1],['Toplayıcılar','Otomatik gelir','income',38,1],['Ateş Kampı','Tüm üretim','multi',190,.12]]},
-{name:'Antik Çağ',icon:'🏛️',desc:'Tarım, şehir ve ticaret kur.',currency:'Altın',action:'Hasat Yap',target:18000,base:8,world:['🌾','🏛️','⛵'],npc:['🧙','Filozof'],boss:['🐍','Tapınak Yılanı'],ups:[['Sulama','Tıklama gücü','click',190,7],['Pazar','Otomatik gelir','income',480,9],['Ticaret Yolu','Tüm üretim','multi',2600,.17]]},
-{name:'Orta Çağ',icon:'🏰',desc:'Krallığını ve zanaatı büyüt.',currency:'Hazine',action:'Vergi Topla',target:240000,base:55,world:['🌲','🏰','🐎'],npc:['👑','Kral'],boss:['🐉','Ejderha'],ups:[['Demirhane','Tıklama gücü','click',3100,42],['Loncalar','Otomatik gelir','income',8200,68],['Kraliyet Fermanı','Tüm üretim','multi',43000,.22]]},
-{name:'Sanayi Devrimi',icon:'🏭',desc:'Buhar ve fabrikalarla seri üretime geç.',currency:'Sermaye',action:'Üretim Yap',target:3400000,base:420,world:['🚂','🏭','🏢'],npc:['👷','Mühendis'],boss:['⚙️','Dev Makine'],ups:[['Buhar Motoru','Tıklama gücü','click',62000,340],['Fabrika Hattı','Otomatik gelir','income',155000,560],['Demiryolu','Tüm üretim','multi',760000,.28]]},
-{name:'Modern Çağ',icon:'🏙️',desc:'Küresel ekonomi ve teknoloji ağları kur.',currency:'Kredi',action:'Yatırım Yap',target:65000000,base:4400,world:['🏙️','🚗','✈️'],npc:['🧑‍💼','CEO'],boss:['📉','Büyük Kriz'],ups:[['Akıllı Ofis','Tıklama gücü','click',900000,3500],['Küresel Şirket','Otomatik gelir','income',2400000,6100],['Otomasyon','Tüm üretim','multi',12000000,.34]]},
-{name:'Gelecek',icon:'🤖',desc:'Yapay zekâ ve kuantum sistemlerini yönet.',currency:'Enerji',action:'Veri İşle',target:1400000000,base:60000,world:['🤖','🌐','🧬'],npc:['🧠','Merkez AI'],boss:['🕳️','Tekillik'],ups:[['Yapay Zekâ','Tıklama gücü','click',17000000,48000],['Robot İşçiler','Otomatik gelir','income',46000000,82000],['Kuantum Çekirdek','Tüm üretim','multi',230000000,.42]]},
-{name:'Uzay Çağı',icon:'🚀',desc:'Gezegenler arası medeniyet kur.',currency:'Kozmik Madde',action:'Asteroit İşle',target:42000000000,base:980000,world:['🌕','🚀','🪐'],npc:['👨‍🚀','Komutan'],boss:['👽','Uzaylı Filo'],ups:[['İyon Motoru','Tıklama gücü','click',580000000,760000],['Mars Kolonisi','Otomatik gelir','income',1500000000,1300000],['Yörünge Ağı','Tüm üretim','multi',7600000000,.52]]},
-{name:'Galaktik Medeniyet',icon:'🌌',desc:'Yıldız sistemlerini tek ağda birleştir.',currency:'Yıldız Gücü',action:'Yıldız Enerjisi Topla',target:Infinity,base:17000000,world:['🌌','☀️','🌀'],npc:['🛸','Galaktik Konsey'],boss:['🌑','Karanlık Çekirdek'],ups:[['Dyson Küresi','Tıklama gücü','click',24000000000,14000000],['Galaksi Ticareti','Otomatik gelir','income',65000000000,25000000],['Tekillik Motoru','Tüm üretim','multi',310000000000,.68]]}
+(() => {
+const canvas = document.getElementById('game');
+const ctx = canvas.getContext('2d');
+const moneyEl = document.getElementById('money');
+const woodEl = document.getElementById('wood');
+const stoneEl = document.getElementById('stone');
+const qtext = document.getElementById('qtext');
+const qbar = document.getElementById('qbar');
+const toast = document.getElementById('toast');
+const eventBtn = document.getElementById('eventBtn');
+const eventTime = document.getElementById('eventTime');
+const eventModal = document.getElementById('eventModal');
+const eventIcon = document.getElementById('eventIcon');
+const eventName = document.getElementById('eventName');
+const eventDesc = document.getElementById('eventDesc');
+const eventProgressText = document.getElementById('eventProgressText');
+const eventBar = document.getElementById('eventBar');
+const eventReward = document.getElementById('eventReward');
+const eventClaim = document.getElementById('eventClaim');
+
+let W=0,H=0,dpr=1,last=0,started=false;
+let camera={x:0,y:0};
+const world={w:1700,h:1700};
+const player={x:850,y:900,r:20,speed:225,wood:0,stone:0,money:0,carryMax:18,angle:0,chop:0};
+const base={x:770,y:860,w:180,h:120,level:0,progress:0,cost:12};
+let workers=[];
+let unlockedStone=false;
+let saveTimer=0;
+
+const EVENT_INTERVAL = 15 * 60 * 1000;
+const eventDefs = [
+  {id:'wood',icon:'🪵',name:'Odun Hücumu',desc:'Odun topla.',metric:'woodCollected',goal:18,reward:{money:80}},
+  {id:'builder',icon:'🏗️',name:'Usta İnşaatçı',desc:'Kampa odun teslim et.',metric:'woodDeposited',goal:20,reward:{money:100}},
+  {id:'walk',icon:'🥾',name:'Kar Kaşifi',desc:'Haritada hareket et.',metric:'distance',goal:1200,reward:{money:70,wood:5}},
+  {id:'stone',icon:'🪨',name:'Taş Avı',desc:'Taş topla.',metric:'stoneCollected',goal:8,reward:{money:120}},
+  {id:'earn',icon:'💰',name:'Kamp Kazancı',desc:'İşçilerinden para kazan.',metric:'moneyEarned',goal:20,reward:{money:90,stone:2}}
 ];
-const WORLDS=[['Dünya','🌍','Dengeli başlangıç',1],['Buz Dünyası','🧊','Gelir +%20, tıklama -%10',1.2],['Volkanik Dünya','🌋','Tıklama +%35',1.08],['Su Dünyası','🌊','Görev ödülü +%25',1.1]];
-const SKINS=[['Klasik','🎨'],['Steampunk','⚙️'],['Cyber','🟣'],['Viking','🛡️']];
-const EVOS=[['Üretken Gen','Gelir +%8'],['Keskin Refleks','Kritik şans +%3'],['Diplomasi','Mutluluk kaybı azalır'],['Kaşif Ruhu','Keşif ödülü +%15']];
-const defaultState={v:4,age:0,maxAge:0,res:0,total:0,wisdom:0,prestiges:0,up:{},clicks:0,bought:0,quests:[],recent:[],questSeq:0,pop:2,happiness:100,food:0,market:1,marketAt:0,event:null,eventAt:0,eventMult:1,eventEnd:0,weather:'clear',weatherAt:0,expedition:null,collection:[],ach:[],research:[],rp:0,chestAt:0,civ:'',evolution:[],world:0,worlds:[0],skin:0,story:0,lab:[],puzzleAt:0,leagueScore:0,alliance:0,stock:0,stockPrice:100,stockAt:0,boss:{},sound:true,last:Date.now()};
-let S=load(),last=performance.now(),lastUI=0,audio=null,toastTimer;
-const $=id=>document.getElementById(id), clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
-function load(){try{const x=JSON.parse(localStorage.getItem('idleTimelineV4'));if(!x)return structuredClone(defaultState);return Object.assign(structuredClone(defaultState),x,{up:x.up||{},boss:x.boss||{},quests:Array.isArray(x.quests)?x.quests:[],recent:Array.isArray(x.recent)?x.recent:[]})}catch{return structuredClone(defaultState)}}
-function save(show=false){S.last=Date.now();localStorage.setItem('idleTimelineV4',JSON.stringify(S));if(show)toast('Oyun kaydedildi')}
-function fmt(n){if(!Number.isFinite(n))return'∞';if(n<1000)return Math.floor(n).toLocaleString('tr-TR');for(const [v,s] of [[1e18,'Qi'],[1e15,'Qa'],[1e12,'T'],[1e9,'B'],[1e6,'M'],[1e3,'K']])if(n>=v)return(n/v).toLocaleString('tr-TR',{maximumFractionDigits:2})+s;return Math.floor(n)}
-function lv(){if(!S.up[S.age])S.up[S.age]=[0,0,0];return S.up[S.age]}
-function unlockLevel(){return S.age+S.prestiges*2+Math.floor(S.total>1e6?2:S.total>1e4?1:0)}
-function worldMult(){return WORLDS[S.world][3]}
-function researchBonus(id){return S.research.includes(id)}
-function stats(){const a=A[S.age],l=lv(),m=(1+l[2]*a.ups[2][4])*(1+S.wisdom*.1)*worldMult()*(S.eventMult||1)*(1+S.evolution.filter(x=>x===0).length*.08)*(researchBonus('prod')?1.15:1)*(1+(S.happiness-50)/500);let click=(a.base+l[0]*a.ups[0][4])*m, income=l[1]*a.ups[1][4]*m;if(S.world===2)click*=1.35;if(S.world===1)click*=.9;return{click:Math.max(0,click),income:Math.max(0,income),crit:.05+S.evolution.filter(x=>x===1).length*.03+(researchBonus('crit')?.05:0)}}
-function cost(i){return A[S.age].ups[i][3]*Math.pow(1.68,lv()[i])}
-function earn(n){if(!Number.isFinite(n)||n<=0)return;S.res=Math.min(Number.MAX_VALUE/100,S.res+n);S.total+=n;S.leagueScore+=Math.sqrt(n)}
-function buy(i){const c=cost(i);if(S.res<c)return;S.res-=c;lv()[i]++;S.bought++;S.pop+=i===1?1:0;beep(500,.03);render()}
-const QT=['earn','click','buy','income','save','population','happy','market'];
-function makeQuest(){let pool=QT.filter(t=>!S.recent.slice(-5).includes(t));if(!pool.length)pool=QT;const type=pool[Math.floor(Math.random()*pool.length)],a=A[S.age],st=stats(),base=a.target===Infinity?Math.max(S.res,1e9):a.target;let goal,start,title,reward;
-if(type==='earn'){goal=Math.max(st.income*25,base*.025);start=S.total;title=`${fmt(goal)} ${a.currency} üret`}
-if(type==='click'){goal=20+S.age*8;start=S.clicks;title=`${goal} kez aktif üretim yap`}
-if(type==='buy'){goal=2+Math.floor(S.age/2);start=S.bought;title=`${goal} geliştirme satın al`}
-if(type==='income'){goal=Math.max(3,st.income*1.7+a.base);start=0;title=`Geliri ${fmt(goal)}/sn yap`}
-if(type==='save'){goal=Math.max(base*.035,S.res*1.35+10);start=0;title=`${fmt(goal)} ${a.currency} biriktir`}
-if(type==='population'){goal=S.pop+Math.max(2,Math.ceil(S.age/2));start=0;title=`Nüfusu ${goal} yap`}
-if(type==='happy'){goal=85;start=0;title='Mutluluğu %85 üzerinde tut'}
-if(type==='market'){goal=1;start=S.marketTrades||0;title='Pazarda 1 işlem yap'}
-reward=Math.max(a.base*20,base*.012)*(S.world===3?1.25:1);S.recent.push(type);if(S.recent.length>12)S.recent.shift();return{id:++S.questSeq,type,goal,start,title,reward}}
-function ensureQuests(){while(S.quests.length<3)S.quests.push(makeQuest())}
-function qprogress(q){if(q.type==='earn')return S.total-q.start;if(q.type==='click')return S.clicks-q.start;if(q.type==='buy')return S.bought-q.start;if(q.type==='income')return stats().income;if(q.type==='save')return S.res;if(q.type==='population')return S.pop;if(q.type==='happy')return S.happiness;if(q.type==='market')return(S.marketTrades||0)-q.start;return 0}
-function checkQuests(){ensureQuests();let changed=false;S.quests=S.quests.filter(q=>{if(qprogress(q)>=q.goal){earn(q.reward);S.rp+=1;S.story++;toast(`Görev tamamlandı · +${fmt(q.reward)}`);changed=true;return false}return true});if(changed)ensureQuests()}
-function eventTick(){const now=Date.now();if(S.eventMult>1&&now>=S.eventEnd)S.eventMult=1;if(!S.event&&now>=S.eventAt){const e=[{t:'Altın Çağ',d:'30 saniye üretim x2',m:2},{t:'Festival',d:'Mutluluk +20',happy:20},{t:'Gezgin Tüccar',d:'Anında büyük kaynak',instant:.04},{t:'Nüfus Patlaması',d:'Nüfus +5',pop:5}][Math.floor(Math.random()*4)];S.event=e;S.eventAt=now+70000+Math.random()*50000}}
-function takeEvent(){if(!S.event)return;const e=S.event;if(e.m){S.eventMult=e.m;S.eventEnd=Date.now()+30000}if(e.happy)S.happiness=clamp(S.happiness+e.happy,0,100);if(e.pop)S.pop+=e.pop;if(e.instant)earn((A[S.age].target===Infinity?Math.max(S.res,1e9):A[S.age].target)*e.instant);S.event=null;toast(e.t+' etkin');render()}
-function weatherTick(){if(Date.now()<S.weatherAt)return;S.weather=['clear','rain','snow'][Math.floor(Math.random()*3)];S.weatherAt=Date.now()+60000+Math.random()*80000}
-function marketTick(){if(Date.now()<S.marketAt)return;S.market=clamp(S.market+(Math.random()-.5)*.3,.65,1.55);S.marketAt=Date.now()+30000;S.stockPrice=clamp(S.stockPrice+(Math.random()-.48)*18,20,450);S.stockAt=Date.now()+30000}
-function trade(buying){const unit=Math.max(A[S.age].base*15,stats().income*8+10);if(buying){const c=unit*S.market;if(S.res<c)return;S.res-=c;S.food+=10}else{if(S.food<10)return;S.food-=10;earn(unit*S.market)}S.marketTrades=(S.marketTrades||0)+1;render()}
-function chest(){if(Date.now()<S.chestAt)return;const roll=Math.random(),base=A[S.age].target===Infinity?Math.max(S.res,1e9):A[S.age].target;if(roll<.18){const items=['İlk Ateş','Altın Taç','Buhar Çekirdeği','Kuantum Parçası','Yıldız Haritası'];const item=items[Math.floor(Math.random()*items.length)];if(!S.collection.includes(item))S.collection.push(item);toast('Nadir eşya: '+item)}else earn(base*(.02+Math.random()*.05));S.chestAt=Date.now()+120000;render()}
-function expedition(){if(S.expedition)return;const dur=60000+S.age*15000;S.expedition={end:Date.now()+dur,power:1+S.age*.25};toast('Keşif ekibi yola çıktı');render()}
-function expeditionTick(){if(!S.expedition||Date.now()<S.expedition.end)return;const base=A[S.age].target===Infinity?Math.max(S.res,1e9):A[S.age].target,gain=base*.035*S.expedition.power*(S.evolution.includes(3)?1.15:1);earn(gain);S.rp+=2;if(Math.random()<.25&&!S.collection.includes('Kayıp Harita'))S.collection.push('Kayıp Harita');S.expedition=null;toast('Keşif tamamlandı · +'+fmt(gain))}
-function advance(){const a=A[S.age];if(S.res<a.target||S.age>=A.length-1)return;if(!S.boss[S.age])return openBoss();S.age++;S.maxAge=Math.max(S.maxAge,S.age);S.res=0;S.rp+=2;S.happiness=clamp(S.happiness+8,0,100);S.story++;S.quests=[];ensureQuests();toast(A[S.age].name+' açıldı');render()}
-function openBoss(){const a=A[S.age],max=a.target*.1;openModal(a.boss[0]+' '+a.boss[1],`<div class="card" style="text-align:center"><div style="font-size:52px">${a.boss[0]}</div><b>${a.boss[1]}</b><small>Kaynağını hasara dönüştürerek çağı tamamla.</small><div class="bar" style="margin:9px 0"><i id="bossbar" style="width:100%"></i></div><div id="bosstxt">${fmt(max)} / ${fmt(max)}</div><button class="btn red" style="width:100%;margin-top:8px" id="bossattack">Saldır</button></div>`);S.bossHp=S.bossHp||max;const attack=()=>{const dmg=Math.min(S.res,stats().click*4);if(dmg<=0)return;S.res-=dmg;S.bossHp-=dmg;const hp=Math.max(0,S.bossHp);$('bossbar').style.width=hp/max*100+'%';$('bosstxt').textContent=`${fmt(hp)} / ${fmt(max)}`;if(hp<=0){S.boss[S.age]=true;S.bossHp=0;closeModal();toast('Boss yenildi');render()}};$('bossattack').onclick=attack}
-function prestigeGain(){return S.age<3?0:Math.max(1,Math.floor((S.age-2)*2+Math.log10(Math.max(10,S.total))-4))}
-function prestige(){const g=prestigeGain();if(!g)return;S.wisdom+=g;S.prestiges++;S.age=0;S.res=0;S.total=0;S.up={};S.quests=[];S.event=null;S.eventMult=1;S.boss={};S.pop=2;S.happiness=100;if(S.prestiges===1&&!S.civ)S.civ='science';if(S.prestiges%2===0){const next=Math.min(WORLDS.length-1,S.worlds.length);if(!S.worlds.includes(next))S.worlds.push(next)}ensureQuests();toast(`Zaman sıfırlandı · +${g} Bilgelik`);render()}
-function research(id,cost){if(S.research.includes(id)||S.rp<cost)return;S.rp-=cost;S.research.push(id);toast('Araştırma tamamlandı');render()}
-function evolve(i){if(S.evolution.length>=Math.max(1,S.prestiges))return;if(S.evolution.includes(i))return;S.evolution.push(i);render()}
-function labCombine(){if(S.rp<5)return;S.rp-=5;const recipes=['Otomatik Tarım','Nano İşçiler','Yıldız Yakıtı'];const x=recipes[Math.floor(Math.random()*recipes.length)];if(!S.lab.includes(x))S.lab.push(x);else S.wisdom++;toast('Laboratuvar: '+x);render()}
-function puzzle(){if(Date.now()<S.puzzleAt)return;const a=Math.floor(Math.random()*8)+2,b=Math.floor(Math.random()*8)+2,ans=a+b;openModal('Kayıp Teknoloji',`<div class="card"><b>${a} + ${b} kaçtır?</b><div class="choices">${[ans,ans+1,ans-1].sort(()=>Math.random()-.5).map(x=>`<button class="choice" data-answer="${x}">${x}</button>`).join('')}</div></div>`);document.querySelectorAll('[data-answer]').forEach(bu=>bu.onclick=()=>{if(+bu.dataset.answer===ans){S.rp+=3;toast('+3 araştırma puanı')}else toast('Yanlış cevap');S.puzzleAt=Date.now()+180000;closeModal();render()})}
-function stockTrade(buying){const lot=1;if(buying){if(S.res<S.stockPrice)return;S.res-=S.stockPrice;S.stock+=lot}else{if(S.stock<lot)return;S.stock-=lot;earn(S.stockPrice)}render()}
-function allianceContribute(){const c=Math.max(10,A[S.age].base*50);if(S.res<c)return;S.res-=c;S.alliance+=c;if(S.alliance>=100000){S.wisdom++;S.alliance=0;toast('Mega proje tamamlandı · +1 Bilgelik')}render()}
-function render(){const a=A[S.age],st=stats(),l=lv();$('ageName').textContent=a.name;$('ageDesc').textContent=a.desc;$('ageIcon').textContent=a.icon;$('resource').textContent=fmt(S.res);$('income').textContent=fmt(st.income)+'/sn';$('click').textContent=fmt(st.click);$('pop').textContent=fmt(S.pop);$('happy').textContent='%'+Math.floor(S.happiness);$('actionName').textContent=a.action;$('actionGain').textContent=`+${fmt(st.click)} ${a.currency} · Kritik %${Math.round(st.crit*100)}`;const p=a.target===Infinity?100:Math.min(100,S.res/a.target*100);$('progress').style.width=p+'%';$('progressText').textContent=a.target===Infinity?'Maksimum çağ':`${fmt(S.res)} / ${fmt(a.target)}`;$('bonus').textContent=`Toplam x${(st.income/(Math.max(1,l[1]*a.ups[1][4]))||1).toFixed(2)}`;
-$('world').innerHTML=a.world.map(x=>`<span>${x}</span>`).join('');$('scene').classList.toggle('night',new Date().getHours()<7||new Date().getHours()>19);$('weather').textContent=S.weather==='rain'?'🌧️  🌧️  🌧️':S.weather==='snow'?'❄️  ❄️  ❄️':'';$('event').classList.toggle('show',!!S.event);if(S.event){$('eventTitle').textContent=S.event.t;$('eventText').textContent=S.event.d}
-$('upgrades').innerHTML=a.ups.map((u,i)=>`<div class="card row"><div><b>${u[0]} · Lv.${l[i]}</b><small>${u[1]}</small></div><button class="btn" data-buy="${i}" ${S.res<cost(i)?'disabled':''}>${fmt(cost(i))}</button></div>`).join('');document.querySelectorAll('[data-buy]').forEach(x=>x.onclick=()=>buy(+x.dataset.buy));ensureQuests();$('quests').innerHTML=S.quests.map(q=>{const v=Math.min(q.goal,qprogress(q));return`<div class="card"><div class="row"><b>${q.title}</b><span class="badge">+${fmt(q.reward)}</span></div><div class="qbar"><i style="width:${Math.min(100,v/q.goal*100)}%"></i></div><div class="qmeta"><span>${fmt(v)} / ${fmt(q.goal)}</span><span>Otomatik</span></div></div>`}).join('');
-$('timeline').innerHTML=A.map((x,i)=>`<div class="age ${i===S.age?'current':''}"><span>${i<=S.maxAge?x.icon:'·'}</span><div>${x.name}<small>${i<S.age?'Tamamlandı':i===S.age?'Aktif':'Kilitli'}</small></div></div>`).join('');$('advance').disabled=S.res<a.target||S.age>=A.length-1;$('advance').textContent=S.age>=A.length-1?'Son Çağa Ulaştın':S.boss[S.age]?'Sonraki Çağa Geç':'Çağın Boss’una Meydan Oku';$('npcFace').textContent=a.npc[0];$('npcName').textContent=a.npc[1];$('storyStep').textContent='Bölüm '+(S.story+1);$('npcText').textContent=st.income===0?'Otomatik üretimi açarak medeniyeti kendi kendine büyüt.':S.happiness<55?'Halk mutsuz. Festival veya yiyecek desteği gerekli.':S.res>=a.target&&!S.boss[S.age]?'Kaynağın hazır. Çağın son sınavı seni bekliyor.':'Dengeli yükseltmelerle çağa hazırlan.';$('wisdom').textContent=fmt(S.wisdom)+' Bilgelik';const pg=prestigeGain();$('prestige').disabled=!pg;$('prestige').textContent=pg?`Zamanı Sıfırla (+${pg})`:'Sanayi Çağında Açılır';$('prestigeText').textContent='Kalıcı güç kazanır, yeni dünyaları ve evrimi açarsın.';$('sound').textContent=S.sound?'🔊':'🔇';renderPanes()}
-function renderPanes(){const lvl=unlockLevel();$('pane-city').innerHTML=lvl<2?lock('Şehir sistemi Antik Çağda açılır'):cityHTML();$('pane-explore').innerHTML=lvl<3?lock('Keşif sistemi Orta Çağda açılır'):exploreHTML();$('pane-meta').innerHTML=S.prestiges<1?lock('Meta sistemler ilk prestijden sonra açılır'):metaHTML();bindPane()}
-const lock=t=>`<div class="lock">🔒 ${t}</div>`;
-function cityHTML(){return`<div class="head"><b>Şehir Yönetimi</b><span>Canlı ekonomi</span></div><div class="card"><div class="row"><b>👥 Nüfus ${fmt(S.pop)}</b><span class="badge">😊 %${Math.floor(S.happiness)}</span></div><small>Yüksek mutluluk üretimi artırır. Nüfus otomatik gelir yatırımlarıyla büyür.</small><div class="row" style="margin-top:6px"><button class="btn alt" id="festival">Festival</button><button class="btn dark" id="feed">Yiyecek Dağıt (${S.food})</button></div></div><div class="head"><b>Pazar</b><span class="${S.market>=1?'market-up':'market-down'}">x${S.market.toFixed(2)}</span></div><div class="card"><small>10 yiyecek al veya değişken fiyattan sat.</small><div class="row" style="margin-top:6px"><button class="btn" id="buyFood">Satın Al</button><button class="btn dark" id="sellFood">Sat</button></div></div><div class="head"><b>Borsa</b><span>${S.stock} hisse · ${fmt(S.stockPrice)}</span></div><div class="card row"><button class="btn" id="stockBuy">Hisse Al</button><button class="btn dark" id="stockSell">Hisse Sat</button></div>`}
-function exploreHTML(){const remain=S.expedition?Math.max(0,Math.ceil((S.expedition.end-Date.now())/1000)):0;return`<div class="head"><b>Keşif Ekibi</b><span>${S.expedition?remain+' sn':'Hazır'}</span></div><div class="card"><small>Ekibini kaynak, araştırma ve nadir koleksiyonlar için gönder.</small><button class="btn" style="width:100%;margin-top:6px" id="expedition" ${S.expedition?'disabled':''}>Keşfe Gönder</button></div><div class="head"><b>Sandık</b><span>${Date.now()<S.chestAt?Math.ceil((S.chestAt-Date.now())/1000)+' sn':'Hazır'}</span></div><button class="btn alt" style="width:100%" id="chest" ${Date.now()<S.chestAt?'disabled':''}>Sandığı Aç</button><div class="head"><b>Kayıp Teknoloji</b><span>Mini bulmaca</span></div><button class="btn dark" style="width:100%" id="puzzle" ${Date.now()<S.puzzleAt?'disabled':''}>Bulmacayı Çöz</button><div class="head"><b>Koleksiyon</b><span>${S.collection.length} parça</span></div><div class="list">${S.collection.length?S.collection.map(x=>`<div class="card">◆ ${x}</div>`).join(''):'<div class="lock">Henüz keşif yok</div>'}</div>`}
-function metaHTML(){return`<div class="head"><b>Araştırma</b><span>${S.rp} puan</span></div><div class="list">${[['prod','Üretim Bilimi','Tüm üretim +%15',3],['crit','Şans Teorisi','Kritik şans +%5',4],['offline','Uyku Modu','AFK sınırı 8 saat',5]].map(r=>`<div class="card row"><div><b>${r[1]}</b><small>${r[2]}</small></div><button class="btn" data-res="${r[0]}" data-cost="${r[3]}" ${S.research.includes(r[0])||S.rp<r[3]?'disabled':''}>${S.research.includes(r[0])?'Açık':r[3]}</button></div>`).join('')}</div><div class="head"><b>Evrim</b><span>${S.evolution.length}/${Math.max(1,S.prestiges)}</span></div><div class="list">${EVOS.map((e,i)=>`<div class="card row"><div><b>${e[0]}</b><small>${e[1]}</small></div><button class="btn dark" data-evo="${i}" ${S.evolution.includes(i)||S.evolution.length>=Math.max(1,S.prestiges)?'disabled':''}>Seç</button></div>`).join('')}</div><div class="head"><b>Laboratuvar</b><span>${S.lab.length} keşif</span></div><button class="btn alt" style="width:100%" id="lab" ${S.rp<5?'disabled':''}>5 Puanla Birleştir</button><div class="head"><b>Dünyalar</b><span>${WORLDS[S.world][1]} ${WORLDS[S.world][0]}</span></div><div class="choices">${S.worlds.map(i=>`<div class="choice ${S.world===i?'active':''}" data-world="${i}"><b>${WORLDS[i][1]} ${WORLDS[i][0]}</b><small>${WORLDS[i][2]}</small></div>`).join('')}</div><div class="head"><b>Görünüm</b><span>${SKINS[S.skin][0]}</span></div><div class="choices">${SKINS.map((s,i)=>`<div class="choice ${S.skin===i?'active':''}" data-skin="${i}"><b>${s[1]} ${s[0]}</b></div>`).join('')}</div><div class="head"><b>Haftalık Lig</b><span>${fmt(S.leagueScore)} puan</span></div><div class="card"><small>Simüle sıralama: ${S.leagueScore>50000?'İlk %1':S.leagueScore>10000?'İlk %10':'Bronz Lig'}</small></div><div class="head"><b>İttifak Mega Projesi</b><span>${fmt(S.alliance)} / 100K</span></div><button class="btn dark" style="width:100%" id="alliance">Katkı Yap</button>`}
-function bindPane(){const on=(id,fn)=>{const x=$(id);if(x)x.onclick=fn};on('festival',()=>{const c=Math.max(20,A[S.age].base*50);if(S.res<c)return;S.res-=c;S.happiness=clamp(S.happiness+20,0,100);render()});on('feed',()=>{if(S.food<5)return;S.food-=5;S.happiness=clamp(S.happiness+12,0,100);render()});on('buyFood',()=>trade(true));on('sellFood',()=>trade(false));on('stockBuy',()=>stockTrade(true));on('stockSell',()=>stockTrade(false));on('expedition',expedition);on('chest',chest);on('puzzle',puzzle);on('lab',labCombine);on('alliance',allianceContribute);document.querySelectorAll('[data-res]').forEach(x=>x.onclick=()=>research(x.dataset.res,+x.dataset.cost));document.querySelectorAll('[data-evo]').forEach(x=>x.onclick=()=>evolve(+x.dataset.evo));document.querySelectorAll('[data-world]').forEach(x=>x.onclick=()=>{S.world=+x.dataset.world;render()});document.querySelectorAll('[data-skin]').forEach(x=>x.onclick=()=>{S.skin=+x.dataset.skin;document.documentElement.style.setProperty('--ac',['#8d7cff','#d48544','#c44cff','#6b8cff'][S.skin]);render()})}
-function openModal(t,b){$('modalTitle').textContent=t;$('modalBody').innerHTML=b;$('modal').classList.add('show')}function closeModal(){$('modal').classList.remove('show')}
-function toast(t){$('toast').textContent=t;$('toast').classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').classList.remove('show'),1900)}
-function beep(f=440,d=.05){if(!S.sound)return;try{audio=audio||new(AudioContext||webkitAudioContext)();const o=audio.createOscillator(),g=audio.createGain();o.frequency.value=f;g.gain.value=.025;o.connect(g);g.connect(audio.destination);o.start();g.gain.exponentialRampToValueAtTime(.001,audio.currentTime+d);o.stop(audio.currentTime+d)}catch{}}
-function offline(){const now=Date.now(),limit=researchBonus('offline')?28800:14400,sec=Math.min(limit,Math.max(0,(now-(S.last||now))/1000)),gain=stats().income*sec;if(gain>1){earn(gain);setTimeout(()=>toast('Çevrimdışı +'+fmt(gain)),300)}S.last=now}
-function loop(now){const dt=Math.min(.5,(now-last)/1000);last=now;earn(stats().income*dt);S.happiness=clamp(S.happiness-dt*(S.pop>20?.015:.006)*(S.evolution.includes(2)?.55:1),20,100);eventTick();weatherTick();marketTick();expeditionTick();checkQuests();if(now-lastUI>400){render();lastUI=now}requestAnimationFrame(loop)}
-$('action').onclick=()=>{const st=stats(),crit=Math.random()<st.crit;earn(st.click*(crit?5:1));S.clicks++;if(crit)toast('KRİTİK x5');beep(360,.025);render()};$('advance').onclick=advance;$('prestige').onclick=prestige;$('eventBtn').onclick=takeEvent;$('save').onclick=()=>save(true);$('sound').onclick=()=>{S.sound=!S.sound;render()};$('modalClose').onclick=closeModal;$('modal').onclick=e=>{if(e.target===$('modal'))closeModal()};document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.pane').forEach(x=>x.classList.remove('active'));t.classList.add('active');$('pane-'+t.dataset.tab).classList.add('active')});document.addEventListener('dblclick',e=>e.preventDefault(),{passive:false});let lastTouchEnd=0;document.addEventListener('touchend',e=>{const now=Date.now();if(now-lastTouchEnd<=300)e.preventDefault();lastTouchEnd=now},{passive:false});addEventListener('beforeunload',()=>save());setInterval(()=>save(),10000);offline();ensureQuests();S.eventAt=S.eventAt||Date.now()+30000;S.weatherAt=S.weatherAt||Date.now()+30000;S.marketAt=S.marketAt||Date.now()+20000;render();requestAnimationFrame(loop);
-</script></body></html>
+let eventState={active:true,index:0,progress:0,readyAt:0,lastEventId:null};
+function saveEvent(){try{localStorage.setItem('frostEventState',JSON.stringify(eventState))}catch{}}
+function chooseEvent(){
+  let pool=eventDefs.map((e,i)=>({e,i})).filter(x=>(x.e.id!=='stone'||unlockedStone)&&x.e.id!==eventState.lastEventId);
+  if(!pool.length) pool=eventDefs.map((e,i)=>({e,i})).filter(x=>x.e.id!=='stone'||unlockedStone);
+  return pool[Math.floor(Math.random()*pool.length)].i;
+}
+function startNextEvent(){eventState.active=true;eventState.index=chooseEvent();eventState.progress=0;eventState.readyAt=0;saveEvent();updateEventUI();addToast('Yeni etkinlik başladı!')}
+function loadEvent(){
+  try{const v=JSON.parse(localStorage.getItem('frostEventState')||'null');if(v&&typeof v==='object')eventState={...eventState,...v}}catch{}
+  if(!eventState.active&&Date.now()>=eventState.readyAt) startNextEvent();
+  if(eventDefs[eventState.index]?.id==='stone'&&!unlockedStone){eventState.index=chooseEvent();eventState.progress=0;saveEvent()}
+}
+function addEventProgress(metric,n){
+  if(!eventState.active)return;const e=eventDefs[eventState.index];if(e.metric!==metric)return;
+  eventState.progress=Math.min(e.goal,eventState.progress+n);saveEvent();updateEventUI();
+}
+function rewardLabel(r){let a=[];if(r.money)a.push('💵 '+r.money);if(r.wood)a.push('🪵 '+r.wood);if(r.stone)a.push('🪨 '+r.stone);return 'Ödül: '+a.join('   ')}
+function updateEventUI(){
+  if(eventState.active){
+    const e=eventDefs[eventState.index];
+    eventTime.textContent=eventState.progress>=e.goal?'ÖDÜL HAZIR':Math.floor(eventState.progress)+' / '+e.goal;
+    eventBtn.classList.toggle('ready',eventState.progress>=e.goal);eventIcon.textContent=e.icon;eventName.textContent=e.name;eventDesc.textContent=e.desc;
+    eventProgressText.textContent=Math.floor(eventState.progress)+' / '+e.goal;eventBar.style.width=Math.min(100,eventState.progress/e.goal*100)+'%';eventReward.textContent=rewardLabel(e.reward);eventClaim.disabled=eventState.progress<e.goal;
+  }else{
+    const left=Math.max(0,eventState.readyAt-Date.now());if(left<=0){startNextEvent();return}
+    const sec=Math.ceil(left/1000),m=Math.floor(sec/60),ss=String(sec%60).padStart(2,'0');eventTime.textContent=m+':'+ss;eventBtn.classList.remove('ready');
+    eventIcon.textContent='⏳';eventName.textContent='Yeni Etkinlik';eventDesc.textContent='Yeni etkinlik 15 dakika sonra açılır.';eventProgressText.textContent='Bekleniyor';eventBar.style.width='0%';eventReward.textContent='Yeni ödül yakında';eventClaim.disabled=true;
+  }
+}
+function claimEvent(){
+  if(!eventState.active)return;const e=eventDefs[eventState.index];if(eventState.progress<e.goal)return;
+  if(e.reward.money)player.money+=e.reward.money;if(e.reward.wood)player.wood=Math.min(player.carryMax,player.wood+e.reward.wood);if(e.reward.stone)player.stone+=e.reward.stone;
+  eventState.lastEventId=e.id;eventState.active=false;eventState.readyAt=Date.now()+EVENT_INTERVAL;eventState.progress=0;saveEvent();eventModal.style.display='none';addToast('Etkinlik ödülü alındı!');updateEventUI();
+}
+eventBtn.onclick=()=>{eventModal.style.display='grid';updateEventUI()};
+document.getElementById('eventClose').onclick=()=>eventModal.style.display='none';
+eventModal.addEventListener('pointerdown',e=>{if(e.target===eventModal)eventModal.style.display='none'});eventClaim.onclick=claimEvent;
+
+const trees=[];
+const rocks=[];
+function rand(a,b){return a+Math.random()*(b-a)}
+function dist(a,b){return Math.hypot(a.x-b.x,a.y-b.y)}
+for(let i=0;i<38;i++){
+  let a=Math.random()*Math.PI*2, rr=rand(280,690);
+  trees.push({x:850+Math.cos(a)*rr,y:850+Math.sin(a)*rr,hp:3,max:3,dead:0,s:rand(.85,1.2)});
+}
+for(let i=0;i<16;i++){
+  let a=Math.random()*Math.PI*2, rr=rand(430,720);
+  rocks.push({x:850+Math.cos(a)*rr,y:850+Math.sin(a)*rr,hp:5,max:5,dead:0,s:rand(.8,1.15)});
+}
+
+const keys={};
+addEventListener('keydown',e=>{const k=e.key.toLowerCase();if(['w','a','s','d','arrowup','arrowdown','arrowleft','arrowright'].includes(k))e.preventDefault();keys[k]=true});
+addEventListener('keyup',e=>keys[e.key.toLowerCase()]=false);
+
+const joy=document.getElementById('joy'), stick=document.getElementById('stick');
+let joyVec={x:0,y:0}, joyActive=false, joyId=null;
+function joyMove(clientX,clientY){
+  const r=joy.getBoundingClientRect(), cx=r.left+r.width/2, cy=r.top+r.height/2;
+  let dx=clientX-cx,dy=clientY-cy,len=Math.hypot(dx,dy),max=r.width*.28;
+  if(len>max){dx=dx/len*max;dy=dy/len*max;len=max}
+  joyVec.x=dx/max;joyVec.y=dy/max;
+  stick.style.transform=`translate(${dx}px,${dy}px)`;
+}
+joy.addEventListener('pointerdown',e=>{joy.setPointerCapture(e.pointerId);joyId=e.pointerId;joyActive=true;joyMove(e.clientX,e.clientY)});
+joy.addEventListener('pointermove',e=>{if(joyActive&&e.pointerId===joyId)joyMove(e.clientX,e.clientY)});
+function endJoy(e){if(e.pointerId!==joyId)return;joyActive=false;joyVec.x=joyVec.y=0;stick.style.transform='translate(0,0)'}
+joy.addEventListener('pointerup',endJoy); joy.addEventListener('pointercancel',endJoy);
+
+document.getElementById('play').onclick=()=>{
+  document.getElementById('start').style.display='none';
+  started=true; last=performance.now(); requestAnimationFrame(loop);
+};
+
+function resize(){
+ dpr=Math.min(2,devicePixelRatio||1);W=innerWidth;H=innerHeight;
+ canvas.width=W*dpr;canvas.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0)
+}
+addEventListener('resize',resize);resize();
+
+function iso(x,y){
+  const sx=(x-y)*0.50-camera.x+W/2;
+  const sy=(x+y)*0.25-camera.y+H/2;
+  return {x:sx,y:sy};
+}
+function shadow(x,y,rx,ry,a=.15){
+ ctx.save();ctx.fillStyle=`rgba(18,52,72,${a})`;ctx.beginPath();ctx.ellipse(x,y,rx,ry,0,0,Math.PI*2);ctx.fill();ctx.restore();
+}
+function poly(points,fill,stroke){
+ ctx.beginPath();ctx.moveTo(points[0][0],points[0][1]);
+ for(let i=1;i<points.length;i++)ctx.lineTo(points[i][0],points[i][1]);
+ ctx.closePath();ctx.fillStyle=fill;ctx.fill();
+ if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=1;ctx.stroke()}
+}
+function drawGround(){
+ ctx.fillStyle='#e9f8ff';ctx.fillRect(0,0,W,H);
+ const c=iso(850,850);
+ ctx.fillStyle='#d7f0fb';ctx.beginPath();ctx.ellipse(c.x,c.y+110,520,250,0,0,Math.PI*2);ctx.fill();
+ // warm camp clearing
+ ctx.fillStyle='#f4c9a1';ctx.beginPath();ctx.ellipse(c.x,c.y+5,230,110,-.03,0,Math.PI*2);ctx.fill();
+ for(let i=0;i<26;i++){
+   const x=(i*167)%W,y=(i*97+70)%H;
+   ctx.fillStyle='rgba(255,255,255,.75)';ctx.beginPath();ctx.arc(x,y,(i%3)+1,0,Math.PI*2);ctx.fill();
+ }
+}
+function drawTree(t){
+ const p=iso(t.x,t.y);
+ shadow(p.x,p.y+18,18,8,.18);
+ ctx.fillStyle='#8a5a3b';ctx.fillRect(p.x-4,p.y-18,8,38);
+ const levels=[{y:-58,w:34},{y:-39,w:44},{y:-19,w:52}];
+ levels.forEach((l,i)=>{
+   poly([[p.x,p.y+l.y-32],[p.x-l.w,p.y+l.y+22],[p.x+l.w,p.y+l.y+22]],
+   i===0?'#c8f6ff':i===1?'#a9e9f7':'#8ed9ed','#74bfd7');
+ });
+ ctx.fillStyle='rgba(255,255,255,.65)';
+ ctx.beginPath();ctx.moveTo(p.x,p.y-90);ctx.lineTo(p.x-22,p.y-51);ctx.lineTo(p.x+2,p.y-56);ctx.closePath();ctx.fill();
+ if(t.hp<t.max){ctx.fillStyle='rgba(22,43,58,.3)';ctx.fillRect(p.x-22,p.y-103,44,5);ctx.fillStyle='#65e573';ctx.fillRect(p.x-22,p.y-103,44*(t.hp/t.max),5)}
+}
+function drawRock(r){
+ const p=iso(r.x,r.y); shadow(p.x,p.y+10,23,10,.18);
+ poly([[p.x-25,p.y+8],[p.x-18,p.y-13],[p.x-4,p.y-24],[p.x+17,p.y-18],[p.x+28,p.y+5],[p.x+12,p.y+18],[p.x-14,p.y+17]],'#94a7b8','#73899c');
+ poly([[p.x-18,p.y-13],[p.x-4,p.y-24],[p.x+4,p.y-3],[p.x-10,p.y+4]],'#bccbd6');
+}
+function drawBase(){
+ const p=iso(base.x,base.y);
+ const q=iso(base.x+base.w,base.y+base.h);
+ const x=Math.min(p.x,q.x)-55,y=(p.y+q.y)/2;
+ if(base.level===0){
+   ctx.save();ctx.setLineDash([9,8]);ctx.strokeStyle='rgba(255,255,255,.9)';ctx.lineWidth=4;
+   ctx.strokeRect(x-55,y-25,110,50);ctx.restore();
+   ctx.fillStyle='rgba(25,52,69,.7)';ctx.font='800 13px system-ui';ctx.textAlign='center';ctx.fillText(`🪵 ${Math.floor(base.progress)}/${base.cost}`,x,y+5);
+ }else{
+   shadow(x,y+24,65,18,.18);
+   ctx.fillStyle='#99633e';ctx.fillRect(x-45,y-14,90,48);
+   poly([[x-56,y-14],[x,y-48],[x+56,y-14],[x,y+16]],'#d85d43','#a84332');
+   ctx.fillStyle='#ffd99a';ctx.fillRect(x-12,y+7,24,27);
+   ctx.fillStyle='#6d4935';ctx.fillRect(x+20,y-2,15,13);
+   ctx.font='900 12px system-ui';ctx.textAlign='center';ctx.fillStyle='#fff';ctx.fillText('KAMP LV.'+base.level,x,y-58);
+ }
+}
+function drawPlayer(){
+ const p=iso(player.x,player.y);
+ // carried logs stack
+ const count=Math.min(player.wood,12);
+ for(let i=0;i<count;i++){
+   const yy=p.y-38-i*8;
+   ctx.strokeStyle='#8b562f';ctx.lineWidth=1;
+   ctx.fillStyle='#c9824d';ctx.beginPath();ctx.roundRect(p.x+20,yy,32,9,4);ctx.fill();ctx.stroke();
+ }
+ shadow(p.x,p.y+18,22,9,.22);
+ ctx.fillStyle='#20a9d8';ctx.beginPath();ctx.arc(p.x,p.y-10,17,0,Math.PI*2);ctx.fill();
+ ctx.fillStyle='#f2d2b6';ctx.beginPath();ctx.arc(p.x,p.y-29,10,0,Math.PI*2);ctx.fill();
+ ctx.fillStyle='#eefaff';ctx.beginPath();ctx.arc(p.x,p.y-37,11,Math.PI,Math.PI*2);ctx.fill();
+ ctx.fillStyle='#243849';ctx.fillRect(p.x-15,p.y+2,10,20);ctx.fillRect(p.x+5,p.y+2,10,20);
+ ctx.strokeStyle='#64472f';ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(p.x+9,p.y-11);ctx.lineTo(p.x+28,p.y+8);ctx.stroke();
+ ctx.strokeStyle='#758795';ctx.lineWidth=7;ctx.beginPath();ctx.moveTo(p.x+26,p.y+8);ctx.lineTo(p.x+36,p.y);ctx.stroke();
+ ctx.strokeStyle='#42e7ff';ctx.lineWidth=3;ctx.beginPath();ctx.arc(p.x,p.y+7,25,0,Math.PI*2);ctx.stroke();
+}
+function drawWorker(w){
+ const p=iso(w.x,w.y);shadow(p.x,p.y+12,13,6,.15);
+ ctx.fillStyle='#39a7cf';ctx.beginPath();ctx.arc(p.x,p.y-6,11,0,Math.PI*2);ctx.fill();
+ ctx.fillStyle='#f1d2b7';ctx.beginPath();ctx.arc(p.x,p.y-19,7,0,Math.PI*2);ctx.fill();
+}
+function addToast(txt){
+ toast.textContent=txt;toast.classList.add('show');clearTimeout(addToast.t);addToast.t=setTimeout(()=>toast.classList.remove('show'),550);
+}
+function nearestAlive(arr,rad){
+ let best=null,bd=rad;
+ for(const o of arr){if(o.dead>0)continue;const d=dist(player,o);if(d<bd){bd=d;best=o}}
+ return best;
+}
+function update(dt){
+ let dx=joyVec.x,dy=joyVec.y;
+ if(keys['w']||keys['arrowup'])dy-=1;if(keys['s']||keys['arrowdown'])dy+=1;
+ if(keys['a']||keys['arrowleft'])dx-=1;if(keys['d']||keys['arrowright'])dx+=1;
+ let l=Math.hypot(dx,dy);if(l>1){dx/=l;dy/=l}
+ // Convert screen-space controls to world-space for isometric map
+ if(l>.01){
+   const wx=(dy*2+dx), wy=(dy*2-dx);
+   const wl=Math.hypot(wx,wy)||1;
+   const ox=player.x,oy=player.y;
+   player.x+=wx/wl*player.speed*dt;player.y+=wy/wl*player.speed*dt;
+   player.x=Math.max(120,Math.min(world.w-120,player.x));
+   player.y=Math.max(120,Math.min(world.h-120,player.y));
+   addEventProgress('distance',Math.hypot(player.x-ox,player.y-oy));
+ }
+ // tree auto chop
+ const t=nearestAlive(trees,85);
+ const r=unlockedStone?nearestAlive(rocks,80):null;
+ if(t && player.wood<player.carryMax){
+   player.chop+=dt;
+   if(player.chop>.48){player.chop=0;t.hp--;if(t.hp<=0){t.dead=5.5;t.hp=t.max;player.wood+=3;addEventProgress('woodCollected',3);addToast('+3 🪵')}}
+ } else if(r && player.stone<12){
+   player.chop+=dt;if(player.chop>.7){player.chop=0;r.hp--;if(r.hp<=0){r.dead=6.5;r.hp=r.max;player.stone+=2;addEventProgress('stoneCollected',2);addToast('+2 🪨')}}
+ } else player.chop=0;
+ // respawn
+ [...trees,...rocks].forEach(o=>{if(o.dead>0)o.dead-=dt});
+ // deposit zone
+ const bc={x:base.x+base.w/2,y:base.y+base.h/2};
+ if(dist(player,bc)<110 && player.wood>0){
+   const rate=Math.min(player.wood,dt*8);
+   player.wood-=rate;base.progress+=rate;addEventProgress('woodDeposited',rate);
+   if(base.progress>=base.cost){
+     base.progress-=base.cost;base.level++;
+     const upgradeMoney=25*base.level;player.money+=upgradeMoney;addEventProgress('moneyEarned',upgradeMoney);
+     base.cost=Math.round(base.cost*1.85);
+     workers.push({x:bc.x+rand(-50,50),y:bc.y+rand(-50,50),tx:bc.x,ty:bc.y,t:0});
+     addToast('Kamp gelişti! +1 işçi');
+     if(base.level>=2)unlockedStone=true;
+   }
+ }
+ // workers generate money/wood
+ for(const w of workers){
+   w.t+=dt;
+   w.x=bc.x+Math.cos(w.t*.8+w.y)*60;w.y=bc.y+Math.sin(w.t*.7+w.x)*55;
+ }
+ saveTimer+=dt;
+ if(saveTimer>1){
+   saveTimer=0;
+   if(workers.length){player.money+=workers.length;addEventProgress('moneyEarned',workers.length); if(Math.random()<.45) player.wood=Math.min(player.carryMax,player.wood+workers.length*.25);}
+ }
+ camera.x+=( (player.x-player.y)*.50 - camera.x)*Math.min(1,dt*4);
+ camera.y+=( (player.x+player.y)*.25 - camera.y)*Math.min(1,dt*4);
+ updateUI();
+}
+function updateUI(){
+ moneyEl.textContent=Math.floor(player.money);
+ woodEl.textContent=Math.floor(player.wood);
+ stoneEl.textContent=Math.floor(player.stone);
+ if(base.level===0){qtext.textContent='Kampı kur';qbar.style.width=Math.min(100,base.progress/12*100)+'%'}
+ else if(base.level===1){qtext.textContent='Kampı geliştir';qbar.style.width=Math.min(100,base.progress/base.cost*100)+'%'}
+ else if(!unlockedStone){qtext.textContent='Kampı geliştir';qbar.style.width='70%'}
+ else {qtext.textContent='Kampı geliştir';qbar.style.width=Math.min(100,base.progress/base.cost*100)+'%'}
+}
+function draw(){
+ drawGround();
+ const drawables=[];
+ trees.forEach(t=>{if(t.dead<=0)drawables.push({y:t.x+t.y,fn:()=>drawTree(t)})});
+ rocks.forEach(r=>{if(unlockedStone&&r.dead<=0)drawables.push({y:r.x+r.y,fn:()=>drawRock(r)})});
+ drawables.push({y:base.x+base.y+60,fn:drawBase});
+ workers.forEach(w=>drawables.push({y:w.x+w.y,fn:()=>drawWorker(w)}));
+ drawables.push({y:player.x+player.y,fn:drawPlayer});
+ drawables.sort((a,b)=>a.y-b.y).forEach(d=>d.fn());
+}
+function loop(ts){
+ if(!started)return;const dt=Math.min(.033,(ts-last)/1000||0);last=ts;
+ update(dt);draw();requestAnimationFrame(loop);
+}
+// initial background
+loadEvent();setInterval(updateEventUI,1000);
+camera.x=(player.x-player.y)*.5;camera.y=(player.x+player.y)*.25;draw();updateEventUI();
+})();
+</script>
+</body>
+</html>
