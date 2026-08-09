@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<title>Frost Camp Touch UI</title>
+<title>Frost Camp Touch UI Fixed</title>
 <style>
 :root{--p:rgba(24,48,70,.88);--l:rgba(255,255,255,.22);--g:#52df73}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -48,7 +48,7 @@ canvas{position:fixed;inset:0;width:100%;height:100%}
 .reel{height:76px;border-radius:17px;background:linear-gradient(#273e54,#142a3d);border:3px solid #e6c86b;display:grid;place-items:center;font-size:39px;box-shadow:inset 0 0 0 2px #ffffff18,0 7px 18px #17334c25}
 .reel.spinning{animation:reelPulse .14s infinite alternate}@keyframes reelPulse{to{transform:translateY(2px);filter:brightness(1.18)}}
 .spinBtn{width:100%;border:0;border-radius:15px;padding:13px;background:linear-gradient(#a578ff,#6549cc);color:#fff;font-weight:1000;cursor:pointer}.spinBtn:disabled{opacity:.42}
-.jackpotResult{min-height:37px;border-radius:12px;background:#eef5f9;padding:9px 10px;text-align:center;font-size:12px;font-weight:950;margin-top:9px}
+.jackpotResult{min-height:37px;border-radius:12px;background:#eef5f9;padding:9px 10px;text-align:center;font-size:12px;font-weight:950;margin-top:9px;line-height:1.35;overflow-wrap:anywhere}
 .worldEvent{position:absolute;left:50%;top:max(78px,calc(env(safe-area-inset-top) + 68px));transform:translateX(-50%);background:rgba(25,47,67,.86);border:1px solid rgba(255,255,255,.2);border-radius:999px;padding:7px 11px;font-size:10px;font-weight:950;opacity:0;transition:.2s;white-space:nowrap;box-shadow:0 8px 20px #17334c22}.worldEvent.show{opacity:1}
 .workerCarry{font-size:9px}
 .cleaveRing{position:fixed;pointer-events:none;border:4px solid #8affb4;border-radius:50%;opacity:0;z-index:5}.cleaveRing.go{animation:cleaveRing .5s ease-out}@keyframes cleaveRing{0%{opacity:.9;transform:translate(-50%,-50%) scale(.3)}100%{opacity:0;transform:translate(-50%,-50%) scale(1.35)}}
@@ -295,11 +295,15 @@ function slotPick(){
  for(const x of SLOT_SYMBOLS){r-=x.weight;if(r<=0)return x}
  return SLOT_SYMBOLS[0]
 }
+function fmtRewardAmount(n){
+ const v=Math.round((Number(n)||0)*10)/10;
+ return Number.isInteger(v)?String(v):v.toFixed(1).replace(/\.0$/,'');
+}
 function addReward(key,amount){
  if(key==='money'){player.money+=amount;return amount}
- if(key==='wood'){const before=player.wood;player.wood=clamp(player.wood+amount,0,capWood());return player.wood-before}
- if(key==='stone'){const before=player.stone;player.stone=clamp(player.stone+amount,0,capStone());return player.stone-before}
- if(key==='meat'){const before=player.meat;player.meat=clamp(player.meat+amount,0,capMeat());return player.meat-before}
+ if(key==='wood'){const before=player.wood;player.wood=clamp(player.wood+amount,0,capWood());return Math.max(0,Math.round((player.wood-before)*10)/10)}
+ if(key==='stone'){const before=player.stone;player.stone=clamp(player.stone+amount,0,capStone());return Math.max(0,Math.round((player.stone-before)*10)/10)}
+ if(key==='meat'){const before=player.meat;player.meat=clamp(player.meat+amount,0,capMeat());return Math.max(0,Math.round((player.meat-before)*10)/10)}
  return 0
 }
 function applySlotReward(result){
@@ -308,15 +312,15 @@ function applySlotReward(result){
  if(triple){
    const s=result[0],raw=s.base*s.mult*3,amount=addReward(s.key,raw);
    player.jackpotPity=0;particle(player.x,player.y,'spark',34);shake=11;flash();
-   $('jackpotResult').textContent=`🎉 JACKPOT! 3x ${s.icon} • ${s.mult}x • +${amount}`;
+   $('jackpotResult').textContent=`🎉 JACKPOT! 3x ${s.icon} • ${s.mult}x • +${fmtRewardAmount(amount)}`;
    buildingToast(`🎰 JACKPOT ${s.mult}x!`)
  }else if(pair){
    const same=result.find((s,i)=>result.some((x,j)=>i!==j&&x.icon===s.icon));
    const amount=addReward(same.key,same.base*3);
    player.jackpotPity=clamp(player.jackpotPity+1,0,7);
-   $('jackpotResult').textContent=`✨ İKİLİ! ${same.icon}${same.icon} • 1.5x bonus • +${amount}`
+   $('jackpotResult').textContent=`✨ İKİLİ! ${same.icon}${same.icon} • 1.5x bonus • +${fmtRewardAmount(amount)}`
  }else{
-   let txt=[];for(const s of result){const amount=addReward(s.key,s.base);txt.push(`${s.icon} +${amount}`)}
+   let txt=[];for(const s of result){const amount=addReward(s.key,s.base);txt.push(`${s.icon} +${fmtRewardAmount(amount)}`)}
    player.jackpotPity=clamp(player.jackpotPity+1,0,7);
    $('jackpotResult').textContent='Ödül: '+txt.join('  •  ')
  }
@@ -541,7 +545,7 @@ function hud(){$('money').textContent=Math.floor(player.money);$('wood').textCon
 function draw(){ctx.save();if(shake>0)ctx.translate(rand(-shake,shake),rand(-shake,shake));ground();drawFootprints();const list=[];trees.forEach(o=>{if(o.dead<=0&&Math.hypot(o.x-C.x,o.y-C.y)<radius())list.push({z:o.x+o.y,f:()=>tree(o)})});rocks.forEach(o=>{if(o.dead<=0&&Math.hypot(o.x-C.x,o.y-C.y)<radius())list.push({z:o.x+o.y,f:()=>rock(o)})});animals.forEach(o=>{if(o.dead<=0&&Math.hypot(o.x-C.x,o.y-C.y)<radius())list.push({z:o.x+o.y,f:()=>animal(o)})});crates.forEach(o=>{if(!o.open&&Math.hypot(o.x-C.x,o.y-C.y)<radius())list.push({z:o.x+o.y,f:()=>crate(o)})});buildings.forEach(b=>{if(base.level>=b.unlock)list.push({z:b.x+b.y,f:()=>building(b)})});list.push({z:C.x+C.y,f:camp});for(let i=0;i<workers;i++)list.push({z:C.x+C.y+30+i,f:()=>worker(i)});list.push({z:player.x+player.y+.5,f:playerDraw});list.sort((a,b)=>a.z-b.z).forEach(o=>o.f());drawParticles();ctx.restore()}
 function loop(ts){if(!running)return;const dt=Math.min(.032,(ts-last)/1000||0);last=ts;update(dt);draw();requestAnimationFrame(loop)}
 
-initWorld();load();loadEv();syncWorkers();updateAxeUI();updateJackpotUI();camX=(player.x-player.y)*.5;camY=(player.x+player.y)*.25;hud();draw();document.title='Frost Camp Touch UI';
+initWorld();load();loadEv();syncWorkers();updateAxeUI();updateJackpotUI();camX=(player.x-player.y)*.5;camY=(player.x+player.y)*.25;hud();draw();document.title='Frost Camp Touch UI Fixed';
 setInterval(updateEvent,1000);addEventListener('beforeunload',save);
 $('play').onclick=()=>{if(offlineReward){player.money+=offlineReward.money;player.wood=Math.min(capWood(),player.wood+offlineReward.wood);player.meat=Math.min(capMeat(),player.meat+offlineReward.meat);offlineReward=null}$('start').style.display='none';running=true;last=performance.now();requestAnimationFrame(loop)};
 })();
