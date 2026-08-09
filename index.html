@@ -3,22 +3,23 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<title>Frost Camp Master</title>
+<title>Frost Camp Touch UI</title>
 <style>
 :root{--p:rgba(24,48,70,.88);--l:rgba(255,255,255,.22);--g:#52df73}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#dff5ff;font-family:system-ui,-apple-system,Segoe UI,sans-serif;touch-action:none}
 canvas{position:fixed;inset:0;width:100%;height:100%}
 .hud{position:fixed;inset:0;pointer-events:none;color:#fff;text-shadow:0 2px 3px #0004}
-.resources{position:absolute;top:max(10px,env(safe-area-inset-top));right:10px;display:grid;grid-template-columns:repeat(2,82px);gap:5px}
-.res{height:38px;backdrop-filter:blur(9px);background:var(--p);border:1px solid var(--l);border-radius:12px;display:flex;align-items:center;gap:7px;padding:0 8px;font-weight:900}
+.resources{position:absolute;top:max(10px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);display:flex;gap:6px;max-width:calc(100vw - 24px);justify-content:center}
+.resources:before{content:'';position:absolute;inset:-5px;border-radius:18px;background:rgba(18,39,58,.12);backdrop-filter:blur(8px);z-index:-1}
+.res{height:38px;min-width:74px;backdrop-filter:blur(10px);background:linear-gradient(180deg,rgba(29,57,80,.94),rgba(22,44,64,.88));border:1px solid rgba(255,255,255,.18);border-radius:12px;display:flex;align-items:center;gap:6px;padding:0 8px;font-weight:950;box-shadow:0 7px 18px #17334c18}
 .res span{font-size:16px}.res b{margin-left:auto}
-.left{position:absolute;left:10px;top:max(10px,env(safe-area-inset-top));width:min(210px,52vw);display:grid;gap:7px}
-.card,.event,.status,.upgradeBtn{background:var(--p);border:1px solid var(--l);border-radius:13px;padding:9px 10px;box-shadow:0 7px 18px #17334c22}
+.left{position:absolute;left:10px;top:max(58px,calc(env(safe-area-inset-top) + 50px));width:min(225px,58vw);display:grid;gap:7px}
+.card,.event,.status,.upgradeBtn{background:linear-gradient(180deg,rgba(29,57,80,.93),rgba(22,44,64,.86));border:1px solid rgba(255,255,255,.18);border-radius:13px;padding:9px 10px;box-shadow:0 8px 20px #17334c1e}
 .card{font-size:12px;font-weight:900;overflow:hidden}.sub{font-size:9px;opacity:.68;margin-top:4px;font-weight:800}.levelChip{display:inline-flex;align-items:center;gap:4px;padding:3px 7px;border-radius:999px;background:#ffffff1c;border:1px solid #ffffff1c;font-size:9px;font-weight:950;margin-left:auto}.bar{height:5px;background:#ffffff22;border-radius:99px;overflow:hidden;margin-top:7px}.bar i{display:block;height:100%;background:linear-gradient(90deg,#54e879,#baff74);width:0}
-.event{pointer-events:auto;width:max-content;background:linear-gradient(#ffc94d,#ef9917);border:0;color:#fff;font-weight:950;cursor:pointer}
-.statuses{position:absolute;right:10px;top:max(96px,calc(env(safe-area-inset-top) + 86px));display:grid;gap:6px}
-.status{width:100px;backdrop-filter:blur(8px);font-size:9px;font-weight:900;padding:7px 8px}.status .bar{margin-top:4px}
+.event{pointer-events:auto;width:max-content;background:linear-gradient(180deg,#ffc94d,#ee9414);border:1px solid #ffffff33;color:#fff;font-weight:950;cursor:pointer;box-shadow:0 8px 18px #a8641d2e}
+.statuses{position:absolute;right:10px;top:max(58px,calc(env(safe-area-inset-top) + 50px));display:grid;gap:6px;justify-items:end}
+.status{width:106px;backdrop-filter:blur(10px);font-size:9px;font-weight:950;padding:7px 8px;background:linear-gradient(180deg,rgba(29,57,80,.92),rgba(22,44,64,.84))}.status .bar{margin-top:4px}
 .upgradeBtn{pointer-events:auto;color:#fff;font-size:11px;font-weight:900;cursor:pointer}
 .axeBtn{pointer-events:auto;color:#fff;font-size:11px;font-weight:950;cursor:pointer;border:1px solid rgba(255,255,255,.25);background:linear-gradient(180deg,#5b7890,#334f65);border-radius:12px;padding:8px 10px;box-shadow:0 6px 16px #17334c22}
 .axeHero{display:flex;align-items:center;gap:12px;background:linear-gradient(145deg,#eef7fb,#dcecf4);padding:12px;border-radius:16px;margin:12px 0}
@@ -33,8 +34,8 @@ canvas{position:fixed;inset:0;width:100%;height:100%}
 .axeInfo b{display:block;font-size:11px}.axeInfo small{display:block;font-size:9px;opacity:.65;line-height:1.3;margin-top:2px}
 .axeAction{border:0;border-radius:10px;padding:8px 9px;font-size:9px;font-weight:950;cursor:pointer;background:#4bd96d;color:white;min-width:68px}.axeAction.buy{background:#f0a91f}.axeAction:disabled{opacity:.45}
 
-.powerBtns{position:absolute;right:10px;bottom:max(18px,env(safe-area-inset-bottom));display:grid;gap:7px;justify-items:end}
-.skillBtn,.jackpotBtn{pointer-events:auto;border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:14px;padding:9px 11px;min-width:116px;box-shadow:0 8px 18px #17334c26;font-weight:950;cursor:pointer;text-align:left}
+.powerBtns{position:absolute;right:10px;bottom:max(14px,env(safe-area-inset-bottom));display:flex;gap:7px;align-items:flex-end}
+.skillBtn,.jackpotBtn{pointer-events:auto;border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:14px;padding:9px 10px;min-width:108px;box-shadow:0 8px 18px #17334c26;font-weight:950;cursor:pointer;text-align:left}
 .skillBtn{background:linear-gradient(180deg,#4fcf7a,#269b58)}
 .skillBtn.ready{background:linear-gradient(180deg,#79ed91,#23b455);animation:pulse 1.1s infinite}
 .skillBtn:disabled{opacity:.5}
@@ -54,8 +55,11 @@ canvas{position:fixed;inset:0;width:100%;height:100%}
 @media(pointer:fine){.powerBtns{right:14px;bottom:14px}}
 
 .critFlash{position:fixed;left:50%;top:44%;transform:translate(-50%,-50%) scale(.8);pointer-events:none;z-index:15;font-weight:1000;font-size:22px;color:#ffe168;text-shadow:0 3px 0 #764d00,0 0 14px #fff;opacity:0}.critFlash.show{animation:critPop .55s ease-out}@keyframes critPop{0%{opacity:0;transform:translate(-50%,-50%) scale(.65)}25%{opacity:1;transform:translate(-50%,-50%) scale(1.15)}100%{opacity:0;transform:translate(-50%,-62%) scale(1)}}
-.joy{position:absolute;left:18px;bottom:max(20px,env(safe-area-inset-bottom));width:112px;height:112px;border-radius:50%;background:#33536b22;border:2px solid #ffffff55;pointer-events:auto}
-.stick{position:absolute;left:31px;top:31px;width:48px;height:48px;border-radius:50%;background:#fffffff0;box-shadow:0 5px 14px #18354844}
+.joy{position:fixed;left:0;top:0;width:112px;height:112px;border-radius:50%;background:rgba(42,73,96,.16);border:2px solid rgba(255,255,255,.5);pointer-events:none;opacity:0;transform:translate(-50%,-50%) scale(.85);transition:opacity .08s,transform .08s;z-index:12;box-shadow:inset 0 0 0 10px rgba(255,255,255,.035),0 10px 28px rgba(23,51,76,.12)}
+.joy.active{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.joyHint{position:absolute;left:50%;bottom:max(12px,env(safe-area-inset-bottom));transform:translateX(-50%);padding:6px 9px;border-radius:999px;background:rgba(255,255,255,.62);color:#3a596e;font-size:9px;font-weight:850;text-shadow:none;opacity:.7;transition:.25s;white-space:nowrap}
+.joyHint.hide{opacity:0}
+.stick{position:absolute;left:31px;top:31px;width:48px;height:48px;border-radius:50%;background:linear-gradient(#ffffff,#dceaf1);box-shadow:0 6px 16px #18354844,inset 0 0 0 1px #ffffff}
 .screenFlash{position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at center,#fff8 0,#8ee8ff22 45%,transparent 72%);opacity:0;transition:opacity .16s}.screenFlash.show{opacity:1}
 .toast{position:absolute;left:50%;top:18%;transform:translate(-50%,-8px);opacity:0;background:#183047e8;padding:8px 12px;border-radius:99px;font-size:12px;font-weight:900;transition:.18s}.toast.show{opacity:1;transform:translate(-50%,0)}
 .start,.modalWrap{position:fixed;inset:0;z-index:20;display:grid;place-items:center;padding:18px;background:linear-gradient(#caecf955,#eafaffdd)}
@@ -68,7 +72,18 @@ canvas{position:fixed;inset:0;width:100%;height:100%}
 .buildingToast{position:absolute;left:50%;bottom:max(150px,calc(env(safe-area-inset-bottom) + 130px));transform:translateX(-50%);background:#ffffffed;color:#27445a;border-radius:16px;padding:9px 12px;box-shadow:0 10px 28px #17344a25;font-size:11px;font-weight:900;text-shadow:none;opacity:0;transition:.2s;white-space:nowrap}.buildingToast.show{opacity:1;transform:translateX(-50%) translateY(-4px)}
 .offline{display:none;background:#eef6fa;border-radius:12px;padding:10px;font-size:11px;line-height:1.4;margin-bottom:12px}
 .pc{display:none;position:absolute;left:12px;bottom:10px;color:#34536a;font-size:10px;font-weight:800;text-shadow:none}
-@media(pointer:fine){.joy{display:none}.pc{display:block}}
+@media(pointer:fine){.joy{display:none}.joyHint{display:none}.pc{display:block}}
+@media(max-width:560px){
+ .resources{display:grid;grid-template-columns:repeat(4,minmax(62px,1fr));width:calc(100vw - 20px);gap:5px}
+ .res{min-width:0;height:36px;padding:0 6px}.res span{font-size:14px}.res b{font-size:14px}
+ .left{top:max(54px,calc(env(safe-area-inset-top) + 46px));width:min(205px,58vw)}
+ .statuses{top:max(54px,calc(env(safe-area-inset-top) + 46px))}
+ .status{width:92px}
+ .axeBtn,.upgradeBtn{font-size:10px;padding:7px 8px}
+ .powerBtns{right:8px;bottom:max(10px,env(safe-area-inset-bottom));gap:5px}
+ .skillBtn,.jackpotBtn{min-width:94px;padding:8px 9px}.skillBtn b,.jackpotBtn b{font-size:11px}
+ .worldEvent{top:max(100px,calc(env(safe-area-inset-top) + 92px));font-size:9px}
+}
 @media(min-width:700px){.resources{display:flex}.left{width:230px}.statuses{top:62px}}
 </style>
 </head>
@@ -91,7 +106,7 @@ canvas{position:fixed;inset:0;width:100%;height:100%}
   <button id="axeBtn" class="axeBtn">🪓 BALTA</button>
   <button id="upgradeBtn" class="upgradeBtn">⬆️ GELİŞTİR</button>
  </div>
- <div id="joy" class="joy"><div id="stick" class="stick"></div></div>
+ <div id="joy" class="joy"><div id="stick" class="stick"></div></div><div id="joyHint" class="joyHint">Ekrana dokunup sürükle</div>
  <div id="worldEvent" class="worldEvent"></div><div class="powerBtns">
  <button id="cleaveBtn" class="skillBtn"><small>TOPLU KESİM</small><b id="cleaveText">⚡ %0</b></button>
  <button id="jackpotBtn" class="jackpotBtn"><small>ENERJİ JACKPOT</small><b id="jackpotText">🎰 %0</b></button>
@@ -384,10 +399,28 @@ $('upgradeBtn').onclick=()=>{$('upgradeModal').style.display='grid';updateUpgrad
 $('upgradeClose').onclick=()=>$('upgradeModal').style.display='none';
 
 const keys={};addEventListener('keydown',e=>{const k=e.key.toLowerCase();keys[k]=true;if(k.startsWith('arrow'))e.preventDefault()});addEventListener('keyup',e=>keys[e.key.toLowerCase()]=false);
-const joy=$('joy'),stick=$('stick');let jx=0,jy=0,jid=null;
-function joyMove(x,y){const r=joy.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2,max=r.width*.28;let dx=x-cx,dy=y-cy,l=Math.hypot(dx,dy);if(l>max){dx=dx/l*max;dy=dy/l*max}jx=dx/max;jy=dy/max;stick.style.transform=`translate(${dx}px,${dy}px)`}
-joy.addEventListener('pointerdown',e=>{jid=e.pointerId;joy.setPointerCapture(jid);joyMove(e.clientX,e.clientY)});joy.addEventListener('pointermove',e=>{if(e.pointerId===jid)joyMove(e.clientX,e.clientY)});
-function joyEnd(e){if(e.pointerId!==jid)return;jid=null;jx=jy=0;stick.style.transform='translate(0,0)'}joy.addEventListener('pointerup',joyEnd);joy.addEventListener('pointercancel',joyEnd);
+const joy=$('joy'),stick=$('stick'),joyHint=$('joyHint');let jx=0,jy=0,jid=null,jbaseX=0,jbaseY=0;
+function isTouchUI(target){return !!target.closest('button,.modalWrap,.panel,.resources,.left,.statuses,.powerBtns')}
+function joyMove(x,y){
+ const max=34;let dx=x-jbaseX,dy=y-jbaseY,l=Math.hypot(dx,dy);
+ if(l>max){dx=dx/l*max;dy=dy/l*max}
+ jx=dx/max;jy=dy/max;stick.style.transform=`translate(${dx}px,${dy}px)`
+}
+function startFloatingJoy(e){
+ if(matchMedia('(pointer:fine)').matches||jid!==null||isTouchUI(e.target))return;
+ jid=e.pointerId;jbaseX=e.clientX;jbaseY=e.clientY;
+ joy.style.left=jbaseX+'px';joy.style.top=jbaseY+'px';joy.classList.add('active');joyHint.classList.add('hide');
+ joyMove(e.clientX,e.clientY);e.preventDefault()
+}
+function moveFloatingJoy(e){if(e.pointerId===jid){joyMove(e.clientX,e.clientY);e.preventDefault()}}
+function endFloatingJoy(e){
+ if(e.pointerId!==jid)return;
+ jid=null;jx=jy=0;stick.style.transform='translate(0,0)';joy.classList.remove('active');e.preventDefault()
+}
+canvas.addEventListener('pointerdown',startFloatingJoy,{passive:false});
+addEventListener('pointermove',moveFloatingJoy,{passive:false});
+addEventListener('pointerup',endFloatingJoy,{passive:false});
+addEventListener('pointercancel',endFloatingJoy,{passive:false});
 
 function resize(){DPR=Math.min(2,devicePixelRatio||1);W=innerWidth;H=innerHeight;canvas.width=Math.round(W*DPR);canvas.height=Math.round(H*DPR);ctx.setTransform(DPR,0,0,DPR,0,0)}
 addEventListener('resize',resize);resize();
@@ -508,7 +541,7 @@ function hud(){$('money').textContent=Math.floor(player.money);$('wood').textCon
 function draw(){ctx.save();if(shake>0)ctx.translate(rand(-shake,shake),rand(-shake,shake));ground();drawFootprints();const list=[];trees.forEach(o=>{if(o.dead<=0&&Math.hypot(o.x-C.x,o.y-C.y)<radius())list.push({z:o.x+o.y,f:()=>tree(o)})});rocks.forEach(o=>{if(o.dead<=0&&Math.hypot(o.x-C.x,o.y-C.y)<radius())list.push({z:o.x+o.y,f:()=>rock(o)})});animals.forEach(o=>{if(o.dead<=0&&Math.hypot(o.x-C.x,o.y-C.y)<radius())list.push({z:o.x+o.y,f:()=>animal(o)})});crates.forEach(o=>{if(!o.open&&Math.hypot(o.x-C.x,o.y-C.y)<radius())list.push({z:o.x+o.y,f:()=>crate(o)})});buildings.forEach(b=>{if(base.level>=b.unlock)list.push({z:b.x+b.y,f:()=>building(b)})});list.push({z:C.x+C.y,f:camp});for(let i=0;i<workers;i++)list.push({z:C.x+C.y+30+i,f:()=>worker(i)});list.push({z:player.x+player.y+.5,f:playerDraw});list.sort((a,b)=>a.z-b.z).forEach(o=>o.f());drawParticles();ctx.restore()}
 function loop(ts){if(!running)return;const dt=Math.min(.032,(ts-last)/1000||0);last=ts;update(dt);draw();requestAnimationFrame(loop)}
 
-initWorld();load();loadEv();syncWorkers();updateAxeUI();updateJackpotUI();camX=(player.x-player.y)*.5;camY=(player.x+player.y)*.25;hud();draw();document.title='Frost Camp Master';
+initWorld();load();loadEv();syncWorkers();updateAxeUI();updateJackpotUI();camX=(player.x-player.y)*.5;camY=(player.x+player.y)*.25;hud();draw();document.title='Frost Camp Touch UI';
 setInterval(updateEvent,1000);addEventListener('beforeunload',save);
 $('play').onclick=()=>{if(offlineReward){player.money+=offlineReward.money;player.wood=Math.min(capWood(),player.wood+offlineReward.wood);player.meat=Math.min(capMeat(),player.meat+offlineReward.meat);offlineReward=null}$('start').style.display='none';running=true;last=performance.now();requestAnimationFrame(loop)};
 })();
