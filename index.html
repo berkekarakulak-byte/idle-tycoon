@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<title>Frost Camp Touch UI Fixed</title>
+<title>Frost Camp Minimal</title>
 <style>
 :root{--p:rgba(24,48,70,.88);--l:rgba(255,255,255,.22);--g:#52df73}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -49,6 +49,8 @@ canvas{position:fixed;inset:0;width:100%;height:100%}
 .reel.spinning{animation:reelPulse .14s infinite alternate}@keyframes reelPulse{to{transform:translateY(2px);filter:brightness(1.18)}}
 .spinBtn{width:100%;border:0;border-radius:15px;padding:13px;background:linear-gradient(#a578ff,#6549cc);color:#fff;font-weight:1000;cursor:pointer}.spinBtn:disabled{opacity:.42}
 .jackpotResult{min-height:37px;border-radius:12px;background:#eef5f9;padding:9px 10px;text-align:center;font-size:12px;font-weight:950;margin-top:9px;line-height:1.35;overflow-wrap:anywhere}
+.comboHud{position:absolute;left:50%;top:max(58px,calc(env(safe-area-inset-top) + 50px));transform:translateX(-50%);min-width:104px;padding:7px 10px;border-radius:999px;background:rgba(24,48,70,.83);border:1px solid rgba(255,255,255,.18);text-align:center;font-size:9px;font-weight:950;opacity:0;transition:.18s;box-shadow:0 7px 18px #17334c18}.comboHud.show{opacity:1}.comboHud b{font-size:12px;color:#ffe477}
+.workerBadge{pointer-events:none;color:#fff;font-size:10px;font-weight:950;border:1px solid rgba(255,255,255,.18);background:linear-gradient(180deg,rgba(29,57,80,.93),rgba(22,44,64,.86));border-radius:12px;padding:7px 9px;box-shadow:0 6px 16px #17334c1a}
 .worldEvent{position:absolute;left:50%;top:max(78px,calc(env(safe-area-inset-top) + 68px));transform:translateX(-50%);background:rgba(25,47,67,.86);border:1px solid rgba(255,255,255,.2);border-radius:999px;padding:7px 11px;font-size:10px;font-weight:950;opacity:0;transition:.2s;white-space:nowrap;box-shadow:0 8px 20px #17334c22}.worldEvent.show{opacity:1}
 .workerCarry{font-size:9px}
 .cleaveRing{position:fixed;pointer-events:none;border:4px solid #8affb4;border-radius:50%;opacity:0;z-index:5}.cleaveRing.go{animation:cleaveRing .5s ease-out}@keyframes cleaveRing{0%{opacity:.9;transform:translate(-50%,-50%) scale(.3)}100%{opacity:0;transform:translate(-50%,-50%) scale(1.35)}}
@@ -74,17 +76,71 @@ canvas{position:fixed;inset:0;width:100%;height:100%}
 .pc{display:none;position:absolute;left:12px;bottom:10px;color:#34536a;font-size:10px;font-weight:800;text-shadow:none}
 @media(pointer:fine){.joy{display:none}.joyHint{display:none}.pc{display:block}}
 @media(max-width:560px){
+ .resources:before{backdrop-filter:none;background:rgba(18,39,58,.09)}
+ .res,.card,.event,.status,.upgradeBtn,.axeBtn{backdrop-filter:none}
+ .panel{backdrop-filter:none}
+
  .resources{display:grid;grid-template-columns:repeat(4,minmax(62px,1fr));width:calc(100vw - 20px);gap:5px}
  .res{min-width:0;height:36px;padding:0 6px}.res span{font-size:14px}.res b{font-size:14px}
  .left{top:max(54px,calc(env(safe-area-inset-top) + 46px));width:min(205px,58vw)}
  .statuses{top:max(54px,calc(env(safe-area-inset-top) + 46px))}
  .status{width:92px}
- .axeBtn,.upgradeBtn{font-size:10px;padding:7px 8px}
+ .hubBtn{font-size:10px;padding:7px 8px}
  .powerBtns{right:8px;bottom:max(10px,env(safe-area-inset-bottom));gap:5px}
  .skillBtn,.jackpotBtn{min-width:94px;padding:8px 9px}.skillBtn b,.jackpotBtn b{font-size:11px}
- .worldEvent{top:max(100px,calc(env(safe-area-inset-top) + 92px));font-size:9px}
+ .comboHud{top:max(96px,calc(env(safe-area-inset-top) + 88px))}.worldEvent{top:max(124px,calc(env(safe-area-inset-top) + 116px));font-size:9px}
 }
 @media(min-width:700px){.resources{display:flex}.left{width:230px}.statuses{top:62px}}
+
+/* Ultimate systems */
+.hubBtn{pointer-events:auto;color:#fff;font-size:11px;font-weight:950;cursor:pointer;border:1px solid rgba(255,255,255,.2);background:linear-gradient(180deg,#496a82,#2d4b61);border-radius:12px;padding:8px 10px;box-shadow:0 6px 16px #17334c22}
+.regionChip{position:absolute;left:50%;top:max(88px,calc(env(safe-area-inset-top) + 80px));transform:translateX(-50%);padding:6px 10px;border-radius:999px;background:rgba(18,39,58,.72);border:1px solid rgba(255,255,255,.16);font-size:9px;font-weight:950;opacity:.82;white-space:nowrap}
+.hubGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-top:14px}
+.hubTile{border:0;border-radius:16px;padding:14px 10px;background:linear-gradient(145deg,#eef6fa,#dfeef5);color:#1c3a50;text-align:left;cursor:pointer;min-height:76px}
+.hubTile b{display:block;font-size:13px}.hubTile small{display:block;font-size:9px;opacity:.62;margin-top:4px;line-height:1.3}.hubTile .emoji{font-size:24px;display:block;margin-bottom:6px}
+.sectionTitle{font-size:10px;font-weight:1000;letter-spacing:.7px;opacity:.55;margin:14px 0 7px}
+.gearList,.questList,.regionList{display:grid;gap:7px}
+.gearItem,.questItem,.regionItem{background:#eef5f9;border-radius:14px;padding:10px;display:grid;gap:5px}
+.gearItem{grid-template-columns:42px 1fr auto;align-items:center}
+.gearIcon{width:42px;height:42px;border-radius:12px;background:#dceaf1;display:grid;place-items:center;font-size:22px}
+.gearInfo b,.questItem b,.regionItem b{font-size:11px}.gearInfo small,.questItem small,.regionItem small{font-size:9px;opacity:.65;line-height:1.3}
+.gearBuy,.questClaim,.prestigeBtn{border:0;border-radius:10px;padding:8px 9px;font-size:9px;font-weight:950;color:white;background:#45cc67;cursor:pointer}
+.gearBuy.buy{background:#e9a223}.gearBuy:disabled,.questClaim:disabled,.prestigeBtn:disabled{opacity:.4}
+.questTop{display:flex;justify-content:space-between;gap:8px}.questProgress{height:6px;background:#dbe6ec;border-radius:99px;overflow:hidden}.questProgress i{display:block;height:100%;background:linear-gradient(90deg,#4edb72,#a7ed67)}
+.prestigeHero{text-align:center;background:linear-gradient(145deg,#f1edff,#e4defc);border-radius:18px;padding:16px;margin:12px 0}.prestigeHero .star{font-size:38px}.prestigeHero b{display:block;font-size:18px}.prestigeHero small{font-size:10px;opacity:.62}
+.chain{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:10px 0}.chain div{background:#eef5f9;border-radius:12px;padding:8px 5px;text-align:center;font-size:9px;font-weight:900}.chain span{display:block;font-size:20px;margin-bottom:3px}
+.rationBadge{font-size:9px;opacity:.86;margin-top:5px;text-align:right}
+.morale{width:106px;background:linear-gradient(180deg,rgba(29,57,80,.92),rgba(22,44,64,.84));border:1px solid rgba(255,255,255,.18);border-radius:13px;padding:7px 8px;box-shadow:0 8px 20px #17334c18;font-size:9px;font-weight:950}.morale .bar{margin-top:4px}.morale .bar i{background:linear-gradient(90deg,#77d8ff,#b4f07b)}
+.systemNote{font-size:9px;opacity:.62;line-height:1.35;background:#eef5f9;border-radius:12px;padding:9px;margin-top:9px}
+.goldTreeGlow{filter:none}
+.bossBar{position:absolute;left:50%;top:136px;transform:translateX(-50%);width:min(300px,74vw);background:rgba(38,42,48,.88);border:1px solid rgba(255,255,255,.18);border-radius:13px;padding:8px 10px;display:none}.bossBar.show{display:block}.bossTop{display:flex;justify-content:space-between;font-size:10px;font-weight:950}.bossHp{height:7px;background:#ffffff20;border-radius:99px;overflow:hidden;margin-top:5px}.bossHp i{display:block;height:100%;background:linear-gradient(90deg,#ff674e,#ffba42)}
+@media(max-width:560px){.regionChip{top:max(92px,calc(env(safe-area-inset-top) + 84px));font-size:8px}.bossBar{top:146px}.hubGrid{grid-template-columns:1fr 1fr}}
+
+
+/* Ultra systems */
+.powerScore{font-size:10px;font-weight:1000;background:#eef5f9;border-radius:12px;padding:9px;text-align:center;margin-top:10px}
+.researchList,.expeditionList,.achievementList{display:grid;gap:8px;margin-top:10px}
+.researchItem,.expeditionItem,.achievementItem{background:#eef5f9;border-radius:14px;padding:10px}
+.researchTop,.expTop,.achTop{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.researchItem b,.expeditionItem b,.achievementItem b{font-size:11px}.researchItem small,.expeditionItem small,.achievementItem small{font-size:9px;opacity:.64;line-height:1.35}
+.researchBuy,.expBtn,.achBtn{border:0;border-radius:10px;padding:8px 9px;font-size:9px;font-weight:950;color:#fff;background:#4ccc6c;cursor:pointer}
+.researchBuy.buy{background:#8e64e8}.expBtn{background:#4a90d9}.achBtn{background:#e5a322}.researchBuy:disabled,.expBtn:disabled,.achBtn:disabled{opacity:.4}
+.researchPoints{display:inline-flex;align-items:center;gap:5px;padding:6px 9px;border-radius:999px;background:#efeaff;color:#5d45a5;font-size:10px;font-weight:950}
+.expeditionTimer{height:6px;background:#d9e5ec;border-radius:99px;overflow:hidden;margin-top:7px}.expeditionTimer i{display:block;height:100%;background:linear-gradient(90deg,#5aa7e8,#80e0ff)}
+.achievementItem.done{background:#effaf2}.achievementItem.locked{opacity:.72}
+.badgeDot{display:inline-grid;place-items:center;min-width:18px;height:18px;padding:0 5px;border-radius:999px;background:#ffcb43;color:#5c4200;font-size:9px;font-weight:1000}
+.hubMeta{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-top:10px}
+.qualityBtn{color:#fff;font-size:10px;font-weight:950;border:1px solid rgba(255,255,255,.18);background:linear-gradient(180deg,#36566d,#253f52);border-radius:11px;padding:7px 9px}
+.autosave{position:absolute;left:50%;bottom:max(12px,env(safe-area-inset-bottom));transform:translateX(-50%);font-size:8px;font-weight:850;color:#37556a;background:rgba(255,255,255,.58);padding:5px 8px;border-radius:999px;text-shadow:none;opacity:.55;pointer-events:none}
+@media(max-width:560px){.autosave{bottom:max(66px,calc(env(safe-area-inset-bottom) + 58px));font-size:8px}}
+
+
+/* Minimal Premium HUD */
+#qualityBadge,.morale,.regionChip,.comboHud,.workerBadge,#eventBtn,#jackpotBtn,#autosave{display:none!important}
+#hubBtn{position:absolute;right:max(12px,env(safe-area-inset-right));bottom:max(14px,calc(env(safe-area-inset-bottom) + 8px));min-width:54px;height:44px;padding:0 13px;border-radius:15px;font-size:0;background:rgba(24,48,66,.88)}
+#hubBtn:after{content:'☰';font-size:21px}.hud{gap:6px}.status{padding:6px 8px;min-width:76px;border-radius:12px;font-size:9px}.status .bar{height:4px;margin-top:4px}.rationBadge{display:none}.resources{gap:5px}.res{padding:6px 8px;border-radius:11px;font-size:10px}#levelChip{opacity:.78}
+.quickRewards{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}.quickReward{border:0;border-radius:15px;padding:13px 10px;background:linear-gradient(145deg,#fff4d8,#f7e5b7);color:#604b22;text-align:left;cursor:pointer}.quickReward b{display:block;font-size:12px}.quickReward small{display:block;font-size:9px;opacity:.65;margin-top:4px}
+@media(max-width:560px){.hud{left:max(8px,env(safe-area-inset-left));top:max(8px,env(safe-area-inset-top));right:8px}.status{min-width:66px;padding:5px 7px}.res{padding:5px 7px;font-size:9px}#hubBtn{bottom:max(72px,calc(env(safe-area-inset-bottom) + 64px))}}
 </style>
 </head>
 <body>
@@ -101,26 +157,107 @@ canvas{position:fixed;inset:0;width:100%;height:100%}
   <button id="eventBtn" class="event">🎁 ETKİNLİK <b id="eventTimer">15:00</b></button>
  </div>
  <div class="statuses">
-  <div class="status">🍗 TOKLUK <b id="hungerText">100</b><div class="bar"><i id="hungerBar" style="width:100%;background:linear-gradient(90deg,#ff914d,#ffd259)"></i></div></div>
-  <div class="status">🔥 ISI <b id="warmText">100</b><div class="bar"><i id="warmBar" style="width:100%;background:linear-gradient(90deg,#ff704f,#ffba3d)"></i></div></div>
-  <button id="axeBtn" class="axeBtn">🪓 BALTA</button>
-  <button id="upgradeBtn" class="upgradeBtn">⬆️ GELİŞTİR</button>
+  <div class="status">🍗 <b id="hungerText">100</b><div class="bar"><i id="hungerBar" style="width:100%;background:linear-gradient(90deg,#ff914d,#ffd259)"></i></div><div class="rationBadge">🍲 <span id="rationText">0</span></div></div>
+  <div class="status">🔥 <b id="warmText">100</b><div class="bar"><i id="warmBar" style="width:100%;background:linear-gradient(90deg,#ff704f,#ffba3d)"></i></div></div>
+  <div id="workerBadge" class="workerBadge">👷 0 • +0/s</div>
+  <div class="morale">😊 MORAL <b id="moraleText">50</b><div class="bar"><i id="moraleBar" style="width:50%"></i></div></div>
+  <div id="qualityBadge" class="qualityBtn" style="pointer-events:none">🔋 ECO</div>
+  <button id="hubBtn" class="hubBtn">☰ KAMP</button>
  </div>
  <div id="joy" class="joy"><div id="stick" class="stick"></div></div><div id="joyHint" class="joyHint">Ekrana dokunup sürükle</div>
- <div id="worldEvent" class="worldEvent"></div><div class="powerBtns">
+ <div id="regionChip" class="regionChip">❄️ Kamp Merkezi</div><div id="bossBar" class="bossBar"><div class="bossTop"><span>🐻 BUZ AYISI</span><span id="bossHpText">12 / 12</span></div><div class="bossHp"><i id="bossHpFill" style="width:100%"></i></div></div><div id="comboHud" class="comboHud">SERİ <b id="comboText">x1</b></div><div id="worldEvent" class="worldEvent"></div><div class="powerBtns">
  <button id="cleaveBtn" class="skillBtn"><small>TOPLU KESİM</small><b id="cleaveText">⚡ %0</b></button>
  <button id="jackpotBtn" class="jackpotBtn"><small>ENERJİ JACKPOT</small><b id="jackpotText">🎰 %0</b></button>
 </div>
- <div class="pc">WASD / Ok tuşları</div>
+ <div class="pc">WASD / Ok tuşları</div><div id="autosave" class="autosave">Kayıt hazır</div>
  <div id="cleaveRing" class="cleaveRing"></div><div id="screenFlash" class="screenFlash"></div><div id="critFlash" class="critFlash">KRİTİK!</div><div id="toast" class="toast"></div><div id="buildingToast" class="buildingToast"></div>
 </div>
 
 <div id="start" class="start"><div class="panel">
  <div class="logo">FROST CAMP<span>IDLE SURVIVAL</span></div>
  <div id="offline" class="offline"></div>
- <button id="play" class="play">OYNA</button>
+ <button id="play" class="play">OYNA</button><div style="margin-top:9px;text-align:center;font-size:9px;opacity:.48">Mobilde akıllı performans modu otomatik çalışır.</div>
 </div></div>
 
+
+<div id="hubModal" class="modalWrap"><div class="panel">
+ <h2>🏕️ Kamp</h2><p>Geliştirmeler ve sistemler burada.</p>
+ <div class="hubGrid">
+  <button id="hubRewards" class="hubTile"><span class="emoji">🎁</span><b>Ödüller</b><small>Etkinlik ve Jackpot tek yerde.</small></button>
+  <button id="hubGear" class="hubTile"><span class="emoji">🎒</span><b>Ekipman</b><small>Çanta, bot, mont, kazma ve yay.</small></button>
+  <button id="hubMap" class="hubTile"><span class="emoji">🗺️</span><b>Bölgeler</b><small>Yeni biyomlar ve kaynak bonusları.</small></button>
+  <button id="hubQuests" class="hubTile"><span class="emoji">📜</span><b>Görevler</b><small>Seviyene göre yenilenen 3 görev.</small></button>
+  <button id="hubPrestige" class="hubTile"><span class="emoji">⭐</span><b>Prestij</b><small>Sezonu sıfırla, kalıcı bonus kazan.</small></button>
+  <button id="hubAxe" class="hubTile"><span class="emoji">🪓</span><b>Baltalar</b><small>Balta koleksiyonu ve pasifler.</small></button>
+  <button id="hubUpgrade" class="hubTile"><span class="emoji">⬆️</span><b>Geliştirmeler</b><small>Kamp verimi ve temel yükseltmeler.</small></button>
+  <button id="hubSystems" class="hubTile"><span class="emoji">🛷</span><b>Kamp Sistemleri</b><small>Kızak, moral ve nadir kaynak bilgileri.</small></button>
+  <button id="hubResearch" class="hubTile"><span class="emoji">🔬</span><b>Araştırma</b><small>Kalıcı teknoloji ağacı ve araştırma puanları.</small></button>
+  <button id="hubExpedition" class="hubTile"><span class="emoji">🧭</span><b>Keşif Seferi</b><small>İşçi gönder, süre sonunda toplu ödül getir.</small></button>
+  <button id="hubAchievements" class="hubTile"><span class="emoji">🏆</span><b>Başarımlar</b><small>Tek seferlik hedefler ve büyük ödüller.</small></button>
+ </div>
+ <div class="chain"><div><span>🥩</span>Av</div><div><span>🍲</span>Mutfak</div><div><span>❤️</span>Tokluk</div></div><div class="hubMeta"><div id="researchBadge" class="researchPoints">🔬 0</div><div id="achievementBadge" class="badgeDot">0</div></div><div id="powerScore" class="powerScore">KAMP GÜCÜ • 0</div>
+ <div class="buttons"><button id="hubClose" class="close" style="width:100%">Kapat</button></div>
+</div></div>
+
+<div id="gearModal" class="modalWrap"><div class="panel">
+ <h2>🎒 Ekipman</h2><p>Ekipmanlar otomatik kuşanılır ve kalıcı bonus verir.</p>
+ <div id="gearList" class="gearList"></div>
+ <div class="buttons"><button id="gearClose" class="close" style="width:100%">Kapat</button></div>
+</div></div>
+
+<div id="mapModal" class="modalWrap"><div class="panel">
+ <h2>🗺️ Donmuş Dünya</h2><p>Kamp büyüdükçe yeni bölgeler açılır ve dünya değişir.</p>
+ <div id="regionList" class="regionList"></div>
+ <div class="buttons"><button id="mapClose" class="close" style="width:100%">Kapat</button></div>
+</div></div>
+
+<div id="questsModal" class="modalWrap"><div class="panel">
+ <h2>📜 Dinamik Görevler</h2><p>Görevler ilerleyişine göre otomatik ölçeklenir.</p>
+ <div id="questList" class="questList"></div>
+ <div class="buttons"><button id="questsClose" class="close" style="width:100%">Kapat</button></div>
+</div></div>
+
+<div id="prestigeModal" class="modalWrap"><div class="panel">
+ <h2>⭐ Yeni Sezon</h2><p>LV.12'den sonra kampı yeniden kurup kalıcı yıldız bonusu kazanabilirsin.</p>
+ <div class="prestigeHero"><div class="star">⭐</div><b id="prestigeStars">0 Yıldız</b><small id="prestigeBonus">Kalıcı bonus: +0%</small></div>
+ <div id="prestigeInfo" class="reward">LV.12 gerekli.</div>
+ <button id="prestigeBtn" class="prestigeBtn" style="width:100%;padding:12px" disabled>YENİ SEZONU BAŞLAT</button>
+ <div class="buttons"><button id="prestigeClose" class="close" style="width:100%">Kapat</button></div>
+</div></div>
+
+
+<div id="systemsModal" class="modalWrap"><div class="panel">
+ <h2>🛷 Kamp Sistemleri</h2><p>Otomatik çalışan yardımcı sistemler.</p>
+ <div class="gearList">
+  <div class="gearItem"><div class="gearIcon">🛷</div><div class="gearInfo"><b>Kargo Kızağı</b><small id="sledText">LV.6'da açılır. Çanta dolmaya yaklaşınca odunun bir kısmını otomatik kampa taşır.</small></div><button class="gearBuy" disabled id="sledState">KİLİTLİ</button></div>
+  <div class="gearItem"><div class="gearIcon">😊</div><div class="gearInfo"><b>Kamp Morali</b><small>Yemek, seviye ve boss zaferleri morali yükseltir. İşçi üretimini artırır.</small></div><button class="gearBuy" disabled id="moraleState">+0%</button></div>
+  <div class="gearItem"><div class="gearIcon">🌟</div><div class="gearInfo"><b>Altın Ağaç</b><small>Haritada nadiren belirir. Kesildiğinde ekstra para ve Jackpot enerjisi verir.</small></div><button class="gearBuy" disabled>NADİR</button></div>
+ </div>
+ <div class="systemNote">Bu sistemler ekranda ekstra buton oluşturmaz; kamp ilerledikçe otomatik devreye girer.</div>
+ <div class="buttons"><button id="systemsClose" class="close" style="width:100%">Kapat</button></div>
+</div></div>
+
+
+<div id="researchModal" class="modalWrap"><div class="panel">
+ <h2>🔬 Araştırma Merkezi</h2><p>Kamp seviyesi, görevler ve bosslardan araştırma puanı kazan.</p>
+ <div id="researchPointsText" class="researchPoints">🔬 0 Araştırma Puanı</div>
+ <div id="researchList" class="researchList"></div>
+ <div class="buttons"><button id="researchClose" class="close" style="width:100%">Kapat</button></div>
+</div></div>
+
+<div id="expeditionModal" class="modalWrap"><div class="panel">
+ <h2>🧭 Keşif Seferleri</h2><p>Seferler gerçek zamanlı ilerler; oyunu kapatsan da süre devam eder.</p>
+ <div id="expeditionList" class="expeditionList"></div>
+ <div class="buttons"><button id="expeditionClose" class="close" style="width:100%">Kapat</button></div>
+</div></div>
+
+<div id="achievementsModal" class="modalWrap"><div class="panel">
+ <h2>🏆 Başarımlar</h2><p>Uzun vadeli hedefleri tamamla, tek seferlik ödülleri al.</p>
+ <div id="achievementList" class="achievementList"></div>
+ <div class="buttons"><button id="achievementsClose" class="close" style="width:100%">Kapat</button></div>
+</div></div>
+
+<div id="rewardsModal" class="modalWrap"><div class="panel"><h2>🎁 Ödüller</h2><p>Etkinlik ve Jackpot sistemlerine buradan ulaş.</p><div class="quickRewards"><button id="rewardEvent" class="quickReward"><b>🎁 Etkinlik</b><small id="rewardEventText">15 dakikalık ödüller</small></button><button id="rewardJackpot" class="quickReward"><b>🎰 Jackpot</b><small id="rewardJackpotText">Enerji biriktir ve çevir</small></button></div><div class="buttons"><button id="rewardsClose" class="close" style="width:100%">Kapat</button></div></div></div>
 <div id="eventModal" class="modalWrap"><div class="panel">
  <h2 id="eventName">Etkinlik</h2><p id="eventDesc"></p>
  <div style="font-size:11px;font-weight:900;margin-top:14px"><span id="eventProgress"></span></div>
@@ -173,9 +310,16 @@ const $=id=>document.getElementById(id);
 window.onerror=(m)=>{document.title='ERROR: '+m};
 
 const canvas=$('game'),ctx=canvas.getContext('2d');
-let W=1,H=1,DPR=1,last=0,running=false,saveClock=0,incomeClock=0;
+let W=1,H=1,DPR=1,last=0,running=false,saveClock=0,incomeClock=0,hudClock=0,idleClock=0;
+const MOBILE=matchMedia('(pointer:coarse)').matches||innerWidth<700;
+const TARGET_FPS=MOBILE?30:60;
+let currentFPS=TARGET_FPS;
+let FRAME_MS=1000/currentFPS;
+let lastRender=0,hiddenPaused=false;
+const MAX_PARTICLES=MOBILE?24:64;
+const MAX_FOOTPRINTS=MOBILE?8:18;
 const C={x:1000,y:1000};
-const player={x:1000,y:870,money:0,wood:0,stone:0,meat:0,hunger:100,warm:100,axe:0,axeOwned:[0],camp:0,bag:0,boot:0,cook:0,work:0,cleave:0,jackpotEnergy:0,jackpotPity:0};
+const player={x:1000,y:870,money:0,wood:0,stone:0,meat:0,hunger:100,warm:100,axe:0,axeOwned:[0],camp:0,bag:0,boot:0,cook:0,work:0,cleave:0,jackpotEnergy:0,jackpotPity:0,combo:0,comboTime:0,milestone:0,rations:0,prestige:0,equipment:{bag:0,boots:0,coat:0,pick:0,bow:0},questStats:{wood:0,stone:0,meat:0,walk:0,earn:0,build:0},morale:50,sledClock:0,bossWork:0,researchPoints:0,research:{logging:0,logistics:0,hearth:0,luck:0,workers:0,hunting:0},expedition:null,achievements:{},lifetime:{wood:0,stone:0,meat:0,money:0,boss:0,levels:0,spins:0},quality:'eco'};
 const base={level:1,progress:0,cost:16};
 const buildings=[
  {id:'lumber',name:'Oduncu Kulübesi',icon:'🪵',unlock:2,x:915,y:1080},
@@ -189,6 +333,8 @@ const trees=[],rocks=[],animals=[],crates=[];
 const particles=[],floaters=[],footprints=[];
 let shake=0,movePhase=0,wasMoving=false,lastFoot=0;
 function particle(x,y,type,count=1){
+ count=MOBILE?Math.min(count,6):count;
+ const room=Math.max(0,MAX_PARTICLES-particles.length);count=Math.min(count,room);
  for(let i=0;i<count;i++)particles.push({x,y,type,t:0,life:type==='smoke'?1.8:type==='spark'?.75:.7,vx:rand(-28,28),vy:rand(-48,-14),size:rand(2,5)});
 }
 function floater(x,y,text){floaters.push({x,y,text,t:0,life:1.05})}
@@ -199,30 +345,231 @@ const d=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
 
 function spawn(min,max){if(max<min)[min,max]=[max,min];const a=Math.random()*Math.PI*2,r=rand(min,max);return{x:C.x+Math.cos(a)*r,y:C.y+Math.sin(a)*r}}
 function initWorld(){
- for(let i=0;i<42;i++){const p=spawn(290,820);trees.push({x:p.x,y:p.y,hp:3,dead:0})}
- for(let i=0;i<18;i++){const p=spawn(470,850);rocks.push({x:p.x,y:p.y,hp:4,dead:0})}
- for(let i=0;i<10;i++){const p=spawn(340,790);animals.push({x:p.x,y:p.y,hp:i%3?2:3,max:i%3?2:3,type:i%3?'rabbit':'deer',dead:0,dir:rand(0,6.28),homeX:p.x,homeY:p.y})}
+ for(let i=0;i<(MOBILE?24:36);i++){const p=spawn(290,820);trees.push({x:p.x,y:p.y,hp:3,dead:0})}
+ for(let i=0;i<(MOBILE?10:16);i++){const p=spawn(470,850);rocks.push({x:p.x,y:p.y,hp:4,dead:0})}
+ for(let i=0;i<(MOBILE?6:9);i++){const p=spawn(340,790);animals.push({x:p.x,y:p.y,hp:i%3?2:3,max:i%3?2:3,type:i%3?'rabbit':'deer',dead:0,dir:rand(0,6.28),homeX:p.x,homeY:p.y})}
  for(let i=0;i<4;i++){const p=spawn(430,780);crates.push({x:p.x,y:p.y,open:false,t:0})}
 }
 function radius(){return Math.min(850,330+(base.level-1)*105)}
 function storageBonus(){return base.level>=6?8:0}
-function capWood(){return 22+player.bag*4+storageBonus()}
-function capMeat(){return 10+player.bag*2+(base.level>=6?4:0)}
-function capStone(){return 14+player.bag*2+storageBonus()}
+function capWood(){return 22+player.bag*4+storageBonus()+(player.equipment?.bag||0)*6}
+function capMeat(){return 10+player.bag*2+(base.level>=6?4:0)+(player.equipment?.bag||0)*3}
+function capStone(){return 14+player.bag*2+storageBonus()+(player.equipment?.bag||0)*4}
 
-const SAVE='frost_master_v2',LEGACY_SAVE='frost_fixed_v1';
+const SAVE='frost_eco_clean_v6',LEGACY_SAVE='frost_ultra_v5',LEGACY_SAVE_2='frost_ultimate_fixed_v4',LEGACY_SAVE_3='frost_master_v2',LEGACY_SAVE_4='frost_fixed_v1';
 let offlineReward=null;
 function load(){
  try{
-  let raw=localStorage.getItem(SAVE);if(!raw)raw=localStorage.getItem(LEGACY_SAVE);const s=JSON.parse(raw||'null');if(!s)return;
-  Object.assign(player,s.player||{});if(!Array.isArray(player.axeOwned))player.axeOwned=[0];if(!player.axeOwned.includes(0))player.axeOwned.unshift(0);player.axe=clamp(Number(player.axe)||0,0,4);if(!player.axeOwned.includes(player.axe))player.axe=0;player.camp=Number(player.camp)||0;player.cleave=clamp(Number(player.cleave)||0,0,100);player.jackpotEnergy=clamp(Number(player.jackpotEnergy)||0,0,100);player.jackpotPity=clamp(Number(player.jackpotPity)||0,0,7);Object.assign(base,s.base||{});workers=s.workers||0;
+  let raw=localStorage.getItem(SAVE);if(!raw)raw=localStorage.getItem(LEGACY_SAVE);if(!raw)raw=localStorage.getItem(LEGACY_SAVE_2);if(!raw)raw=localStorage.getItem(LEGACY_SAVE_3);if(!raw&&typeof LEGACY_SAVE_4!=='undefined')raw=localStorage.getItem(LEGACY_SAVE_4);const s=JSON.parse(raw||'null');if(!s)return;
+  Object.assign(player,s.player||{});if(!Array.isArray(player.axeOwned))player.axeOwned=[0];if(!player.axeOwned.includes(0))player.axeOwned.unshift(0);player.axe=clamp(Number(player.axe)||0,0,4);if(!player.axeOwned.includes(player.axe))player.axe=0;player.camp=Number(player.camp)||0;player.cleave=clamp(Number(player.cleave)||0,0,100);player.jackpotEnergy=clamp(Number(player.jackpotEnergy)||0,0,100);player.jackpotPity=clamp(Number(player.jackpotPity)||0,0,7);player.combo=0;player.comboTime=0;player.milestone=Number(player.milestone)||0;player.rations=Number(player.rations)||0;player.prestige=Number(player.prestige)||0;
+ if(!player.equipment)player.equipment={bag:0,boots:0,coat:0,pick:0,bow:0};
+ if(!player.questStats)player.questStats={wood:0,stone:0,meat:0,walk:0,earn:0,build:0};
+ player.morale=clamp(Number(player.morale)||50,0,100);player.sledClock=Math.max(0,Number(player.sledClock)||0);player.bossWork=0;
+ if(!player.research)player.research={logging:0,logistics:0,hearth:0,luck:0,workers:0,hunting:0};
+ if(!player.achievements)player.achievements={};if(!player.lifetime)player.lifetime={wood:0,stone:0,meat:0,money:0,boss:0,levels:0,spins:0};
+ player.researchPoints=Math.max(0,Math.floor(Number(player.researchPoints)||0));player.quality='eco';
+ ['money','wood','stone','meat','hunger','warm','bag','boot','cook','camp'].forEach(k=>player[k]=Math.max(0,Number(player[k])||0));
+ if(Array.isArray(s.quests))quests=s.quests;Object.assign(base,s.base||{});base.level=Math.max(1,Math.floor(Number(base.level)||1));base.progress=Math.max(0,Number(base.progress)||0);base.cost=Math.max(8,Number(base.cost)||16);workers=Math.max(0,Math.floor(Number(s.workers)||0));
   const mins=Math.min(240,Math.floor((Date.now()-(s.at||Date.now()))/60000));
-  if(mins>=2){offlineReward={money:mins*Math.max(1,workers)*2,wood:Math.floor(mins*Math.max(1,workers)*.35),meat:Math.floor(mins*Math.max(1,workers)*.05)};$('offline').style.display='block';$('offline').textContent=`Sen yokken +${offlineReward.money} 💵, +${offlineReward.wood} 🪵, +${offlineReward.meat} 🥩 üretildi.`}
+  if(player.expedition&&(!player.expedition.end||!EXPEDITIONS.find(x=>x.id===player.expedition.id)))player.expedition=null;
+  if(mins>=2&&workers>0){
+    const offBoost=(1+player.prestige*.10)*(1+player.morale*.0025);
+    let workerMinutes=mins*workers;
+    if(player.expedition){
+      const ed=EXPEDITIONS.find(x=>x.id===player.expedition.id);
+      if(ed&&player.expedition.end){
+        const awayMs=Math.max(0,Math.min(Date.now(),player.expedition.end)-Math.max(s.at||Date.now(),player.expedition.start||0));
+        workerMinutes=Math.max(0,workerMinutes-(awayMs/60000)*ed.workers)
+      }
+    }
+    offlineReward={money:Math.floor(workerMinutes*2*offBoost),wood:Math.floor(workerMinutes*.30*offBoost),meat:Math.floor(workerMinutes*.04*offBoost)};$('offline').style.display='block';$('offline').textContent=`Sen yokken +${offlineReward.money} 💵, +${offlineReward.wood} 🪵, +${offlineReward.meat} 🥩 üretildi.`}
  }catch(e){}
+ normalizeState();
 }
-function save(){try{localStorage.setItem(SAVE,JSON.stringify({player,base,workers,at:Date.now()}))}catch(e){}}
+
+function saveQuests(){try{localStorage.setItem('frost_ultimate_quests',JSON.stringify(quests))}catch(e){}}
+function loadQuests(){if(quests.length){ensureQuests();return}try{const q=JSON.parse(localStorage.getItem('frost_ultimate_quests')||'null');if(Array.isArray(q))quests=q}catch(e){}ensureQuests()}
+
+function save(){try{normalizeState();localStorage.setItem(SAVE,JSON.stringify({player,base,workers,quests,at:Date.now()}));saveQuests();const a=$('autosave');if(a){a.textContent='Kaydedildi ✓';clearTimeout(save._t);save._t=setTimeout(()=>{if(a)a.textContent='Otomatik kayıt aktif'},900)}}catch(e){}}
+
+
+function moraleBoost(){return 1+clamp(player.morale,0,100)*.0025}
+function addMorale(n){player.morale=clamp(player.morale+n,0,100)}
+function updateSupportSystems(dt){
+ player.morale=clamp(player.morale-dt*.012,0,100);
+ if(base.level>=4&&player.rations>0&&player.hunger<55)addMorale(dt*.05);
+ if(base.level>=6){
+   player.sledClock+=dt;
+   if(player.sledClock>=Math.max(10,20*(1-(player.research?.logistics||0)*.10))&&player.wood>=capWood()*.82){
+     player.sledClock=0;
+     const logistics=player.research?.logistics||0;const moved=Math.min(player.wood,Math.max(4,Math.floor(capWood()*.35)));
+     player.wood-=moved;base.progress+=moved;evAdd('deposit',moved);addQuestStat('build',moved);
+     floater(C.x,C.y-55,`🛷 +${moved} 🪵`);toast('Kargo kızağı odunu kampa taşıdı');
+   }
+ }
+}
+let goldenTree=null,goldenTimer=rand(150,260);
+function updateGoldenTree(dt){
+ if(goldenTree){
+   if(goldenTree.dead>0){goldenTree.dead-=dt;if(goldenTree.dead<=0)goldenTree=null}
+ }else{
+   goldenTimer-=dt;if(goldenTimer<=0&&base.level>=4){
+     const gr=Math.max(180,radius()-50),p=spawn(Math.min(300,gr*.65),gr);goldenTree={x:p.x,y:p.y,hp:4,dead:0,hit:0};goldenTimer=rand(210,360);buildingToast('🌟 Altın Ağaç ortaya çıktı!')
+   }
+ }
+}
+function drawGoldenTree(){
+ if(!goldenTree)return;const p=iso(goldenTree.x,goldenTree.y),z=scale(),sway=Math.sin(gameTime*2)*2*z;
+ ctx.save();ctx.translate(sway,0);ctx.globalAlpha=.22;ctx.fillStyle='#ffd65b';ctx.beginPath();ctx.arc(p.x,p.y-35*z,48*z,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1;
+ shadow(p.x,p.y+14*z,18*z,7*z);ctx.fillStyle='#8a6330';ctx.fillRect(p.x-4*z,p.y-14*z,8*z,32*z);
+ [[30,-58],[40,-38],[48,-18]].forEach((a,i)=>tri(p.x,p.y+(a[1]-25)*z,p.x-a[0]*z,p.y+(a[1]+20)*z,p.x+a[0]*z,p.y+(a[1]+20)*z,i?'#ffd85d':'#fff0a0'));
+ ctx.restore()
+}
+function updateSystemsUI(){
+ $('moraleText').textContent=Math.round(player.morale);$('moraleBar').style.width=player.morale+'%';
+ $('sledState').textContent=base.level>=6?'AKTİF':'KİLİTLİ';$('sledText').textContent=base.level>=6?'Her 20 sn, çanta %82+ doluyken otomatik odun taşır.':'LV.6’da açılır. Çanta dolmaya yaklaşınca odunun bir kısmını otomatik kampa taşır.';
+ $('moraleState').textContent=`+${Math.round((moraleBoost()-1)*100)}%`
+}
+
+
+const RESEARCH={
+ logging:{name:'Keskin Kenar',icon:'🪓',max:5,cost:[2,3,5,7,10],desc:'Odun kazancı +%8 / seviye'},
+ logistics:{name:'Lojistik',icon:'🛷',max:5,cost:[2,4,6,8,11],desc:'Kızak süresi -%10 / seviye'},
+ hearth:{name:'Güçlü Ocak',icon:'🔥',max:5,cost:[2,3,5,8,12],desc:'Isı kaybı -%10 / seviye'},
+ luck:{name:'Şans Mekaniği',icon:'🎰',max:5,cost:[3,4,6,9,13],desc:'Jackpot enerjisi +%8 / seviye'},
+ workers:{name:'İşçi Eğitimi',icon:'👷',max:5,cost:[3,5,7,10,14],desc:'İşçi üretimi +%10 / seviye'},
+ hunting:{name:'Av Ustalığı',icon:'🏹',max:5,cost:[2,4,6,8,12],desc:'Et kazancı +%10 / seviye'}
+};
+function researchLevel(k){return player.research[k]||0}
+function researchCost(k){const r=RESEARCH[k],lv=researchLevel(k);return lv>=r.max?999:r.cost[lv]}
+function buyResearch(k){
+ const r=RESEARCH[k],lv=researchLevel(k),c=researchCost(k);if(lv>=r.max||player.researchPoints<c)return;
+ player.researchPoints-=c;player.research[k]=lv+1;particle(player.x,player.y,'spark',10);toast(`${r.name} LV.${lv+1}`);updateResearchUI();hud();save()
+}
+function updateResearchUI(){
+ $('researchPointsText').textContent=`🔬 ${player.researchPoints} Araştırma Puanı`;
+ $('researchList').innerHTML=Object.entries(RESEARCH).map(([k,r])=>{const lv=researchLevel(k),c=researchCost(k),max=lv>=r.max;return `<div class="researchItem"><div class="researchTop"><div><b>${r.icon} ${r.name} • LV.${lv}/${r.max}</b><small>${r.desc}</small></div><button class="researchBuy buy" data-r="${k}" ${max||player.researchPoints<c?'disabled':''}>${max?'MAX':`🔬 ${c}`}</button></div></div>`}).join('');
+ $('researchList').querySelectorAll('[data-r]').forEach(b=>b.onclick=()=>buyResearch(b.dataset.r))
+}
+function awardResearch(n,msg='Araştırma puanı'){
+ n=Math.max(0,Math.floor(n));if(!n)return;player.researchPoints+=n;floater(C.x,C.y-75,`🔬 +${n}`);if(msg)toast(`${msg} +${n} 🔬`)
+}
+
+const EXPEDITIONS=[
+ {id:'forest',name:'Çam Ormanı Devriyesi',icon:'🌲',seconds:60,workers:1,lv:3,reward:{money:120,wood:8},desc:'Kısa ve güvenli sefer.'},
+ {id:'valley',name:'Taşlık Vadi Seferi',icon:'⛰️',seconds:180,workers:2,lv:6,reward:{money:320,stone:7,wood:8},desc:'Daha uzun, daha değerli.'},
+ {id:'frontier',name:'Kurt Sınırı Ekspedi̇syonu',icon:'🐺',seconds:300,workers:3,lv:10,reward:{money:700,stone:10,meat:8,research:2},desc:'Yüksek risk, yüksek ödül.'}
+];
+function expeditionDef(){return player.expedition?EXPEDITIONS.find(x=>x.id===player.expedition.id):null}
+function busyWorkers(){const e=expeditionDef();return e&&player.expedition&&Date.now()<player.expedition.end?e.workers:0}
+function activeWorkers(){return Math.max(0,workers-busyWorkers())}
+function startExpedition(id){
+ const e=EXPEDITIONS.find(x=>x.id===id);if(!e||base.level<e.lv||workers<e.workers||player.expedition)return;
+ player.expedition={id:e.id,start:Date.now(),end:Date.now()+e.seconds*1000};toast(`${e.icon} Sefer başladı`);updateExpeditionUI();save()
+}
+function claimExpedition(){
+ const e=expeditionDef();if(!e||!player.expedition||Date.now()<player.expedition.end)return;
+ const boost=(1+player.prestige*.10)*moraleBoost();let txt=[];
+ for(const [k,v] of Object.entries(e.reward)){
+   if(k==='research'){awardResearch(v,'');txt.push(`🔬 +${v}`);continue}
+   const amount=Math.round(v*boost);
+   if(k==='money')player.money+=amount;
+   if(k==='wood')player.wood=Math.min(capWood(),player.wood+amount);
+   if(k==='stone')player.stone=Math.min(capStone(),player.stone+amount);
+   if(k==='meat')player.meat=Math.min(capMeat(),player.meat+amount);
+   txt.push(`${{money:'💵',wood:'🪵',stone:'🪨',meat:'🥩'}[k]} +${amount}`)
+ }
+ player.expedition=null;particle(player.x,player.y,'spark',14);buildingToast(`🧭 Sefer tamamlandı • ${txt.join(' ')}`);updateExpeditionUI();hud();save()
+}
+function updateExpeditionUI(){
+ const active=expeditionDef();
+ $('expeditionList').innerHTML=EXPEDITIONS.map(e=>{
+   const unlocked=base.level>=e.lv,can=workers>=e.workers,act=active&&active.id===e.id;
+   if(act){const left=Math.max(0,player.expedition.end-Date.now()),pct=Math.min(100,(Date.now()-player.expedition.start)/(player.expedition.end-player.expedition.start)*100);return `<div class="expeditionItem"><div class="expTop"><div><b>${e.icon} ${e.name}</b><small>${left<=0?'Tamamlandı':Math.ceil(left/1000)+' sn kaldı'}</small></div><button class="expBtn" id="claimExpeditionBtn" ${left>0?'disabled':''}>${left>0?'DEVAM':'ÖDÜLÜ AL'}</button></div><div class="expeditionTimer"><i style="width:${pct}%"></i></div></div>`}
+   return `<div class="expeditionItem" style="${unlocked?'':'opacity:.5'}"><div class="expTop"><div><b>${e.icon} ${e.name}</b><small>${e.desc}<br>LV.${e.lv} • ${e.workers} işçi • ${e.seconds} sn</small></div><button class="expBtn" data-exp="${e.id}" ${!unlocked||!can||player.expedition?'disabled':''}>GÖNDER</button></div></div>`
+ }).join('');
+ $('expeditionList').querySelectorAll('[data-exp]').forEach(b=>b.onclick=()=>startExpedition(b.dataset.exp));
+ const c=$('claimExpeditionBtn');if(c)c.onclick=claimExpedition
+}
+
+const ACHIEVEMENTS=[
+ {id:'wood100',name:'Oduncu',icon:'🪵',desc:'Toplam 100 odun topla.',test:()=>player.lifetime.wood>=100,reward:{money:180,research:1}},
+ {id:'stone50',name:'Taş Ustası',icon:'🪨',desc:'Toplam 50 taş topla.',test:()=>player.lifetime.stone>=50,reward:{money:220,research:1}},
+ {id:'hunter30',name:'Avcı',icon:'🏹',desc:'Toplam 30 et topla.',test:()=>player.lifetime.meat>=30,reward:{money:260,research:1}},
+ {id:'boss3',name:'Ayı Avcısı',icon:'🐻',desc:'3 Buz Ayısı yen.',test:()=>player.lifetime.boss>=3,reward:{money:500,research:2}},
+ {id:'camp10',name:'Yerleşimci',icon:'🏕️',desc:'Kampı LV.10 yap.',test:()=>base.level>=10,reward:{money:550,research:2}},
+ {id:'spin10',name:'Şans Makinesi',icon:'🎰',desc:'Jackpotu 10 kez çevir.',test:()=>player.lifetime.spins>=10,reward:{money:400,research:2}}
+];
+function achievementReady(a){return a.test()&&!player.achievements[a.id]}
+function claimAchievement(id){
+ const a=ACHIEVEMENTS.find(x=>x.id===id);if(!a||!achievementReady(a))return;
+ player.achievements[id]=true;
+ if(a.reward.money)player.money+=a.reward.money;if(a.reward.research)awardResearch(a.reward.research,'');
+ particle(player.x,player.y,'spark',14);buildingToast(`🏆 ${a.name} tamamlandı!`);updateAchievementsUI();hud();save()
+}
+function updateAchievementsUI(){
+ $('achievementList').innerHTML=ACHIEVEMENTS.map(a=>{const done=!!player.achievements[a.id],ready=achievementReady(a);return `<div class="achievementItem ${done?'done':ready?'':'locked'}"><div class="achTop"><div><b>${a.icon} ${a.name}</b><small>${a.desc}</small></div><button class="achBtn" data-ach="${a.id}" ${!ready?'disabled':''}>${done?'ALINDI':ready?'ÖDÜLÜ AL':'KİLİTLİ'}</button></div></div>`}).join('');
+ $('achievementList').querySelectorAll('[data-ach]').forEach(b=>b.onclick=()=>claimAchievement(b.dataset.ach))
+}
+function readyAchievementCount(){return ACHIEVEMENTS.filter(achievementReady).length}
+function campPower(){
+ const gear=Object.values(player.equipment||{}).reduce((a,b)=>a+b,0),res=Object.values(player.research||{}).reduce((a,b)=>a+b,0);
+ return Math.round(base.level*80+workers*35+gear*28+res*45+player.prestige*180+player.money*.03)
+}
+function normalizeState(){
+ player.money=Math.max(0,Number(player.money)||0);player.wood=clamp(Number(player.wood)||0,0,capWood());player.stone=clamp(Number(player.stone)||0,0,capStone());player.meat=clamp(Number(player.meat)||0,0,capMeat());
+ player.hunger=clamp(Number(player.hunger)||0,0,100);player.warm=clamp(Number(player.warm)||0,0,100);player.morale=clamp(Number(player.morale)||0,0,100);
+ base.level=Math.max(1,Math.floor(Number(base.level)||1));base.cost=Math.max(8,Number(base.cost)||16);base.progress=clamp(Number(base.progress)||0,0,Math.max(base.cost*2,base.cost));
+ workers=Math.max(0,Math.floor(Number(workers)||0));
+ if(!Array.isArray(quests))quests=[];
+ quests=quests.filter(q=>q&&QUEST_TYPES.some(t=>t.key===q.key)).slice(0,3);
+ ensureQuests();
+ if(player.expedition){
+   const ed=EXPEDITIONS.find(x=>x.id===player.expedition.id);
+   if(!ed||!Number.isFinite(Number(player.expedition.end))||!Number.isFinite(Number(player.expedition.start)))player.expedition=null
+ }
+ for(const k of Object.keys(RESEARCH||{}))player.research[k]=clamp(Math.floor(Number(player.research[k])||0),0,RESEARCH[k].max);
+ for(const k of Object.keys(GEAR||{}))player.equipment[k]=clamp(Math.floor(Number(player.equipment[k])||0),0,GEAR[k].max);
+}
 
 const EVENT_MS=15*60*1000;
+
+const REGIONS=[
+ {name:'Kamp Merkezi',icon:'❄️',lv:1,tint:'#e8f9ff',bonus:'Başlangıç bölgesi'},
+ {name:'Çam Ormanı',icon:'🌲',lv:4,tint:'#dff5f1',bonus:'+%10 odun'},
+ {name:'Taşlık Vadi',icon:'⛰️',lv:7,tint:'#e7eef2',bonus:'+%15 taş'},
+ {name:'Donmuş Göl',icon:'🧊',lv:10,tint:'#dff4ff',bonus:'+%15 Jackpot enerji'},
+ {name:'Kurt Sınırı',icon:'🐺',lv:13,tint:'#e4ebf5',bonus:'+%20 tüm kazanç'}
+];
+function currentRegion(){let r=REGIONS[0];for(const x of REGIONS)if(base.level>=x.lv)r=x;return r}
+function regionMult(type){
+ const r=currentRegion();let m=1;
+ if(r.lv>=4&&type==='wood')m*=1.10;
+ if(r.lv>=7&&type==='stone')m*=1.15;
+ if(r.lv>=13)m*=1.20;
+ return m*(1+player.prestige*.10)
+}
+const GEAR={
+ bag:{name:'Keşif Çantası',icon:'🎒',desc:'+6 kaynak kapasitesi / seviye',base:140,stone:3,max:5},
+ boots:{name:'Kar Botu',icon:'🥾',desc:'+%6 hareket hızı / seviye',base:170,stone:4,max:5},
+ coat:{name:'Kutup Montu',icon:'🧥',desc:'Soğuk kaybı -%12 / seviye',base:210,stone:5,max:5},
+ pick:{name:'Çelik Kazma',icon:'⛏️',desc:'Taş toplama +%18 / seviye',base:240,stone:7,max:5},
+ bow:{name:'Avcı Yayı',icon:'🏹',desc:'Av ödülü +%15 / seviye',base:260,stone:8,max:5}
+};
+function gearCost(k){const lv=player.equipment[k]||0,g=GEAR[k];return{money:Math.round(g.base*Math.pow(1.65,lv)),stone:Math.round(g.stone*Math.pow(1.45,lv))}}
+function buyGear(k){
+ const g=GEAR[k],lv=player.equipment[k]||0;if(lv>=g.max)return;
+ const c=gearCost(k);if(player.money<c.money||player.stone<c.stone){toast('Yeterli kaynak yok');return}
+ player.money-=c.money;player.stone-=c.stone;player.equipment[k]=lv+1;particle(player.x,player.y,'spark',10);toast(`${g.name} LV.${lv+1}`);updateGearUI();hud();save()
+}
+function updateGearUI(){
+ $('gearList').innerHTML=Object.entries(GEAR).map(([k,g])=>{const lv=player.equipment[k]||0,c=gearCost(k),max=lv>=g.max;return `<div class="gearItem"><div class="gearIcon">${g.icon}</div><div class="gearInfo"><b>${g.name} • LV.${lv}/${g.max}</b><small>${g.desc}</small></div><button class="gearBuy buy" data-gear="${k}" ${max||player.money<c.money||player.stone<c.stone?'disabled':''}>${max?'MAX':`💵 ${c.money}<br>🪨 ${c.stone}`}</button></div>`}).join('');
+ $('gearList').querySelectorAll('[data-gear]').forEach(b=>b.onclick=()=>buyGear(b.dataset.gear))
+}
+function updateMapUI(){
+ $('regionList').innerHTML=REGIONS.map(r=>`<div class="regionItem" style="${base.level>=r.lv?'':'opacity:.5'}"><b>${r.icon} ${r.name} • LV.${r.lv}</b><small>${base.level>=r.lv?'AÇIK':'KİLİTLİ'} • ${r.bonus}</small></div>`).join('')
+}
+
 const defs=[
  {name:'Odun Hücumu',desc:'Odun topla.',metric:'wood',goal:24,reward:{money:100}},
  {name:'Av Sezonu',desc:'Et topla.',metric:'meat',goal:6,reward:{money:120,meat:2}},
@@ -241,12 +588,44 @@ function updateEvent(){
  $('eventTimer').textContent=(!ev.claimed&&ev.progress>=e.goal)?'ÖDÜL HAZIR':`${m}:${ss}`;
  $('eventName').textContent=e.name;$('eventDesc').textContent=e.desc;$('eventProgress').textContent=`${Math.floor(ev.progress)} / ${e.goal}`;$('eventBar').style.width=(ev.progress/e.goal*100)+'%';$('eventReward').textContent=ev.claimed?'Ödül alındı. Yeni etkinlik sayaç sonunda.':rewardText(e.reward);$('eventClaim').disabled=ev.claimed||ev.progress<e.goal
 }
-$('eventBtn').onclick=()=>{$('eventModal').style.display='grid';updateEvent()};
+$('eventBtn').onclick=()=>{resetJoy();$('eventModal').style.display='grid';updateEvent()};
 $('eventClose').onclick=()=>$('eventModal').style.display='none';
 $('eventClaim').onclick=()=>{const e=defs[ev.idx];if(ev.claimed||ev.progress<e.goal)return;for(const k in e.reward){const v=e.reward[k];if(k==='money')player.money+=v;else if(k==='wood')player.wood=Math.min(capWood(),player.wood+v);else if(k==='stone')player.stone=Math.min(capStone(),player.stone+v);else if(k==='meat')player.meat=Math.min(capMeat(),player.meat+v)}ev.claimed=true;saveEv();$('eventModal').style.display='none';toast('Etkinlik ödülü alındı')};
 
 
 
+
+
+const QUEST_TYPES=[
+ {key:'wood',icon:'🪵',name:'Odun topla',base:28},
+ {key:'stone',icon:'🪨',name:'Taş topla',base:10},
+ {key:'meat',icon:'🥩',name:'Et topla',base:8},
+ {key:'walk',icon:'🥾',name:'Keşif yap',base:1300},
+ {key:'earn',icon:'💵',name:'Para kazan',base:160},
+ {key:'build',icon:'🏕️',name:'Kampa kaynak bırak',base:24}
+];
+let quests=[];
+function questTarget(q){return Math.round(q.base*(1+Math.max(0,base.level-1)*.18))}
+function makeQuest(seed=0){
+ const q=QUEST_TYPES[(base.level+seed*2+Math.floor(Date.now()/86400000))%QUEST_TYPES.length];
+ return{id:q.key+'_'+seed,key:q.key,icon:q.icon,name:q.name,base:q.base,start:player.questStats[q.key]||0,claimed:false}
+}
+function ensureQuests(){
+ if(!Array.isArray(quests))quests=[];
+ if(!quests.length)quests=[makeQuest(0),makeQuest(1),makeQuest(2)];
+ quests=quests.slice(0,3);
+ while(quests.length<3)quests.push(makeQuest(quests.length));
+}
+function questProgress(q){return Math.max(0,(player.questStats[q.key]||0)-q.start)}
+function addQuestStat(k,n){if(player.questStats[k]!==undefined)player.questStats[k]+=n}
+function claimQuest(i){
+ const q=quests[i],target=questTarget(q);if(q.claimed||questProgress(q)<target)return;
+ const reward=Math.round(70+base.level*22);player.money+=reward;player.jackpotEnergy=clamp(player.jackpotEnergy+12,0,100);if((i+base.level)%3===0)awardResearch(1,'Görev araştırması');q.claimed=true;
+ toast(`Görev ödülü +${reward} 💵`);setTimeout(()=>{quests[i]=makeQuest(i+base.level+Math.floor((player.lifetime.levels||0)%7));quests[i].start=player.questStats[quests[i].key]||0;updateQuestUI();save()},250);updateQuestUI();hud()
+}
+function updateQuestUI(){
+ ensureQuests();$('questList').innerHTML=quests.map((q,i)=>{const p=questProgress(q),t=questTarget(q),pct=Math.min(100,p/t*100);return `<div class="questItem"><div class="questTop"><b>${q.icon} ${q.name}</b><small>${Math.floor(p)} / ${t}</small></div><div class="questProgress"><i style="width:${pct}%"></i></div><button class="questClaim" data-q="${i}" ${p<t?'disabled':''}>ÖDÜLÜ AL</button></div>`}).join('');$('questList').querySelectorAll('[data-q]').forEach(b=>b.onclick=()=>claimQuest(Number(b.dataset.q)))
+}
 
 let worldEvent={type:'none',t:0,next:150};
 function setWorldEvent(type,duration){
@@ -258,8 +637,44 @@ function updateWorldEvent(dt){
  if(worldEvent.type!=='none'){worldEvent.t-=dt;if(worldEvent.t<=0){worldEvent.type='none';const el=$('worldEvent');el.classList.remove('show');toast('Dünya olayı sona erdi')}}else{worldEvent.next-=dt;if(worldEvent.next<=0){const types=['storm','migration','rush'];setWorldEvent(types[Math.floor(Math.random()*types.length)],45)}}
 }
 
+
+
+function updatePrestigeUI(){
+ const gain=Math.max(1,Math.floor((base.level-9)/3)),can=base.level>=12;
+ $('prestigeStars').textContent=`${player.prestige} Yıldız`;$('prestigeBonus').textContent=`Kalıcı bonus: +${player.prestige*10}%`;
+ $('prestigeInfo').textContent=can?`Bu sezonu bitirirsen +${gain} ⭐ kazanırsın. Baltalar ve ekipmanlar korunur.`:'Prestij için kampı LV.12 yap.';
+ $('prestigeBtn').disabled=!can
+}
+function doPrestige(){
+ if(base.level<12)return;const gain=Math.max(1,Math.floor((base.level-9)/3));
+ player.prestige+=gain;player.money=0;player.wood=0;player.stone=0;player.meat=0;player.rations=0;player.hunger=100;player.warm=100;player.morale=60;player.camp=0;player.bag=0;player.boot=0;player.cook=0;player.cleave=0;player.jackpotEnergy=0;player.combo=0;player.comboTime=0;player.milestone=0;player.questStats={wood:0,stone:0,meat:0,walk:0,earn:0,build:0};player.sledClock=0;player.expedition=null;
+ base.level=1;base.progress=0;base.cost=16;workers=0;workerAgents.length=0;boss=null;bossTimer=210;goldenTree=null;goldenTimer=rand(150,260);$('bossBar').classList.remove('show');player.x=C.x;player.y=C.y-130;quests=[];ensureQuests();
+ $('prestigeModal').style.display='none';flash();shake=10;buildingToast(`⭐ Yeni Sezon • +${gain} yıldız`);save();hud()
+}
+
+function addCombo(){
+ player.combo=clamp((player.combo||0)+1,1,10);player.comboTime=4.2;
+ const bonus=1+(player.combo-1)*.06;
+ $('comboHud').classList.add('show');$('comboText').textContent=`x${bonus.toFixed(2)}`;
+ return bonus
+}
+function updateCombo(dt){
+ if(player.comboTime>0){player.comboTime-=dt;if(player.comboTime<=0){player.combo=0;$('comboHud').classList.remove('show')}}
+}
+function comboBonus(){return 1+Math.max(0,(player.combo||0)-1)*.06}
+function milestoneReward(level){
+ if(level<3||level%3!==0||player.milestone>=level)return;
+ player.milestone=level;
+ const cash=level*45,wood=Math.min(8+level,capWood()-player.wood),stone=Math.min(2+Math.floor(level/3),capStone()-player.stone);
+ player.money+=cash;player.wood+=Math.max(0,wood);player.stone+=Math.max(0,stone);
+ player.jackpotEnergy=clamp(player.jackpotEnergy+25,0,100);player.cleave=clamp(player.cleave+30,0,100);
+ particle(C.x,C.y,'spark',20);flash();shake=8;
+ buildingToast(`🎁 LV.${level} ödülü • +${cash} 💵`);
+ floater(C.x,C.y-70,'MİLESTONE!');
+}
+
 function addCleave(n){player.cleave=clamp(player.cleave+n,0,100)}
-function addJackpotEnergy(n){player.jackpotEnergy=clamp(player.jackpotEnergy+n,0,100)}
+function addJackpotEnergy(n){const b=(currentRegion().lv>=10?1.15:1)*(1+(player.research?.luck||0)*.08);player.jackpotEnergy=clamp(player.jackpotEnergy+n*b,0,100)}
 
 function activateCleave(){
  if(player.cleave<100){toast('Toplu Kesim henüz hazır değil');return}
@@ -274,11 +689,11 @@ function activateCleave(){
    t.dead=5;t.hp=3;t.hit=1;
    const crit=Math.random()*100<ax.crit;
    let gain=3+ax.yield+(crit?1:0);
-   gain=Math.min(gain,Math.max(0,capWood()-player.wood));
-   player.wood+=gain;total+=gain;evAdd('wood',gain);
+   gain=Math.max(0,Math.round(Math.min(gain,Math.max(0,capWood()-player.wood))*10)/10);
+   player.wood+=gain;total+=gain;evAdd('wood',gain);addQuestStat('wood',gain);player.lifetime.wood+=gain;
    particle(t.x,t.y,'woodchip',12+ax.id*2);particle(t.x,t.y,'spark',4);floater(t.x,t.y-18,`+${gain} 🪵`);
  });
- addJackpotEnergy(nearby.length*5);
+ addJackpotEnergy(nearby.length*5*comboBonus());
  toast(`⚡ ${nearby.length} ağaç tek vuruşta! +${total} 🪵`);
 }
 
@@ -300,11 +715,15 @@ function fmtRewardAmount(n){
  return Number.isInteger(v)?String(v):v.toFixed(1).replace(/\.0$/,'');
 }
 function addReward(key,amount){
+ amount=Math.max(0,Number(amount)||0);
  if(key==='money'){player.money+=amount;return amount}
- if(key==='wood'){const before=player.wood;player.wood=clamp(player.wood+amount,0,capWood());return Math.max(0,Math.round((player.wood-before)*10)/10)}
- if(key==='stone'){const before=player.stone;player.stone=clamp(player.stone+amount,0,capStone());return Math.max(0,Math.round((player.stone-before)*10)/10)}
- if(key==='meat'){const before=player.meat;player.meat=clamp(player.meat+amount,0,capMeat());return Math.max(0,Math.round((player.meat-before)*10)/10)}
- return 0
+ let before=0,after=0,overflow=0;
+ if(key==='wood'){before=player.wood;player.wood=clamp(player.wood+amount,0,capWood());after=player.wood}
+ if(key==='stone'){before=player.stone;player.stone=clamp(player.stone+amount,0,capStone());after=player.stone}
+ if(key==='meat'){before=player.meat;player.meat=clamp(player.meat+amount,0,capMeat());after=player.meat}
+ const gained=Math.max(0,Math.round((after-before)*10)/10);overflow=Math.max(0,amount-gained);
+ if(overflow>0){const rate=key==='wood'?4:key==='stone'?10:12;player.money+=Math.round(overflow*rate)}
+ return gained
 }
 function applySlotReward(result){
  const triple=result[0].icon===result[1].icon&&result[1].icon===result[2].icon;
@@ -329,7 +748,7 @@ function applySlotReward(result){
 function spinJackpot(){
  if(slotSpinning)return;
  if(player.jackpotEnergy<100){toast('Jackpot enerjisi dolmadı');return}
- player.jackpotEnergy=0;slotSpinning=true;updateJackpotUI();
+ player.jackpotEnergy=0;player.lifetime.spins+=1;slotSpinning=true;updateJackpotUI();
  const reels=[$('reel1'),$('reel2'),$('reel3')];reels.forEach(r=>r.classList.add('spinning'));
  $('jackpotResult').textContent='Çevriliyor...';
  let ticks=0;
@@ -343,12 +762,12 @@ function updateJackpotUI(){
  $('spinBtn').disabled=e<100||slotSpinning;$('jackpotPity').textContent=`Garanti: ${Math.floor(player.jackpotPity)} / 7`
 }
 $('cleaveBtn').onclick=activateCleave;
-$('jackpotBtn').onclick=()=>{$('jackpotModal').style.display='grid';updateJackpotUI()};
+$('jackpotBtn').onclick=()=>{resetJoy();$('jackpotModal').style.display='grid';updateJackpotUI()};
 $('jackpotClose').onclick=()=>$('jackpotModal').style.display='none';
 $('spinBtn').onclick=spinJackpot;
 
-['eventModal','jackpotModal','axeModal','upgradeModal'].forEach(id=>{const el=$(id);el.addEventListener('pointerdown',e=>{if(e.target===el&&!(id==='jackpotModal'&&slotSpinning))el.style.display='none'})});
-addEventListener('keydown',e=>{if(e.key==='Escape'&&!slotSpinning){['eventModal','jackpotModal','axeModal','upgradeModal'].forEach(id=>$(id).style.display='none')}})
+['eventModal','jackpotModal','axeModal','upgradeModal','hubModal','gearModal','mapModal','questsModal','prestigeModal','systemsModal','researchModal','expeditionModal','achievementsModal','rewardsModal'].forEach(id=>{const el=$(id);el.addEventListener('pointerdown',e=>{if(e.target===el&&!(id==='jackpotModal'&&slotSpinning))el.style.display='none'})});
+addEventListener('keydown',e=>{if(e.key==='Escape'&&!slotSpinning){['eventModal','jackpotModal','axeModal','upgradeModal','hubModal','gearModal','mapModal','questsModal','prestigeModal','systemsModal','researchModal','expeditionModal','achievementsModal','rewardsModal'].forEach(id=>$(id).style.display='none')}})
 
 
 const AXES=[
@@ -365,16 +784,15 @@ function showCrit(){
 }
 function buyOrEquipAxe(id){
  const a=AXES[id];
- if(axeOwned(id)){player.axe=id;toast(`${a.name} kuşanıldı`);updateAxeUI();save();return}
+ if(axeOwned(id)){player.axe=id;toast(`${a.name} kuşanıldı`);updateAxeUI();hud();save();return}
  if(player.money<a.costMoney||player.stone<a.costStone){toast('Yeterli kaynak yok');return}
  player.money-=a.costMoney;player.stone-=a.costStone;player.axeOwned.push(id);player.axe=id;
- particle(player.x,player.y,'spark',16);floater(player.x,player.y-30,`${a.name}!`);flash();toast('Yeni balta açıldı');updateAxeUI();save()
+ particle(player.x,player.y,'spark',16);floater(player.x,player.y-30,`${a.name}!`);flash();toast('Yeni balta açıldı');updateAxeUI();hud();save()
 }
 function updateAxeUI(){
  const a=currentAxe();
  $('axeHeroIcon').textContent=a.icon;$('axeHeroName').textContent=a.name;$('axeHeroDesc').textContent=a.desc;
  $('axeSpeedStat').textContent=a.speed.toFixed(2)+'x';$('axeYieldStat').textContent='+'+a.yield;$('axeCritStat').textContent=a.crit+'%';
- $('axeBtn').textContent=`${a.icon} ${a.name.toUpperCase()}`;
  $('axeList').innerHTML=AXES.map(x=>{
   const own=axeOwned(x.id),eq=player.axe===x.id;
   const afford=player.money>=x.costMoney&&player.stone>=x.costStone;
@@ -388,7 +806,6 @@ function updateAxeUI(){
  }).join('');
  $('axeList').querySelectorAll('[data-axe]').forEach(b=>b.onclick=()=>buyOrEquipAxe(Number(b.dataset.axe)))
 }
-$('axeBtn').onclick=()=>{$('axeModal').style.display='grid';updateAxeUI()};
 $('axeClose').onclick=()=>$('axeModal').style.display='none';
 
 const costs={camp:80,bag:90,boot:100,cook:120};
@@ -397,10 +814,45 @@ function updateUpgrades(){
  $('campTxt').textContent=`Pasif üretim +${player.camp*10}%`;$('bagTxt').textContent=`Odun kapasitesi ${capWood()}`;$('bootTxt').textContent=`Hız +${player.boot*8}%`;$('cookTxt').textContent=`Et verimi x${(1+player.cook*.25).toFixed(2)}`;
  ['camp','bag','boot','cook'].forEach(k=>{$(k+'Buy').textContent='💵 '+cost(k);$(k+'Buy').disabled=player.money<cost(k)})
 }
-function buy(k){const c=cost(k);if(player.money<c)return;player.money-=c;player[k]++;updateUpgrades();save();toast('Geliştirme tamamlandı')}
+function buy(k){const c=cost(k);if(player.money<c)return;player.money-=c;player[k]++;updateUpgrades();hud();save();toast('Geliştirme tamamlandı')}
 ['camp','bag','boot','cook'].forEach(k=>$(k+'Buy').onclick=()=>buy(k));
-$('upgradeBtn').onclick=()=>{$('upgradeModal').style.display='grid';updateUpgrades()};
+
+$('hubBtn').onclick=()=>{resetJoy();$('hubModal').style.display='grid'};
+$('hubClose').onclick=()=>$('hubModal').style.display='none';
+function openFromHub(id){resetJoy();$('hubModal').style.display='none';$(id).style.display='grid'}
+$('hubRewards').onclick=()=>{updateEvent();updateJackpotUI();openFromHub('rewardsModal');updateRewardHub()};
+$('rewardsClose').onclick=()=>$('rewardsModal').style.display='none';
+$('rewardEvent').onclick=()=>{resetJoy();$('rewardsModal').style.display='none';$('eventModal').style.display='grid';updateEvent()};
+$('rewardJackpot').onclick=()=>{resetJoy();$('rewardsModal').style.display='none';$('jackpotModal').style.display='grid';updateJackpotUI()};
+function updateRewardHub(){const e=$('rewardEventText'),j=$('rewardJackpotText');if(e)e.textContent=eventReady?'Ödül hazır!':`Yeni ödül: ${fmtTime(eventLeft)}`;if(j)j.textContent=player.jackpotEnergy>=100?'Çevirme hazır!':`Enerji %${Math.floor(player.jackpotEnergy)}`}
+$('hubGear').onclick=()=>{updateGearUI();openFromHub('gearModal')};
+$('hubMap').onclick=()=>{updateMapUI();openFromHub('mapModal')};
+$('hubQuests').onclick=()=>{updateQuestUI();openFromHub('questsModal')};
+$('hubPrestige').onclick=()=>{updatePrestigeUI();openFromHub('prestigeModal')};
+$('hubAxe').onclick=()=>{updateAxeUI();openFromHub('axeModal')};
+$('hubUpgrade').onclick=()=>{updateUpgrades();openFromHub('upgradeModal')};
+$('hubSystems').onclick=()=>{updateSystemsUI();openFromHub('systemsModal')};
+
+$('hubResearch').onclick=()=>{updateResearchUI();openFromHub('researchModal')};
+$('hubExpedition').onclick=()=>{updateExpeditionUI();openFromHub('expeditionModal')};
+$('hubAchievements').onclick=()=>{updateAchievementsUI();openFromHub('achievementsModal')};
+$('researchClose').onclick=()=>$('researchModal').style.display='none';
+$('expeditionClose').onclick=()=>$('expeditionModal').style.display='none';
+$('achievementsClose').onclick=()=>$('achievementsModal').style.display='none';
+
+$('gearClose').onclick=()=>$('gearModal').style.display='none';
+$('mapClose').onclick=()=>$('mapModal').style.display='none';
+$('questsClose').onclick=()=>$('questsModal').style.display='none';
+$('prestigeClose').onclick=()=>$('prestigeModal').style.display='none';
+$('systemsClose').onclick=()=>$('systemsModal').style.display='none';
+$('prestigeBtn').onclick=doPrestige;
+
 $('upgradeClose').onclick=()=>$('upgradeModal').style.display='none';
+
+
+function applyQuality(){
+ player.quality='eco';currentFPS=MOBILE?20:30;FRAME_MS=1000/currentFPS
+}
 
 const keys={};addEventListener('keydown',e=>{const k=e.key.toLowerCase();keys[k]=true;if(k.startsWith('arrow'))e.preventDefault()});addEventListener('keyup',e=>keys[e.key.toLowerCase()]=false);
 const joy=$('joy'),stick=$('stick'),joyHint=$('joyHint');let jx=0,jy=0,jid=null,jbaseX=0,jbaseY=0;
@@ -410,36 +862,69 @@ function joyMove(x,y){
  if(l>max){dx=dx/l*max;dy=dy/l*max}
  jx=dx/max;jy=dy/max;stick.style.transform=`translate(${dx}px,${dy}px)`
 }
+function anyModalOpen(){return [...document.querySelectorAll('.modalWrap')].some(x=>x.style.display==='grid')}
 function startFloatingJoy(e){
- if(matchMedia('(pointer:fine)').matches||jid!==null||isTouchUI(e.target))return;
+ if(matchMedia('(pointer:fine)').matches||jid!==null||isTouchUI(e.target)||anyModalOpen())return;
  jid=e.pointerId;jbaseX=e.clientX;jbaseY=e.clientY;
  joy.style.left=jbaseX+'px';joy.style.top=jbaseY+'px';joy.classList.add('active');joyHint.classList.add('hide');
  joyMove(e.clientX,e.clientY);e.preventDefault()
 }
 function moveFloatingJoy(e){if(e.pointerId===jid){joyMove(e.clientX,e.clientY);e.preventDefault()}}
+function resetJoy(){jid=null;jx=jy=0;stick.style.transform='translate(0,0)';joy.classList.remove('active')}
 function endFloatingJoy(e){
  if(e.pointerId!==jid)return;
- jid=null;jx=jy=0;stick.style.transform='translate(0,0)';joy.classList.remove('active');e.preventDefault()
+ resetJoy();e.preventDefault()
 }
 canvas.addEventListener('pointerdown',startFloatingJoy,{passive:false});
 addEventListener('pointermove',moveFloatingJoy,{passive:false});
 addEventListener('pointerup',endFloatingJoy,{passive:false});
 addEventListener('pointercancel',endFloatingJoy,{passive:false});
 
-function resize(){DPR=Math.min(2,devicePixelRatio||1);W=innerWidth;H=innerHeight;canvas.width=Math.round(W*DPR);canvas.height=Math.round(H*DPR);ctx.setTransform(DPR,0,0,DPR,0,0)}
+function resize(){
+ W=innerWidth;H=innerHeight;
+ DPR=MOBILE?1:Math.min(1.35,devicePixelRatio||1);
+ canvas.width=Math.round(W*DPR);canvas.height=Math.round(H*DPR);
+ ctx.setTransform(DPR,0,0,DPR,0,0)
+}
 addEventListener('resize',resize);resize();
 function scale(){return W<430?.86:W<700?.96:1.08}
 let camX=0,camY=0;
 function iso(x,y){const z=scale();return{x:((x-y)*.5-camX)*z+W/2,y:((x+y)*.25-camY)*z+H*.56}}
 function shadow(x,y,rx,ry){ctx.fillStyle='#17364a24';ctx.beginPath();ctx.ellipse(x,y,rx,ry,0,0,Math.PI*2);ctx.fill()}
 function tri(x1,y1,x2,y2,x3,y3,c){ctx.fillStyle=c;ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.lineTo(x3,y3);ctx.closePath();ctx.fill()}
-function ground(){ctx.fillStyle='#e8f9ff';ctx.fillRect(0,0,W,H);const p=iso(C.x,C.y),z=scale();ctx.fillStyle='#f4c9a4';ctx.beginPath();ctx.ellipse(p.x,p.y,260*z,120*z,0,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#78bfd633';ctx.lineWidth=3;ctx.beginPath();ctx.arc(p.x,p.y,radius()*.46*z,0,Math.PI*2);ctx.stroke()}
+function ground(){ctx.fillStyle=currentRegion().tint;ctx.fillRect(0,0,W,H);const p=iso(C.x,C.y),z=scale();ctx.fillStyle='#f4c9a4';ctx.beginPath();ctx.ellipse(p.x,p.y,260*z,120*z,0,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#78bfd633';ctx.lineWidth=3;ctx.beginPath();ctx.arc(p.x,p.y,radius()*.46*z,0,Math.PI*2);ctx.stroke()}
 function tree(t){const p=iso(t.x,t.y),z=scale(),sway=Math.sin(gameTime*1.7+t.x*.013)*1.2*z+Math.sin((t.hit||0)*Math.PI)*4*z;ctx.save();ctx.translate(sway,0);shadow(p.x,p.y+14*z,16*z,6*z);ctx.fillStyle='#86543a';ctx.fillRect(p.x-4*z,p.y-14*z,8*z,32*z);[[30,-58],[40,-38],[48,-18]].forEach((a,i)=>tri(p.x,p.y+(a[1]-25)*z,p.x-a[0]*z,p.y+(a[1]+20)*z,p.x+a[0]*z,p.y+(a[1]+20)*z,i?'#8edced':'#c7f5ff'));tri(p.x-2*z,p.y-82*z,p.x-22*z,p.y-49*z,p.x+2*z,p.y-54*z,'#ffffff99');ctx.restore()}
 function rock(r){const p=iso(r.x,r.y),z=scale(),j=Math.sin((r.hit||0)*Math.PI*3)*3*z;ctx.save();ctx.translate(j,0);shadow(p.x,p.y+8*z,18*z,6*z);ctx.fillStyle='#93a7b7';ctx.beginPath();ctx.moveTo(p.x-20*z,p.y+8*z);ctx.lineTo(p.x-12*z,p.y-15*z);ctx.lineTo(p.x+8*z,p.y-20*z);ctx.lineTo(p.x+22*z,p.y+6*z);ctx.lineTo(p.x+5*z,p.y+15*z);ctx.closePath();ctx.fill();tri(p.x-12*z,p.y-15*z,p.x+8*z,p.y-20*z,p.x+1*z,p.y-1*z,'#c5d1d9');ctx.restore()}
 function animal(a){const p=iso(a.x,a.y),z=scale(),bob=Math.abs(Math.sin(gameTime*(a.type==='deer'?7:11)+a.y))*3*z,run=1+Math.abs(Math.sin(gameTime*(a.type==='deer'?7:10)+a.x))*.06;ctx.save();ctx.translate(p.x,p.y-bob);ctx.scale(run,1);ctx.translate(-p.x,-p.y);shadow(p.x,p.y+7*z,12*z,5*z);ctx.fillStyle=a.type==='deer'?'#b77b44':'#dce6ea';ctx.beginPath();ctx.ellipse(p.x,p.y-6*z,a.type==='deer'?17*z:11*z,8*z,0,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(p.x+10*z,p.y-14*z,5*z,0,Math.PI*2);ctx.fill();ctx.restore()}
-function camp(){const p=iso(C.x,C.y),z=scale();shadow(p.x,p.y+24*z,55*z,15*z);ctx.fillStyle='#95613e';ctx.fillRect(p.x-38*z,p.y-8*z,76*z,42*z);tri(p.x,p.y-43*z,p.x-48*z,p.y-8*z,p.x+48*z,p.y-8*z,'#d95b41');const flick=6+Math.sin(gameTime*8)*2;ctx.fillStyle='#ff9f2f';ctx.beginPath();ctx.arc(p.x-58*z,p.y+27*z,9*z,0,Math.PI*2);ctx.fill();ctx.fillStyle='#ffe064';ctx.beginPath();ctx.arc(p.x-58*z,p.y+25*z,flick*z*.55,0,Math.PI*2);ctx.fill();if(Math.random()<.10)particle(C.x-80,C.y-25,'spark',1);if(Math.random()<.025)particle(C.x-65,C.y-45,'smoke',1);ctx.fillStyle='#29485cbb';ctx.font=`900 ${10*z}px system-ui`;ctx.textAlign='center';ctx.fillText(`KAMP LV.${base.level}`,p.x,p.y-50*z)}
+function camp(){const p=iso(C.x,C.y),z=scale();shadow(p.x,p.y+24*z,55*z,15*z);ctx.fillStyle='#95613e';ctx.fillRect(p.x-38*z,p.y-8*z,76*z,42*z);tri(p.x,p.y-43*z,p.x-48*z,p.y-8*z,p.x+48*z,p.y-8*z,'#d95b41');const flick=6+Math.sin(gameTime*8)*2;ctx.fillStyle='#ff9f2f';ctx.beginPath();ctx.arc(p.x-58*z,p.y+27*z,9*z,0,Math.PI*2);ctx.fill();ctx.fillStyle='#ffe064';ctx.beginPath();ctx.arc(p.x-58*z,p.y+25*z,flick*z*.55,0,Math.PI*2);ctx.fill();if(!MOBILE&&Math.random()<.10)particle(C.x-80,C.y-25,'spark',1);if(!MOBILE&&Math.random()<.025)particle(C.x-65,C.y-45,'smoke',1);ctx.fillStyle='#29485cbb';ctx.font=`900 ${10*z}px system-ui`;ctx.textAlign='center';ctx.fillText(`KAMP LV.${base.level}`,p.x,p.y-50*z);
+ const houses=Math.min(6,Math.floor((base.level-1)/2));for(let i=0;i<houses;i++){const a=i/Math.max(1,houses)*Math.PI*2,rx=Math.cos(a)*78*z,ry=Math.sin(a)*38*z;ctx.fillStyle='#8c6044';ctx.fillRect(p.x+rx-12*z,p.y+ry-5*z,24*z,18*z);tri(p.x+rx,p.y+ry-18*z,p.x+rx-16*z,p.y+ry-5*z,p.x+rx+16*z,p.y+ry-5*z,i%2?'#a95d42':'#b77446')}
+}
 function building(b){if(base.level<b.unlock)return;const p=iso(b.x,b.y),z=scale();shadow(p.x,p.y+17*z,33*z,11*z);const roof={lumber:'#b76e3d',hunter:'#8f684c',kitchen:'#ce7651',quarry:'#768b9a',store:'#7a633f'}[b.id]||'#a66';ctx.fillStyle='#8e603f';ctx.fillRect(p.x-27*z,p.y-5*z,54*z,31*z);tri(p.x,p.y-31*z,p.x-34*z,p.y-5*z,p.x+34*z,p.y-5*z,roof);ctx.fillStyle='#f4ca84';ctx.fillRect(p.x-7*z,p.y+8*z,14*z,18*z);ctx.font=`${15*z}px serif`;ctx.textAlign='center';ctx.fillText(b.icon,p.x,p.y-38*z)}
 function playerDraw(){const p=iso(player.x,player.y),z=scale(),bob=wasMoving?Math.sin(movePhase*2)*3*z:Math.sin(gameTime*2.2)*.7*z,lean=wasMoving?Math.sin(movePhase)*.04:0;p.y+=bob;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(lean);ctx.translate(-p.x,-p.y);shadow(p.x,p.y+15*z,18*z,7*z);for(let i=0;i<Math.min(8,Math.floor(player.wood));i++){const wob=Math.sin(gameTime*5+i)*.6*z;ctx.fillStyle='#c9844f';ctx.fillRect(p.x+16*z+wob,p.y-30*z-i*6*z,26*z,7*z)}ctx.fillStyle='#27add7';ctx.beginPath();ctx.arc(p.x,p.y-8*z,15*z,0,Math.PI*2);ctx.fill();ctx.fillStyle='#f1d0b4';ctx.beginPath();ctx.arc(p.x,p.y-26*z,8*z,0,Math.PI*2);ctx.fill();const swing=player.work>0?Math.sin(Math.min(1,player.work/.55)*Math.PI)*1.05:0;ctx.save();ctx.translate(p.x+8*z,p.y-10*z);ctx.rotate(-.7+swing);ctx.strokeStyle='#7b5435';ctx.lineWidth=4*z;ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(20*z,0);ctx.stroke();const ax=currentAxe();ctx.strokeStyle=ax.id>=4?'#bff5ff':ax.id>=3?'#d7e1e8':ax.id>=2?'#aebdc7':'#768b98';ctx.lineWidth=(6+ax.id*.5)*z;ctx.beginPath();ctx.moveTo(18*z,0);ctx.lineTo((23+ax.id)*z,-(6+ax.id)*z);ctx.stroke();if(ax.id>=4){ctx.strokeStyle='#80eaff';ctx.lineWidth=2*z;ctx.beginPath();ctx.moveTo(18*z,1*z);ctx.lineTo(27*z,-10*z);ctx.stroke()}ctx.restore();ctx.strokeStyle='#43e4ff';ctx.lineWidth=3*z;ctx.beginPath();ctx.arc(p.x,p.y+5*z,22*z,0,Math.PI*2);ctx.stroke();ctx.restore()}
+
+
+let boss=null,bossTimer=210;
+function spawnBoss(){
+ if(base.level<5)return;const br=Math.max(180,radius()-45),p=spawn(Math.min(320,br*.7),br);
+ boss={x:p.x,y:p.y,hp:12+base.level*2,max:12+base.level*2,dead:0,dir:rand(0,6.28),type:'bear'};
+ bossTimer=rand(240,360);$('bossBar').classList.add('show');buildingToast('🐻 Buz Ayısı ortaya çıktı!')
+}
+function updateBoss(dt){
+ if(boss){
+   if(boss.hp<=0){const reward=Math.round((180+base.level*35)*regionMult('money'));player.money+=reward;player.meat=Math.min(capMeat(),player.meat+6);player.jackpotEnergy=100;addMorale(14);particle(boss.x,boss.y,'spark',18);buildingToast(`🐻 Ayı yenildi • +${reward} 💵`);player.lifetime.boss+=1;awardResearch(1,'Boss araştırması');boss=null;player.bossWork=0;$('bossBar').classList.remove('show');return}
+   const dd=d(player,boss);
+   if(dd<82){player.bossWork+=dt;if(player.bossWork>.52){player.bossWork=0;boss.hp-=currentAxe().id>=3?2:1;impact(boss.x,boss.y,'wood');shake=4}}
+   else player.bossWork=0;
+   if(dd>95){
+     boss.x+=Math.cos(boss.dir)*10*dt;boss.y+=Math.sin(boss.dir)*10*dt;if(Math.random()<dt*.25)boss.dir+=rand(-.7,.7);
+     const rr=Math.hypot(boss.x-C.x,boss.y-C.y),mr=Math.max(180,radius()-35);if(rr>mr){boss.dir=Math.atan2(C.y-boss.y,C.x-boss.x)}
+   }
+   $('bossHpText').textContent=`${Math.max(0,boss.hp)} / ${boss.max}`;$('bossHpFill').style.width=Math.max(0,boss.hp/boss.max*100)+'%'
+ }else{bossTimer-=dt;if(bossTimer<=0)spawnBoss()}
+}
+function drawBoss(){
+ if(!boss)return;const p=iso(boss.x,boss.y),z=scale();shadow(p.x,p.y+12*z,25*z,9*z);ctx.fillStyle='#8f8f91';ctx.beginPath();ctx.ellipse(p.x,p.y-8*z,25*z,15*z,0,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(p.x+19*z,p.y-16*z,10*z,0,Math.PI*2);ctx.fill();ctx.fillStyle='#2d3438';ctx.beginPath();ctx.arc(p.x+23*z,p.y-17*z,2*z,0,Math.PI*2);ctx.fill()
+}
 
 const workerAgents=[];
 function syncWorkers(){
@@ -465,7 +950,14 @@ function moveAgent(w,to,speed,dt){
 }
 function updateWorkers(dt){
  syncWorkers();
- for(const w of workerAgents){
+ const available=activeWorkers();
+ for(let wi=0;wi<workerAgents.length;wi++){
+  const w=workerAgents[wi];
+  if(wi>=available){
+    w.target=null;w.carry=0;w.phase='expedition';w.t=0;
+    const h=workerHome(w);moveAgent(w,h,80,dt);continue
+  }
+  if(w.phase==='expedition')w.phase='seek';
   if(w.role==='cook'){const h=workerHome(w);w.t+=dt;w.x=h.x+Math.cos(w.t*.7+w.id)*28;w.y=h.y+Math.sin(w.t*.7+w.id)*20;continue}
   if(w.phase==='seek'){
     if(!w.target||w.target.dead>0)w.target=workerTarget(w);
@@ -473,11 +965,17 @@ function updateWorkers(dt){
     if(moveAgent(w,w.target,70,dt)<28){w.phase='work';w.t=0}
   }else if(w.phase==='work'){
     w.t+=dt;
-    if(w.t>1.35){w.carry=1;w.phase='return';w.target=null}
+    if(!w.target||w.target.dead>0){w.target=null;w.phase='seek';w.t=0;continue}
+    if(w.t>1.35){
+      if(w.role==='wood'){w.target.hp=(w.target.hp||3)-1;if(w.target.hp<=0){w.target.dead=5;w.target.hp=3}}
+      if(w.role==='hunt'){w.target.hp=(w.target.hp||w.target.max||2)-1;if(w.target.hp<=0){w.target.dead=8;w.target.hp=w.target.max||2}}
+      if(w.role==='stone'){w.target.hp=(w.target.hp||4)-1;if(w.target.hp<=0){w.target.dead=7;w.target.hp=4}}
+      w.carry=1;w.phase='return';w.target=null;w.t=0
+    }
   }else{
     const h=workerHome(w);
     if(moveAgent(w,h,76,dt)<30){
-      const boost=1+player.camp*.10;
+      const boost=(1+player.camp*.10)*moraleBoost()*(1+player.prestige*.10)*(1+(player.research?.workers||0)*.10);
       if(w.role==='wood')player.wood=Math.min(capWood(),player.wood+.6*boost);
       if(w.role==='hunt')player.meat=Math.min(capMeat(),player.meat+.22*boost);
       if(w.role==='stone')player.stone=Math.min(capStone(),player.stone+.18*boost);
@@ -509,7 +1007,7 @@ function toast(m){const t=$('toast');t.textContent=m;t.classList.add('show');cle
 function buildingToast(m){const t=$('buildingToast');t.textContent=m;t.classList.add('show');clearTimeout(buildingToast.x);buildingToast.x=setTimeout(()=>t.classList.remove('show'),1800)}
 
 function update(dt){
- gameTime+=dt;updateWorldEvent(dt);updateWorkers(dt);
+ gameTime+=dt;updateCombo(dt);updateWorldEvent(dt);updateWorkers(dt);updateBoss(dt);updateSupportSystems(dt);updateGoldenTree(dt);idleClock+=dt;
  for(const q of particles){q.t+=dt;q.x+=q.vx*dt;q.y+=q.vy*dt;q.vy+=42*dt;if(q.type==='smoke'){q.vx*=.98;q.vy=-12}}
  for(let i=particles.length-1;i>=0;i--)if(particles[i].t>=particles[i].life)particles.splice(i,1);
  for(const f of floaters)f.t+=dt;for(let i=floaters.length-1;i>=0;i--)if(floaters[i].t>=floaters[i].life)floaters.splice(i,1);
@@ -519,35 +1017,64 @@ function update(dt){
  shake=Math.max(0,shake-dt*15);
  let x=jx,y=jy;if(keys.w||keys.arrowup)y--;if(keys.s||keys.arrowdown)y++;if(keys.a||keys.arrowleft)x--;if(keys.d||keys.arrowright)x++;
  let l=Math.hypot(x,y);if(l>1){x/=l;y/=l}
- wasMoving=l>.01;if(wasMoving){movePhase+=dt*7;const wx=y*2+x,wy=y*2-x,wl=Math.hypot(wx,wy)||1,s=235*(1+player.boot*.08)*(player.hunger?1:.72),ox=player.x,oy=player.y;let nx=player.x+wx/wl*s*dt,ny=player.y+wy/wl*s*dt,rr=Math.hypot(nx-C.x,ny-C.y),mr=radius()-28;if(rr>mr){const a=Math.atan2(ny-C.y,nx-C.x);nx=C.x+Math.cos(a)*mr;ny=C.y+Math.sin(a)*mr}player.x=nx;player.y=ny;evAdd('walk',Math.hypot(nx-ox,ny-oy));lastFoot+=dt;if(lastFoot>.17){lastFoot=0;footprints.push({x:player.x,y:player.y,t:0,life:2.4,rot:Math.atan2(wy,wx)*.2});if(footprints.length>24)footprints.shift()}}
- player.hunger=clamp(player.hunger-dt*.06,0,100);player.warm=clamp(player.warm-dt*(worldEvent.type==='storm'?.075:.025),0,100);
- if(player.hunger<35&&player.meat>=1){player.meat--;player.hunger=clamp(player.hunger+48*(1+player.cook*.25),0,100);toast('🥩 Et yedin')}
+ wasMoving=l>.01;if(wasMoving){idleClock=0;movePhase+=dt*7;const wx=y*2+x,wy=y*2-x,wl=Math.hypot(wx,wy)||1,s=235*(1+player.boot*.08)*(1+(player.equipment?.boots||0)*.06)*(player.hunger?1:.72),ox=player.x,oy=player.y;let nx=player.x+wx/wl*s*dt,ny=player.y+wy/wl*s*dt,rr=Math.hypot(nx-C.x,ny-C.y),mr=radius()-28;if(rr>mr){const a=Math.atan2(ny-C.y,nx-C.x);nx=C.x+Math.cos(a)*mr;ny=C.y+Math.sin(a)*mr}player.x=nx;player.y=ny;evAdd('walk',Math.hypot(nx-ox,ny-oy));addQuestStat('walk',Math.hypot(nx-ox,ny-oy));lastFoot+=dt;if(lastFoot>.17){lastFoot=0;footprints.push({x:player.x,y:player.y,t:0,life:2.4,rot:Math.atan2(wy,wx)*.2});if(footprints.length>MAX_FOOTPRINTS)footprints.shift()}}
+ player.hunger=clamp(player.hunger-dt*.06,0,100);player.warm=clamp(player.warm-dt*(worldEvent.type==='storm'?.075:.025)*Math.max(.25,1-(player.equipment?.coat||0)*.12-(player.research?.hearth||0)*.10),0,100);
+ if(player.hunger<35&&player.rations>=1){player.rations--;player.hunger=clamp(player.hunger+70*(1+player.cook*.25),0,100);toast('🍲 Sıcak yemek yedin')}else if(player.hunger<35&&player.meat>=1){player.meat--;player.hunger=clamp(player.hunger+42*(1+player.cook*.20),0,100);toast('🥩 Et yedin')}
  if(player.warm<35&&d(player,C)<150)player.warm=clamp(player.warm+dt*14,0,100);
 
- const c=nearest(crates,60),a=nearest(animals,68),t=nearest(trees,76),r=nearest(rocks,70);
- if(c){c.open=true;c.t=0;player.money+=50;player.wood=Math.min(capWood(),player.wood+3);addJackpotEnergy(12);particle(c.x,c.y,'spark',14);floater(c.x,c.y-20,'+50 💵  +3 🪵');shake=6;toast('Sandık +50 💵 +3 🪵')}
- if(a&&player.meat<capMeat()){player.work+=dt;if(player.work>.55){player.work=0;a.hp--;impact(a.x,a.y,'wood');if(a.hp<=0){let g=a.type==='deer'?3:1;if(worldEvent.type==='migration')g*=2;player.meat=Math.min(capMeat(),player.meat+g);evAdd('meat',g);addJackpotEnergy(10);floater(a.x,a.y-15,`+${g} 🥩`);particle(a.x,a.y,'spark',5);a.dead=8;a.hp=a.max;toast(`+${g} 🥩`)}}}
- else if(t&&player.wood<capWood()){player.work+=dt;const ax=currentAxe(),cut=Math.max(.16,.46/ax.speed);if(player.work>cut){player.work=0;const critical=Math.random()*100<ax.crit;t.hp-=critical?2:1;t.hit=1;impact(t.x,t.y,'wood');addCleave(9);addJackpotEnergy(2);if(critical){showCrit();particle(t.x,t.y,'spark',5);shake=Math.max(shake,5)}if(t.hp<=0){t.dead=5;t.hp=3;let gain=3+ax.yield+(critical?1:0);if(ax.id===2&&Math.random()<.15)gain*=2;if(ax.id===3&&critical){const splash=trees.filter(o=>o!==t&&o.dead<=0&&d(t,o)<90).sort((a,b)=>d(t,a)-d(t,b)).slice(0,2);splash.forEach(o=>{o.hp--;o.hit=1;impact(o.x,o.y,'wood');if(o.hp<=0){o.dead=5;o.hp=3}})}gain=Math.min(gain,Math.max(0,capWood()-player.wood));player.wood+=gain;evAdd('wood',gain);addCleave(16);addJackpotEnergy(6);floater(t.x,t.y-18,`+${gain} 🪵`);particle(t.x,t.y,'woodchip',10+ax.id*2);toast(`+${gain} 🪵`)}}}
- else if(r&&player.stone<capStone()){player.work+=dt;if(player.work>.68){player.work=0;r.hp--;r.hit=1;impact(r.x,r.y,'stone');if(r.hp<=0){r.dead=7;r.hp=4;player.stone+=2;addJackpotEnergy(9);floater(r.x,r.y-12,'+2 🪨');particle(r.x,r.y,'chip',10);toast('+2 🪨')}}}
+ const bossNear=boss&&d(player,boss)<88;const c=bossNear?null:nearest(crates,60),a=bossNear?null:nearest(animals,68),t=bossNear?null:nearest(trees,76),r=bossNear?null:nearest(rocks,70),gt=bossNear?null:(goldenTree&&goldenTree.dead<=0&&d(player,goldenTree)<82?goldenTree:null);
+ if(c){addCombo();c.open=true;c.t=0;player.money+=50;player.wood=Math.min(capWood(),player.wood+3);addJackpotEnergy(12);particle(c.x,c.y,'spark',14);floater(c.x,c.y-20,'+50 💵  +3 🪵');shake=6;toast('Sandık +50 💵 +3 🪵')}
+ if(gt&&player.wood<capWood()){idleClock=0;player.work+=dt;const cut=Math.max(.18,.52/currentAxe().speed);if(player.work>cut){player.work=0;gt.hp--;gt.hit=1;impact(gt.x,gt.y,'wood');if(gt.hp<=0){const wood=Math.min(10+currentAxe().yield,capWood()-player.wood),cash=140+base.level*18;player.wood+=Math.max(0,wood);player.money+=cash;addJackpotEnergy(28);addCleave(35);addMorale(5);floater(gt.x,gt.y-22,`+${cash} 💵`);particle(gt.x,gt.y,'spark',18);gt.dead=1.2;toast('🌟 Altın Ağaç kırıldı!')}}}
+ else if(a&&player.meat<capMeat()){idleClock=0;player.work+=dt;if(player.work>.55){player.work=0;a.hp--;impact(a.x,a.y,'wood');if(a.hp<=0){const cb=addCombo();let g=(a.type==='deer'?3:1)*regionMult('meat')*(1+(player.equipment?.bow||0)*.15)*(1+(player.research?.hunting||0)*.10);if(worldEvent.type==='migration')g*=2;if(player.combo>=5&&Math.random()<.20)g+=1;g=Math.round(g*10)/10;player.meat=Math.min(capMeat(),player.meat+g);evAdd('meat',g);addQuestStat('meat',g);player.lifetime.meat+=g;addJackpotEnergy(10*cb);floater(a.x,a.y-15,`+${g} 🥩`);particle(a.x,a.y,'spark',5);a.dead=8;a.hp=a.max;toast(`+${g} 🥩`)}}}
+ else if(t&&player.wood<capWood()){idleClock=0;player.work+=dt;const ax=currentAxe(),cut=Math.max(.16,.46/ax.speed);if(player.work>cut){player.work=0;const critical=Math.random()*100<ax.crit;t.hp-=critical?2:1;t.hit=1;impact(t.x,t.y,'wood');addCleave(9);addJackpotEnergy(2);if(critical){showCrit();particle(t.x,t.y,'spark',5);shake=Math.max(shake,5)}if(t.hp<=0){const cb=addCombo();t.dead=5;t.hp=3;let gain=(3+ax.yield+(critical?1:0))*regionMult('wood')*(1+(player.research?.logging||0)*.08);if(player.combo>=5)gain+=1;if(ax.id===2&&Math.random()<.15)gain*=2;if(ax.id===3&&critical){const splash=trees.filter(o=>o!==t&&o.dead<=0&&d(t,o)<90).sort((a,b)=>d(t,a)-d(t,b)).slice(0,2);splash.forEach(o=>{o.hp--;o.hit=1;impact(o.x,o.y,'wood');if(o.hp<=0){o.dead=5;o.hp=3}})}gain=Math.max(0,Math.round(Math.min(gain,Math.max(0,capWood()-player.wood))*10)/10);player.wood+=gain;evAdd('wood',gain);addQuestStat('wood',gain);player.lifetime.wood+=gain;addCleave(16*cb);addJackpotEnergy(6*cb);floater(t.x,t.y-18,`+${gain} 🪵`);particle(t.x,t.y,'woodchip',10+ax.id*2);toast(`+${gain} 🪵`)}}}
+ else if(r&&player.stone<capStone()){idleClock=0;player.work+=dt;if(player.work>.68){player.work=0;r.hp--;r.hit=1;impact(r.x,r.y,'stone');if(r.hp<=0){const cb=addCombo();r.dead=7;r.hp=4;let sg=(player.combo>=7?3:2)*regionMult('stone')*(1+(player.equipment?.pick||0)*.18);sg=Math.round(sg*10)/10;player.stone=Math.min(capStone(),player.stone+sg);addQuestStat('stone',sg);player.lifetime.stone+=sg;addJackpotEnergy(9*cb);floater(r.x,r.y-12,`+${sg} 🪨`);particle(r.x,r.y,'chip',10);toast(`+${sg} 🪨`)}}}
  else player.work=0;
 
  trees.forEach(o=>{if(o.dead>0)o.dead-=dt});rocks.forEach(o=>{if(o.dead>0)o.dead-=dt});
  animals.forEach(o=>{if(o.dead>0){o.dead-=dt;if(o.dead<=0){const p=spawn(340,Math.max(380,radius()-30));o.x=o.homeX=p.x;o.y=o.homeY=p.y}return}if(Math.random()<dt*.25)o.dir+=rand(-.8,.8);o.x+=Math.cos(o.dir)*18*dt;o.y+=Math.sin(o.dir)*18*dt;if(Math.hypot(o.x-C.x,o.y-C.y)>radius()-25)o.dir=Math.atan2(C.y-o.y,C.x-o.x)});
  crates.forEach(o=>{if(o.open){o.t+=dt;if(o.t>90){const p=spawn(420,Math.max(450,radius()-20));o.x=p.x;o.y=p.y;o.open=false}}});
 
- if(d(player,C)<115&&player.wood>0){const n=Math.min(player.wood,dt*8);player.wood-=n;base.progress+=n;evAdd('deposit',n);addJackpotEnergy(n*.18);if(base.progress>=base.cost){base.progress-=base.cost;base.level++;base.cost=Math.round(base.cost*1.68);workers++;const cash=30*base.level;player.money+=cash;evAdd('earn',cash);const unlocked=buildings.find(b=>b.unlock===base.level);particle(C.x,C.y,'spark',24);floater(C.x,C.y-65,`KAMP LV.${base.level}!`);shake=8;flash();if(unlocked)buildingToast(`${unlocked.icon} ${unlocked.name} açıldı!`);else buildingToast(`🏕️ Kamp LV.${base.level}`);toast(`+${cash} 💵`)}}
- incomeClock+=dt;if(incomeClock>=1){incomeClock--;if(workers){const mult=(1+player.camp*.10)*(worldEvent.type==='rush'?2:1),cash=Math.max(1,Math.floor((workers+(base.level>=4?1:0))*mult));player.money+=cash;evAdd('earn',cash);if(base.level>=4&&player.hunger<85&&player.meat>0&&Math.random()<.12){player.hunger=clamp(player.hunger+2.5,0,100)}}}
+ if(d(player,C)<115&&player.wood>0){const n=Math.min(player.wood,dt*8);player.wood-=n;base.progress+=n;evAdd('deposit',n);addQuestStat('build',n);addJackpotEnergy(n*.18);if(base.progress>=base.cost){base.progress-=base.cost;base.level++;player.lifetime.levels+=1;base.cost=Math.round(base.cost*1.68);workers++;addMorale(6);awardResearch(base.level%3===0?1:0,'Kamp araştırması');const cash=30*base.level;player.money+=cash;evAdd('earn',cash);addQuestStat('earn',cash);player.lifetime.money+=cash;const unlocked=buildings.find(b=>b.unlock===base.level);milestoneReward(base.level);particle(C.x,C.y,'spark',24);floater(C.x,C.y-65,`KAMP LV.${base.level}!`);shake=8;flash();if(unlocked)buildingToast(`${unlocked.icon} ${unlocked.name} açıldı!`);else buildingToast(`🏕️ Kamp LV.${base.level}`);toast(`+${cash} 💵`)}}
+ if(base.level>=4){player._cookClock=(player._cookClock||0)+dt;if(player._cookClock>=15&&player.meat>=2){player._cookClock=0;player.meat-=2;player.rations=Math.min(20,player.rations+1);addMorale(1.5);floater(C.x+80,C.y-75,'+1 🍲')}}
+ incomeClock+=dt;if(incomeClock>=1){incomeClock--;if(workers){const mult=(1+player.camp*.10)*(worldEvent.type==='rush'?2:1),cash=Math.max(1,Math.floor((activeWorkers()+(base.level>=4?1:0))*mult*regionMult('money')*moraleBoost()*(1+(player.research?.workers||0)*.10)));player.money+=cash;evAdd('earn',cash);addQuestStat('earn',cash);player.lifetime.money+=cash;if(base.level>=4&&player.hunger<85&&player.meat>0&&Math.random()<.12){player.hunger=clamp(player.hunger+2.5,0,100)}}}
  saveClock+=dt;if(saveClock>5){saveClock=0;save()}
  camX+=(((player.x-player.y)*.5)-camX)*Math.min(1,dt*5);camY+=(((player.x+player.y)*.25)-camY)*Math.min(1,dt*5);
- hud()
+ hudClock+=dt;if(hudClock>=.2){hudClock=0;hud()}
 }
-function hud(){$('money').textContent=Math.floor(player.money);$('wood').textContent=Math.floor(player.wood);$('stone').textContent=Math.floor(player.stone);$('meat').textContent=Math.floor(player.meat);$('hungerText').textContent=Math.round(player.hunger);$('warmText').textContent=Math.round(player.warm);$('hungerBar').style.width=player.hunger+'%';$('warmBar').style.width=player.warm+'%';$('levelChip').textContent=`LV.${base.level}`;const next=buildings.find(b=>b.unlock>base.level);$('quest').textContent=`Kampı LV.${base.level+1} yap`;$('questSub').textContent=next?`${next.icon} LV.${next.unlock}: ${next.name}`:'Kampı büyüt • üretimi artır';$('questBar').style.width=Math.min(100,base.progress/base.cost*100)+'%';const cv=Math.floor(player.cleave);$('cleaveText').textContent=cv>=100?'⚡ HAZIR!':`⚡ %${cv}`;$('cleaveBtn').classList.toggle('ready',cv>=100);updateEvent();updateUpgrades();updateJackpotUI();syncWorkers()}
-function draw(){ctx.save();if(shake>0)ctx.translate(rand(-shake,shake),rand(-shake,shake));ground();drawFootprints();const list=[];trees.forEach(o=>{if(o.dead<=0&&Math.hypot(o.x-C.x,o.y-C.y)<radius())list.push({z:o.x+o.y,f:()=>tree(o)})});rocks.forEach(o=>{if(o.dead<=0&&Math.hypot(o.x-C.x,o.y-C.y)<radius())list.push({z:o.x+o.y,f:()=>rock(o)})});animals.forEach(o=>{if(o.dead<=0&&Math.hypot(o.x-C.x,o.y-C.y)<radius())list.push({z:o.x+o.y,f:()=>animal(o)})});crates.forEach(o=>{if(!o.open&&Math.hypot(o.x-C.x,o.y-C.y)<radius())list.push({z:o.x+o.y,f:()=>crate(o)})});buildings.forEach(b=>{if(base.level>=b.unlock)list.push({z:b.x+b.y,f:()=>building(b)})});list.push({z:C.x+C.y,f:camp});for(let i=0;i<workers;i++)list.push({z:C.x+C.y+30+i,f:()=>worker(i)});list.push({z:player.x+player.y+.5,f:playerDraw});list.sort((a,b)=>a.z-b.z).forEach(o=>o.f());drawParticles();ctx.restore()}
-function loop(ts){if(!running)return;const dt=Math.min(.032,(ts-last)/1000||0);last=ts;update(dt);draw();requestAnimationFrame(loop)}
+function hud(){$('money').textContent=Math.floor(player.money);$('wood').textContent=Math.floor(player.wood);$('stone').textContent=Math.floor(player.stone);$('meat').textContent=Math.floor(player.meat);$('hungerText').textContent=Math.round(player.hunger);$('warmText').textContent=Math.round(player.warm);$('rationText').textContent=Math.floor(player.rations||0);$('hungerBar').style.width=player.hunger+'%';$('warmBar').style.width=player.warm+'%';$('levelChip').textContent=`LV.${base.level}`;const rg=currentRegion();$('regionChip').textContent=`${rg.icon} ${rg.name} • ${rg.bonus}`;const pm=(1+player.camp*.10)*(worldEvent.type==='rush'?2:1),aw=activeWorkers(),pps=aw?Math.max(1,Math.floor((aw+(base.level>=4?1:0))*pm)):0;$('workerBadge').textContent=`👷 ${aw}/${workers} • +${pps}/s`;const next=buildings.find(b=>b.unlock>base.level);$('quest').textContent=`Kampı LV.${base.level+1} yap`;$('questSub').textContent=next?`${next.icon} LV.${next.unlock}: ${next.name}`:'Kampı büyüt • üretimi artır';$('questBar').style.width=Math.min(100,base.progress/base.cost*100)+'%';const cv=Math.floor(player.cleave);$('cleaveText').textContent=cv>=100?'⚡ HAZIR!':`⚡ %${cv}`;$('cleaveBtn').classList.toggle('ready',cv>=100);updateEvent();updateUpgrades();updateJackpotUI();updateSystemsUI();$('researchBadge').textContent=`🔬 ${player.researchPoints}`;$('achievementBadge').textContent=readyAchievementCount();$('powerScore').textContent=`KAMP GÜCÜ • ${campPower()}`;}
+function draw(){
+ ctx.save();if(shake>0)ctx.translate(rand(-shake,shake),rand(-shake,shake));ground();drawFootprints();
+ const list=[],viewR=MOBILE?540:720;
+ const visible=o=>Math.abs(o.x-player.x)<viewR&&Math.abs(o.y-player.y)<viewR&&Math.hypot(o.x-C.x,o.y-C.y)<radius();
+ trees.forEach(o=>{if(o.dead<=0&&visible(o))list.push({z:o.x+o.y,f:()=>tree(o)})});
+ rocks.forEach(o=>{if(o.dead<=0&&visible(o))list.push({z:o.x+o.y,f:()=>rock(o)})});
+ animals.forEach(o=>{if(o.dead<=0&&visible(o))list.push({z:o.x+o.y,f:()=>animal(o)})});
+ crates.forEach(o=>{if(!o.open&&visible(o))list.push({z:o.x+o.y,f:()=>crate(o)})});
+ buildings.forEach(b=>{if(base.level>=b.unlock&&Math.abs(b.x-player.x)<viewR&&Math.abs(b.y-player.y)<viewR)list.push({z:b.x+b.y,f:()=>building(b)})});
+ if(Math.abs(C.x-player.x)<viewR&&Math.abs(C.y-player.y)<viewR)list.push({z:C.x+C.y,f:camp});
+ for(let i=0;i<Math.min(activeWorkers(),MOBILE?14:24);i++){const wa=workerAgents[i];if(wa&&Math.abs(wa.x-player.x)<viewR&&Math.abs(wa.y-player.y)<viewR)list.push({z:wa.x+wa.y,f:()=>worker(i)})}
+ if(goldenTree&&goldenTree.dead<=0&&visible(goldenTree))list.push({z:goldenTree.x+goldenTree.y,f:drawGoldenTree});if(boss)list.push({z:boss.x+boss.y,f:drawBoss});list.push({z:player.x+player.y+.5,f:playerDraw});list.sort((a,b)=>a.z-b.z).forEach(o=>o.f());
+ drawParticles();ctx.restore()
+}
+function loop(ts){
+ if(!running)return;
+ requestAnimationFrame(loop);
+ if(hiddenPaused)return;
+ const wanted=MOBILE?20:30;
+ if(wanted!==currentFPS){currentFPS=wanted;FRAME_MS=1000/currentFPS}
+ if(ts-lastRender<FRAME_MS)return;
+ const elapsed=Math.min(.055,(ts-last)/1000||0);last=ts;lastRender=ts;
+ update(elapsed);draw()
+}
 
-initWorld();load();loadEv();syncWorkers();updateAxeUI();updateJackpotUI();camX=(player.x-player.y)*.5;camY=(player.x+player.y)*.25;hud();draw();document.title='Frost Camp Touch UI Fixed';
-setInterval(updateEvent,1000);addEventListener('beforeunload',save);
-$('play').onclick=()=>{if(offlineReward){player.money+=offlineReward.money;player.wood=Math.min(capWood(),player.wood+offlineReward.wood);player.meat=Math.min(capMeat(),player.meat+offlineReward.meat);offlineReward=null}$('start').style.display='none';running=true;last=performance.now();requestAnimationFrame(loop)};
+initWorld();load();loadEv();loadQuests();normalizeState();syncWorkers();applyQuality();updateAxeUI();updateJackpotUI();updateResearchUI();camX=(player.x-player.y)*.5;camY=(player.x+player.y)*.25;hud();draw();document.title='Frost Camp Minimal';
+setInterval(()=>{if(!document.hidden){updateEvent();updateSystemsUI();if($('expeditionModal').style.display==='grid')updateExpeditionUI();if($('achievementsModal').style.display==='grid')updateAchievementsUI();if($('rewardsModal').style.display==='grid')updateRewardHub()}},1000);
+document.addEventListener('visibilitychange',()=>{
+ hiddenPaused=document.hidden;
+ if(!hiddenPaused){last=performance.now();lastRender=0}
+});
+addEventListener('pagehide',save);addEventListener('beforeunload',save);
+$('play').onclick=()=>{if(offlineReward){player.money+=offlineReward.money;player.wood=Math.min(capWood(),player.wood+offlineReward.wood);player.meat=Math.min(capMeat(),player.meat+offlineReward.meat);offlineReward=null}$('start').style.display='none';running=true;last=performance.now();lastRender=0;requestAnimationFrame(loop)};
 })();
 </script>
 </body>
