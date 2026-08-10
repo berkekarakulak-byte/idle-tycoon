@@ -1,53 +1,197 @@
-<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Deep Sea Salvage Ultra</title>
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Realm Stone Ultra Mobile</title>
 <style>
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#062033;font-family:system-ui,-apple-system,Segoe UI,sans-serif;touch-action:none}canvas{position:fixed;inset:0;width:100%;height:100%}.hud{position:fixed;inset:0;pointer-events:none;color:#fff;text-shadow:0 2px 3px #0006}.top{position:absolute;top:10px;left:50%;transform:translateX(-50%);display:flex;gap:6px}.res,.card,.btn,.stat{background:#0d3048dd;border:1px solid #ffffff22;border-radius:12px;box-shadow:0 8px 18px #00101e35}.res{min-width:72px;height:38px;padding:0 8px;display:flex;align-items:center;gap:6px;font-weight:900}.res b{margin-left:auto}.left{position:absolute;left:10px;top:58px;width:min(210px,56vw);display:grid;gap:7px}.card{padding:9px 10px;font-size:11px;font-weight:900}.bar{height:5px;background:#ffffff22;border-radius:99px;overflow:hidden;margin-top:6px}.bar i{display:block;height:100%;background:linear-gradient(90deg,#5be0ff,#79ffc4)}.right{position:absolute;right:10px;top:58px;display:grid;gap:7px;justify-items:end}.stat{width:96px;padding:7px 8px;font-size:9px;font-weight:900}.btn{pointer-events:auto;color:#fff;font-weight:950;cursor:pointer;padding:9px 10px}.purple{background:linear-gradient(#7758e6,#4933ae)}.blue{background:linear-gradient(#3aafd0,#16647e)}.menu{background:linear-gradient(#345f78,#203f52)}.bottom{position:absolute;right:10px;bottom:12px;display:flex;gap:7px}.toast{position:absolute;left:50%;top:18%;transform:translate(-50%,-8px);opacity:0;background:#0c2a3fe8;padding:8px 12px;border-radius:99px;font-size:11px;font-weight:900;transition:.18s}.toast.show{opacity:1;transform:translate(-50%,0)}.joy{position:fixed;width:112px;height:112px;border-radius:50%;background:#ffffff14;border:2px solid #ffffff55;opacity:0;transform:translate(-50%,-50%) scale(.85);transition:.08s;pointer-events:none}.joy.active{opacity:1;transform:translate(-50%,-50%) scale(1)}.stick{position:absolute;left:31px;top:31px;width:48px;height:48px;border-radius:50%;background:#fffffff2}.start,.modal{position:fixed;inset:0;display:grid;place-items:center;padding:18px;background:#02111dcc;z-index:20}.panel{width:min(400px,92vw);background:#f7fcff;color:#103247;border-radius:24px;padding:20px;box-shadow:0 24px 70px #0007}.logo{text-align:center;font-size:31px;font-weight:1000;letter-spacing:-1.5px;margin-bottom:18px}.logo span{display:block;font-size:15px;color:#268eb0}.play,.buy,.close{width:100%;border:0;border-radius:13px;padding:12px;font-weight:950;cursor:pointer}.play,.buy{background:linear-gradient(#4fe07a,#24b952);color:#fff}.close{background:#e5eef3;color:#315169;margin-top:10px}.modal{display:none;z-index:30}.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.tile{background:#eaf4f8;border-radius:13px;padding:10px}.tile b,.tile small{display:block}.tile b{font-size:12px}.tile small{font-size:9px;opacity:.65;margin:4px 0 8px}.reels{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}.reel{height:76px;border-radius:16px;background:#12364b;border:3px solid #83dcf5;display:grid;place-items:center;font-size:38px}@media(pointer:fine){.joy{display:none}}@media(max-width:560px){.top{left:auto;right:10px;transform:none;display:grid;grid-template-columns:repeat(2,78px)}.left,.right{top:96px}.res{min-width:0;height:36px}}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#17130e;font-family:system-ui,sans-serif;touch-action:none}canvas{position:fixed;inset:0;width:100%;height:100%}.hud{position:fixed;inset:0;color:white;pointer-events:none;text-shadow:0 2px 3px #000}.top,.left,.right,.bottom{position:absolute}.top{top:8px;left:50%;transform:translateX(-50%);display:flex;gap:6px}.left{left:8px;top:54px;width:210px}.right{right:8px;top:54px;display:grid;gap:6px}.bottom{right:10px;bottom:10px}.pill,.card,.status,.btn{background:#211d18e8;border:1px solid #ffffff22;border-radius:12px}.pill{height:36px;min-width:72px;padding:0 8px;display:flex;align-items:center;gap:5px;font-weight:900}.pill b{margin-left:auto}.card{padding:9px;font-size:10px;font-weight:900}.status{width:100px;padding:7px;font-size:9px;font-weight:900}.bar{height:5px;background:#ffffff22;border-radius:99px;overflow:hidden;margin-top:5px}.bar i{display:block;height:100%;width:0;background:#5dd877}.btn{pointer-events:auto;color:#fff;padding:8px 10px;font-weight:900;cursor:pointer}.gold{background:#8a642d}.red{background:#91372f}.attack{pointer-events:auto;width:66px;height:66px;border-radius:50%;border:2px solid #ffffff44;background:#a64034;color:#fff;font-size:24px}.joy{position:fixed;width:110px;height:110px;border:2px solid #ffffff44;border-radius:50%;background:#ffffff10;opacity:0;transform:translate(-50%,-50%);pointer-events:none}.joy.on{opacity:1}.stick{position:absolute;left:31px;top:31px;width:46px;height:46px;border-radius:50%;background:#fff}.start,.modal{position:fixed;inset:0;display:grid;place-items:center;background:#090705e8;z-index:20;padding:18px}.modal{display:none;z-index:30}.panel{width:min(420px,92vw);max-height:86vh;overflow:auto;background:#f3eadc;color:#30271b;border-radius:22px;padding:18px}.logo{text-align:center;font-size:30px;font-weight:1000;margin-bottom:14px}.logo span{display:block;font-size:13px;color:#9a6a25}.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.tile,.row{background:#e7ddce;border-radius:12px;padding:9px}.tile b,.tile small{display:block}.tile small,.row small{font-size:8px;opacity:.65}.play,.select,.close,.mini{border:0;border-radius:10px;padding:10px;font-weight:900;cursor:pointer}.play,.select,.mini{background:#a97832;color:white}.close{width:100%;background:#ddd1c1;color:#433525;margin-top:10px}.class{border:2px solid transparent;text-align:center}.class.on{border-color:#a97832}.target{position:absolute;left:50%;top:55px;transform:translateX(-50%);width:250px;background:#21130fe8;padding:7px;border-radius:12px;display:none}.target.on{display:block}.toast{position:absolute;left:50%;top:18%;transform:translateX(-50%);background:#211d18ee;padding:8px 12px;border-radius:99px;opacity:0}.toast.on{opacity:1}@media(max-width:560px){.top{left:auto;right:8px;transform:none;display:grid;grid-template-columns:repeat(2,72px)}.left,.right{top:92px}.pill{min-width:0}.target{top:92px}}
 
-.premiumTag{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);font-size:8px;font-weight:900;opacity:.45}
-.depthChip{position:absolute;left:50%;top:58px;transform:translateX(-50%);background:#08283ddd;border:1px solid #ffffff22;border-radius:99px;padding:7px 10px;font-size:10px;font-weight:950}
-.tile.lock{opacity:.5}.mission{background:#eaf4f8;border-radius:13px;padding:10px;margin-top:8px}.mission b,.mission small{display:block}.mission small{font-size:9px;opacity:.65;margin-top:4px}.bossbar{display:none;position:absolute;left:50%;top:96px;transform:translateX(-50%);width:min(340px,70vw);background:#331c29dd;border:1px solid #ff9cbd55;border-radius:12px;padding:7px 9px;font-size:9px;font-weight:950}.bossbar .bar i{background:linear-gradient(90deg,#ff5b88,#ffbe58)}
-@media(max-width:560px){.depthChip{top:86px}.bossbar{top:126px}}
+/* ULTRA SYSTEMS */
+.skillbar{position:absolute;left:50%;bottom:max(10px,env(safe-area-inset-bottom));transform:translateX(-50%);display:flex;gap:6px}
+.skill{pointer-events:auto;width:48px;height:48px;border-radius:12px;border:1px solid #ffffff2e;background:linear-gradient(#3e352d,#211d19);color:#fff;font-weight:950;cursor:pointer;position:relative;box-shadow:0 6px 18px #0006}
+.skill small{position:absolute;right:3px;bottom:2px;font-size:7px;opacity:.7}.skill.cool{opacity:.45}
+.buff{position:absolute;left:50%;top:92px;transform:translateX(-50%);display:flex;gap:5px}.buff span{background:#211d18d9;border:1px solid #ffffff22;border-radius:9px;padding:5px 7px;font-size:8px;font-weight:900}
+.rarity-common{color:#444}.rarity-rare{color:#2675c8}.rarity-epic{color:#8b48c8}.rarity-legend{color:#d48917}
+.eqgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.eqslot{background:#e7ddce;border-radius:12px;padding:9px}.eqslot b,.eqslot small{display:block}.eqslot small{font-size:8px;opacity:.65}
+.questRow{background:#e7ddce;border-radius:12px;padding:9px;margin-top:7px}.questRow b,.questRow small{display:block}.questRow small{font-size:8px;opacity:.65;margin-top:3px}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:4px 7px;border-radius:99px;background:#dfd1ba;font-size:8px;font-weight:950}
+.petChip{position:absolute;left:9px;bottom:max(12px,env(safe-area-inset-bottom));background:#211d18df;border:1px solid #ffffff22;border-radius:12px;padding:7px 9px;font-size:9px;font-weight:900}
+@media(max-width:560px){.skillbar{bottom:max(80px,calc(env(safe-area-inset-bottom) + 72px))}.skill{width:44px;height:44px}.buff{top:128px}}
+
+/* MOBILE EDITION */
+:root{--safeB:max(10px,env(safe-area-inset-bottom));--safeT:max(8px,env(safe-area-inset-top))}
+html,body{touch-action:none;overscroll-behavior:none}
+.mobileNav{position:absolute;left:50%;bottom:var(--safeB);transform:translateX(-50%);display:flex;gap:6px;pointer-events:auto}
+.mobileNav button{width:44px;height:44px;border:1px solid #ffffff28;border-radius:12px;background:#211d18e8;color:#fff;font-size:19px;font-weight:950;box-shadow:0 7px 18px #0006}
+.mobileNav button.active{background:#8a642d}
+#menu,#farm{display:none}
+.mobileMeta{position:absolute;left:8px;top:92px;background:#211d18dd;border:1px solid #ffffff22;border-radius:11px;padding:6px 8px;font-size:8px;font-weight:900}
+.quickItem{pointer-events:auto;position:absolute;right:10px;bottom:86px;width:46px;height:46px;border-radius:12px;border:1px solid #ffffff25;background:#2d2a24dd;color:#fff;font-weight:950}
+@media(max-width:760px){
+ .top{top:var(--safeT);left:8px;right:8px;transform:none;display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+ .pill{min-width:0;height:34px;padding:0 6px;font-size:10px}
+ .left{left:8px;top:50px;width:min(180px,48vw)}
+ .right{right:8px;top:50px;gap:5px}
+ .status{width:88px;padding:6px;font-size:8px}
+ .target{top:92px;width:min(230px,58vw);font-size:8px}
+ .card{padding:7px 8px;font-size:9px}
+ .attack{width:66px;height:66px;font-size:23px}
+ .bottom{right:9px;bottom:86px}
+ .skillbar{left:auto;right:84px;bottom:86px;transform:none;gap:5px}
+ .skill{width:46px;height:46px;border-radius:12px}
+ .petChip{left:8px;bottom:86px;font-size:8px;padding:6px 8px}
+ .buff{top:122px}
+ .panel{width:min(430px,96vw);max-height:82vh;border-radius:18px;padding:15px}
+ .grid{grid-template-columns:1fr 1fr;gap:7px}
+ .select{padding:11px 8px;font-size:11px}
+ .row{padding:8px}
+ .mini{padding:8px 9px}
+}
+@media(min-width:761px){.mobileNav,.mobileMeta,.quickItem{display:none}}
 </style></head><body>
 <canvas id="game"></canvas><div class="hud">
-<div class="top"><div class="res">💵<b id="money">0</b></div><div class="res">🔩<b id="scrap">0</b></div><div class="res">⚙️<b id="parts">0</b></div><div class="res">💎<b id="relic">0</b></div></div>
-<div id="depthChip" class="depthChip">🌊 0m • KIYI</div><div id="bossBar" class="bossbar">🦈 DERİN DENİZ AVCISI <div class="bar"><i id="bossHp"></i></div></div><div class="left"><div class="card"><div id="questText">8 ganimet çıkar</div><div class="bar"><i id="questBar" style="width:0"></i></div><button id="contractBtn" class="btn purple" style="margin-top:7px">🎁 KONTRAT</button></div></div>
-<div class="right"><div class="stat">🫁 OKSİJEN <b id="oxyText">100</b><div class="bar"><i id="oxyBar" style="width:100%;background:linear-gradient(90deg,#65dfff,#bff7ff)"></i></div></div><div class="stat">🌊 BASINÇ <b id="pressText">0</b><div class="bar"><i id="pressBar" style="width:0;background:linear-gradient(90deg,#ffd45e,#ff704c)"></i></div></div><button id="menuBtn" class="btn menu">☰ TEKNE</button></div>
-<div class="bottom"><button id="scanBtn" class="btn purple">📡 SONAR %0</button><button id="surfaceBtn" class="btn blue">⬆️ YÜZEY</button></div><div id="joy" class="joy"><div id="stick" class="stick"></div></div><div id="toast" class="toast"></div><div class="premiumTag">ECO • AUTO SAVE • 2D</div></div>
-<div id="start" class="start"><div class="panel"><div class="logo">DEEP SEA<span>SALVAGE TYCOON</span></div><button id="play" class="play">DALIŞA BAŞLA</button></div></div>
-<div id="menuModal" class="modal"><div class="panel"><h2>🚤 Tekne & Ekipman</h2><div class="grid"><div class="tile"><b>🫁 Oksijen</b><small id="oxyUp">100 kapasite</small><button id="oxyBuy" class="buy">💵120</button></div><div class="tile"><b>🧥 Kıyafet</b><small id="suitUp">650m</small><button id="suitBuy" class="buy">💵150</button></div><div class="tile"><b>🪝 Vinç</b><small id="winchUp">+0%</small><button id="winchBuy" class="buy">💵180</button></div><div class="tile"><b>📡 Sonar</b><small id="sonarUp">+0</small><button id="sonarBuy" class="buy">💵220</button></div>
-<div class="tile"><b>🎒 Kargo</b><small id="cargoUp">24 kapasite</small><button id="cargoBuy" class="buy">💵260</button></div>
-<div class="tile"><b>🤿 Dalgıç Ekibi</b><small id="crewUp">0 otomatik dalgıç</small><button id="crewBuy" class="buy">💵500</button></div></div>
-<div class="mission"><b>🏆 Kariyer</b><small id="careerText">Çaylak Kurtarıcı • Seviye 1</small><div class="bar"><i id="careerBar"></i></div></div><button id="menuClose" class="close">Kapat</button></div></div>
-<div id="contractModal" class="modal"><div class="panel"><h2>📋 Kurtarma Kontratları</h2><p>Görevleri tamamla, büyük ödeme ve sonar enerjisi kazan.</p><div id="contractList"></div><button id="contractClose" class="close">Kapat</button></div></div><div id="scanModal" class="modal"><div class="panel"><h2>📡 Sonar Scan</h2><p>3 aynı sembol gelirse çarpanlı ödül.</p><div class="reels"><div id="r1" class="reel">🔩</div><div id="r2" class="reel">⚙️</div><div id="r3" class="reel">💎</div></div><button id="spinBtn" class="play">100 ENERJİ İLE TARA</button><div id="scanResult" class="card" style="margin-top:10px;color:#17364a;text-shadow:none">Enerji için ganimet topla.</div><button id="scanClose" class="close">Kapat</button></div></div>
+<div class="top"><div class="pill">💰<b id="yang">0</b></div><div class="pill">🪨<b id="metinDrop">0</b></div><div class="pill">📜<b id="scroll">0</b></div><div class="pill">💎<b id="gem">0</b></div></div>
+<div class="left"><div class="card"><div id="quest">Köy çevresinde kasıl</div><div class="bar"><i id="questBar"></i></div></div><button id="farm" class="btn red" style="margin-top:6px">🪨 METİN FARM</button></div>
+<div class="right"><div class="status">❤️ <b id="hp">100</b><div class="bar"><i id="hpBar"></i></div></div><div class="status">LV <b id="lvl">1</b><div class="bar"><i id="expBar"></i></div></div><button id="menu" class="btn gold">☰ MENÜ</button></div>
+<div id="target" class="target"><b id="targetName"></b><div class="bar"><i id="targetHp"></i></div></div>
+<div class="skillbar">
+<button id="skill1" class="skill">💥<small>1</small></button>
+<button id="skill2" class="skill">⚡<small>2</small></button>
+<button id="skill3" class="skill">🛡️<small>3</small></button>
+</div>
+<div id="buffs" class="buff"></div>
+<div id="petChip" class="petChip">🐺 Yoldaş: Yok</div>
+<div class="bottom"><button id="atk" class="attack">⚔️</button></div><div id="joy" class="joy"><div id="stick" class="stick"></div></div><div id="mobileMeta" class="mobileMeta">ATK <span id="mAtk">0</span> • DEF <span id="mDef">0</span></div>
+<button id="quickPotion" class="quickItem">🧪</button>
+<div class="mobileNav">
+  <button id="navMenu" class="active">☰</button>
+  <button id="navFarm">🪨</button>
+  <button id="navInv">🎒</button>
+  <button id="navMap">🗺️</button>
+</div>
+<div id="toast" class="toast"></div></div>
+
+<div id="start" class="start"><div class="panel"><div class="logo">REALM STONE ULTRA<span>MOBILE EDITION • FARM • ZİNDAN • +9</span></div><div class="grid">
+<div class="tile class on" data-c="warrior">🗡️<b>Savaşçı</b><small>Yakın dövüş</small></div><div class="tile class" data-c="ninja">🥷<b>Ninja</b><small>Kritik + hız</small></div><div class="tile class" data-c="sura">🔥<b>Sura</b><small>Büyülü güç</small></div><div class="tile class" data-c="shaman">🪭<b>Şaman</b><small>Buff + iyileştirme</small></div></div><button id="play" class="play" style="width:100%;margin-top:10px">OYUNA GİR</button></div></div>
+
+<div id="menuM" class="modal"><div class="panel"><h2>Karakter</h2><p id="stats"></p><div class="grid"><button id="invB" class="select">🎒 Envanter</button><button id="upB" class="select">🔨 Eşya Bas</button><button id="mapB" class="select">🗺️ Haritalar</button><button id="dunB" class="select">🏯 Zindanlar</button>
+<button id="questB" class="select">📜 Görevler</button>
+<button id="petB" class="select">🐺 Yoldaş</button>
+<button id="mountB" class="select">🐎 Binek</button>
+<button id="rankB" class="select">🏆 Rütbe</button></div><button class="close" data-close="menuM">Kapat</button></div></div>
+<div id="invM" class="modal"><div class="panel"><h2>Envanter</h2><div id="invList"></div><button class="close" data-close="invM">Kapat</button></div></div>
+<div id="upM" class="modal"><div class="panel"><h2>Demirci</h2><div id="upCard"></div><button class="close" data-close="upM">Kapat</button></div></div>
+<div id="mapM" class="modal"><div class="panel"><h2>Dünya Haritası</h2><div id="mapList"></div><button class="close" data-close="mapM">Kapat</button></div></div>
+<div id="dunM" class="modal"><div class="panel"><h2>Zindanlar</h2><div id="dunList"></div><button class="close" data-close="dunM">Kapat</button></div></div>
+
+<div id="questM" class="modal"><div class="panel"><h2>📜 Görevler</h2><div id="questList"></div><button class="close" data-close="questM">Kapat</button></div></div>
+<div id="petM" class="modal"><div class="panel"><h2>🐺 Yoldaş Sistemi</h2><div id="petList"></div><button class="close" data-close="petM">Kapat</button></div></div>
+<div id="mountM" class="modal"><div class="panel"><h2>🐎 Binek Sistemi</h2><div id="mountList"></div><button class="close" data-close="mountM">Kapat</button></div></div>
+<div id="rankM" class="modal"><div class="panel"><h2>🏆 Rütbe & Güç</h2><div id="rankList"></div><button class="close" data-close="rankM">Kapat</button></div></div>
+
 <script>
-(()=>{'use strict';const $=i=>document.getElementById(i),c=$('game'),x=c.getContext('2d');let W=1,H=1,D=1,last=0,run=false,rl=0;const surface=170,worldH=2500,loot=[],bubs=[];const p={x:900,y:230,money:0,scrap:0,parts:0,relic:0,oxygen:100,oxyLv:0,suitLv:0,winchLv:0,sonarLv:0,cargoLv:0,crewLv:0,scan:0,work:0,xp:0,level:1,totalLoot:0,totalMoney:0,bossKills:0,contract:0,contractProg:0};const rand=(a,b)=>a+Math.random()*(b-a),clamp=(v,a,b)=>Math.max(a,Math.min(b,v));function toast(m){const t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove('show'),650)}function maxOxy(){return 100+p.oxyLv*25}function maxDepth(){return 650+p.suitLv*260}
-function cargoCap(){return 24+p.cargoLv*12}function cargoUsed(){return p.scrap+p.parts+p.relic}
-function zone(){const d=Math.max(0,p.y-surface);if(d<450)return['KIYI',1];if(d<850)return['MERCAN VADİSİ',1.25];if(d<1250)return['BATIK HATTI',1.6];return['KARANLIK ÇUKUR',2.2]}
-function addXP(n){p.xp+=n;const need=80+p.level*45;while(p.xp>=need){p.xp-=need;p.level++;p.money+=100*p.level;toast('Seviye '+p.level+'! +'+100*p.level+' 💵')}}
-function save(){try{localStorage.setItem('deep_sea_ultra_v2',JSON.stringify({...p,at:Date.now()}))}catch(e){}}
-function load(){try{const s=JSON.parse(localStorage.getItem('deep_sea_ultra_v2')||'null');if(s)Object.assign(p,s)}catch(e){}}
-function init(){for(let i=0;i<46;i++){const y=rand(340,2350),r=Math.random();loot.push({x:rand(120,1680),y,type:r<.15?'relic':r<.42?'parts':'scrap',dead:0})}}init();function resize(){W=innerWidth;H=innerHeight;D=Math.min(1.1,devicePixelRatio||1);c.width=W*D;c.height=H*D;x.setTransform(D,0,0,D,0,0)}addEventListener('resize',resize);resize();
-const keys={};addEventListener('keydown',e=>{keys[e.key.toLowerCase()]=1;if(e.key.startsWith('Arrow'))e.preventDefault()});addEventListener('keyup',e=>keys[e.key.toLowerCase()]=0);const joy=$('joy'),stick=$('stick');let jx=0,jy=0,jid=null,bx=0,by=0;function jm(a,b){let dx=a-bx,dy=b-by,l=Math.hypot(dx,dy),m=34;if(l>m){dx=dx/l*m;dy=dy/l*m}jx=dx/m;jy=dy/m;stick.style.transform=`translate(${dx}px,${dy}px)`}c.addEventListener('pointerdown',e=>{if(matchMedia('(pointer:fine)').matches)return;jid=e.pointerId;bx=e.clientX;by=e.clientY;joy.style.left=bx+'px';joy.style.top=by+'px';joy.classList.add('active');jm(e.clientX,e.clientY)});addEventListener('pointermove',e=>{if(e.pointerId===jid)jm(e.clientX,e.clientY)});function je(e){if(e.pointerId!==jid)return;jid=null;jx=jy=0;stick.style.transform='translate(0,0)';joy.classList.remove('active')}addEventListener('pointerup',je);addEventListener('pointercancel',je);
-let cam=0,crewClock=0,boss=null,bossClock=0;function near(){let b=null,bd=72;for(const o of loot){if(o.dead>0)continue;const d=Math.hypot(p.x-o.x,p.y-o.y);if(d<bd){bd=d;b=o}}return b}function gain(o){if(cargoUsed()>=cargoCap()){toast('🎒 Kargo dolu');return}let g=o.type==='scrap'?3+Math.floor(p.y/700):o.type==='parts'?1+Math.floor(p.y/1100):1;g=Math.max(1,Math.floor(g*zone()[1]));g=Math.min(g,cargoCap()-cargoUsed());p[o.type]+=g;p.totalLoot+=g;p.contractProg+=g;addXP(g*2);p.scan=clamp(p.scan+8+p.sonarLv*2,0,100);o.dead=9;toast(`+${g} ${o.type==='scrap'?'🔩':o.type==='parts'?'⚙️':'💎'}`)}function surfaceUp(){p.y=220;p.oxygen=maxOxy();const v=p.scrap*7+p.parts*18+p.relic*60;if(v){p.money+=v;p.totalMoney+=v;addXP(Math.floor(v/20));toast(`+${v} 💵`);p.scrap=p.parts=p.relic=0;save()}}$('surfaceBtn').onclick=surfaceUp;
-function upd(dt){crewClock+=dt;bossClock+=dt;if(crewClock>=6&&p.crewLv>0){crewClock=0;const cash=Math.round(p.crewLv*12*zone()[1]);p.money+=cash;p.totalMoney+=cash;p.scan=clamp(p.scan+p.crewLv*2,0,100)}
-if(!boss&&p.y-surface>900&&bossClock>45){bossClock=0;boss={hp:30+p.level*4,max:30+p.level*4,x:p.x+180,y:p.y};toast('🦈 Büyük hedef tespit edildi!')}
-if(boss){boss.x+=(p.x-boss.x)*dt*.35;boss.y+=(p.y-boss.y)*dt*.35;if(Math.hypot(p.x-boss.x,p.y-boss.y)<85){boss.hp-=dt*(2+p.winchLv*.4);p.oxygen=clamp(p.oxygen-dt*.7,0,maxOxy());if(boss.hp<=0){p.bossKills++;p.money+=300+p.level*30;p.scan=100;addXP(80);boss=null;toast('🦈 Boss yenildi!')}}}
-let a=jx,b=jy;if(keys.w||keys.arrowup)b--;if(keys.s||keys.arrowdown)b++;if(keys.a||keys.arrowleft)a--;if(keys.d||keys.arrowright)a++;let l=Math.hypot(a,b);if(l>1){a/=l;b/=l}if(l>.01){p.x=clamp(p.x+a*190*dt,60,1740);p.y=clamp(p.y+b*190*dt,200,Math.min(worldH-80,surface+maxDepth()))}p.oxygen=clamp(p.oxygen-dt*(1.1+Math.max(0,p.y-surface)/1300),0,maxOxy());if(p.oxygen<=0){toast('Oksijen bitti!');surfaceUp()}const n=near();if(n){p.work+=dt*(1+p.winchLv*.16);if(p.work>1.05){p.work=0;gain(n)}}else p.work=0;for(const o of loot){if(o.dead>0){o.dead-=dt;if(o.dead<=0){o.x=rand(120,1680);o.y=rand(340,2350)}}}if(Math.random()<dt*5)bubs.push({x:p.x+rand(-10,10),y:p.y-15,t:0});for(const q of bubs){q.t+=dt;q.y-=22*dt}for(let i=bubs.length-1;i>=0;i--)if(bubs[i].t>1.3)bubs.splice(i,1);cam+=(p.y-cam-H*.48)*Math.min(1,dt*4);hud()}
-function hud(){$('money').textContent=Math.floor(p.money);$('scrap').textContent=Math.floor(p.scrap);$('parts').textContent=Math.floor(p.parts);$('relic').textContent=Math.floor(p.relic);$('oxyText').textContent=Math.round(p.oxygen);$('oxyBar').style.width=p.oxygen/maxOxy()*100+'%';const pr=clamp((p.y-surface)/maxDepth()*100,0,100);$('pressText').textContent=Math.round(pr);$('pressBar').style.width=pr+'%';$('scanBtn').textContent=p.scan>=100?'📡 SONAR HAZIR':`📡 SONAR %${Math.floor(p.scan)}`;const t=p.scrap+p.parts+p.relic;$('questBar').style.width=Math.min(100,t/8*100)+'%';$('questText').textContent=cargoUsed()>=cargoCap()?'🎒 Kargo dolu • yüzeye dön':t<8?'8 ganimet çıkar':'Yüzeye dön ve sat';
-const z=zone();$('depthChip').textContent=`🌊 ${Math.max(0,Math.round(p.y-surface))}m • ${z[0]}`;
-$('bossBar').style.display=boss?'block':'none';if(boss)$('bossHp').style.width=(boss.hp/boss.max*100)+'%';
-$('cargoUp').textContent=cargoCap()+' kapasite';$('crewUp').textContent=p.crewLv+' otomatik dalgıç';
-$('careerText').textContent=`${p.level<5?'Çaylak Kurtarıcı':p.level<10?'Profesyonel Dalgıç':'Derin Deniz Patronu'} • Seviye ${p.level}`;
-$('careerBar').style.width=Math.min(100,p.xp/(80+p.level*45)*100)+'%';$('oxyUp').textContent=maxOxy()+' kapasite';$('suitUp').textContent=maxDepth()+'m';$('winchUp').textContent='+'+p.winchLv*16+'%';$('sonarUp').textContent='+'+p.sonarLv*2+' enerji'}
-function draw(){const g=x.createLinearGradient(0,0,0,H);g.addColorStop(0,'#126c8d');g.addColorStop(1,'#03111d');x.fillStyle=g;x.fillRect(0,0,W,H);x.save();x.translate(0,-cam);x.fillStyle='#78d8ef';x.fillRect(0,0,1800,surface);x.fillStyle='#c8b78c';x.fillRect(0,2400,1800,100);for(const o of loot){if(o.dead>0||Math.abs(o.y-p.y)>H*.8)continue;x.font='16px serif';x.textAlign='center';x.fillText(o.type==='scrap'?'🔩':o.type==='parts'?'⚙️':'💎',o.x,o.y)}if(boss){x.font='38px serif';x.textAlign='center';x.fillText('🦈',boss.x,boss.y)}
-for(const q of bubs){x.strokeStyle='#d6f9ff88';x.beginPath();x.arc(q.x,q.y,3,0,Math.PI*2);x.stroke()}x.translate(p.x,p.y);x.fillStyle='#f0cf48';x.beginPath();x.arc(0,0,15,0,Math.PI*2);x.fill();x.fillStyle='#f2cbaa';x.beginPath();x.arc(0,-18,8,0,Math.PI*2);x.fill();x.strokeStyle='#8deaff';x.lineWidth=3;x.beginPath();x.arc(0,0,22,0,Math.PI*2);x.stroke();x.restore()}
-function loop(ts){if(!run)return;requestAnimationFrame(loop);if(ts-rl<1000/30)return;const dt=Math.min(.05,(ts-last)/1000||0);last=ts;rl=ts;upd(dt);draw()}
-const costs={oxy:120,suit:150,winch:180,sonar:220,cargo:260,crew:500};function buy(k){const lv=p[k+'Lv'],co=Math.round(costs[k]*Math.pow(1.65,lv));if(p.money<co)return;p.money-=co;p[k+'Lv']++;toast('Geliştirildi');hud()}['oxy','suit','winch','sonar','cargo','crew'].forEach(k=>$(k+'Buy').onclick=()=>buy(k));$('menuBtn').onclick=()=>{$('menuModal').style.display='grid';hud()};$('menuClose').onclick=()=>$('menuModal').style.display='none';
-const sy=[{i:'🔩',k:'scrap',v:6,m:3},{i:'⚙️',k:'parts',v:3,m:4},{i:'💎',k:'relic',v:1,m:7},{i:'💵',k:'money',v:45,m:4}],pick=()=>sy[Math.floor(Math.random()*sy.length)];$('scanBtn').onclick=()=>{$('scanModal').style.display='grid';$('spinBtn').disabled=p.scan<100};$('spinBtn').onclick=()=>{if(p.scan<100)return;p.scan=0;const r=[pick(),pick(),pick()];$('r1').textContent=r[0].i;$('r2').textContent=r[1].i;$('r3').textContent=r[2].i;const tri=r[0].k===r[1].k&&r[1].k===r[2].k;if(tri){const s=r[0],a=s.v*s.m*3;p[s.k]+=a;$('scanResult').textContent=`🎉 JACKPOT ${s.m}x • +${a} ${s.i}`}else{for(const s of r)p[s.k]+=s.v;$('scanResult').textContent='Küçük sonar ödülleri alındı'}hud()};$('scanClose').onclick=()=>$('scanModal').style.display='none';const contracts=[
-{name:'Hurda Operasyonu',need:20,reward:180,icon:'🔩'},
-{name:'Batık Kargo',need:45,reward:420,icon:'📦'},
-{name:'Derin Deniz Vardiyası',need:80,reward:850,icon:'🌊'}
+(()=>{'use strict';const $=i=>document.getElementById(i),c=$('game'),x=c.getContext('2d');let W=1,H=1,D=1,last=0,rr=0,run=false,chosen='warrior',press=false,camX=0,camY=0,work=0,saveT=0,target=null,dungeon=null;const SAVE='realm_stone_ultra_mobile_v3',rand=(a,b)=>a+Math.random()*(b-a),clamp=(v,a,b)=>Math.max(a,Math.min(b,v)),dist=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);const cs={warrior:{hp:120,atk:14,crit:.05,sp:205},ninja:{hp:95,atk:12,crit:.15,sp:235},sura:{hp:105,atk:15,crit:.08,sp:205},shaman:{hp:100,atk:11,crit:.07,sp:210}};const maps=[['v1','Başlangıç Köyü',1,15,'#8caf68'],['v2','İkinci Köy',15,30,'#76965a'],['valley','Ejder Vadisi',30,45,'#71836c'],['desert','Yongbi Çölü',45,60,'#c8a469'],['ice','Buz Dağı',60,75,'#afd4dc'],['fire','Ateş Diyarı',75,90,'#754a3b'],['forest','Kızıl Orman',90,105,'#5e6b45'],['cave','Sürgün Mağarası',105,120,'#4d4d55'],['champ','Şampiyon Toprakları',120,150,'#768894']];const duns=[['Maymun Tapınağı',30,900],['Örümcek Zindanı',50,1800],['Şeytan Kulesi',75,4200],['Ejder Odası',100,9000],['Şampiyon Kulesi',120,18000]];const p={x:1100,y:1100,c:'warrior',level:1,champ:0,exp:0,hp:120,yang:0,metinDrop:0,scroll:0,gem:0,kills:0,metins:0,map:'v1',pot:5,weapon:{plus:0,atk:8,rarity:'common',bonus:0},
+armor:{plus:0,def:4,rarity:'common',bonus:0},
+pet:{id:'none',level:0},mount:{id:'none',level:0},
+rank:0,rankPoints:0,skillCd:[0,0,0],buffAtk:0,buffDef:0,
+questData:{mob:0,metin:0,dungeon:0},claimed:{},forgePity:0};const mobs=[],stones=[],parts=[];
+
+const pets=[
+ {id:'none',name:'Yok',icon:'—',min:1,atk:0,def:0,cost:0},
+ {id:'wolf',name:'Gölge Kurt',icon:'🐺',min:20,atk:6,def:2,cost:12000},
+ {id:'tiger',name:'Beyaz Kaplan',icon:'🐯',min:50,atk:14,def:5,cost:45000},
+ {id:'dragon',name:'Mini Ejder',icon:'🐉',min:90,atk:28,def:10,cost:160000}
 ];
-function contractUI(){const q=contracts[p.contract%contracts.length];$('contractList').innerHTML=`<div class="mission"><b>${q.icon} ${q.name}</b><small>${Math.min(p.contractProg,q.need)} / ${q.need} ganimet • Ödül ${q.reward} 💵</small><div class="bar"><i style="width:${Math.min(100,p.contractProg/q.need*100)}%"></i></div><button id="claimContract" class="buy" style="margin-top:9px" ${p.contractProg<q.need?'disabled':''}>ÖDÜLÜ AL</button></div>`;const b=$('claimContract');if(b)b.onclick=()=>{if(p.contractProg<q.need)return;p.contractProg-=q.need;p.money+=q.reward;p.scan=clamp(p.scan+30,0,100);addXP(50);p.contract++;contractUI();toast('Kontrat tamamlandı!')}}
-$('contractBtn').onclick=()=>{$('contractModal').style.display='grid';contractUI()};$('contractClose').onclick=()=>$('contractModal').style.display='none';setInterval(()=>{if(run)save()},10000);addEventListener('pagehide',save);load();hud();
-$('play').onclick=()=>{$('start').style.display='none';run=true;last=performance.now();requestAnimationFrame(loop)};hud();draw()})();
+const mounts=[
+ {id:'none',name:'Yok',icon:'—',min:1,speed:0,cost:0},
+ {id:'horse',name:'Savaş Atı',icon:'🐎',min:25,speed:.12,cost:15000},
+ {id:'lion',name:'Savaş Aslanı',icon:'🦁',min:60,speed:.22,cost:65000},
+ {id:'wyrm',name:'Ejder Bineği',icon:'🐲',min:100,speed:.35,cost:220000}
+];
+const ultraQuests=[
+ {id:'q1',name:'Köy Temizliği',type:'mob',need:30,reward:2500,lv:1},
+ {id:'q2',name:'Metin Avcısı',type:'metin',need:10,reward:6000,lv:10},
+ {id:'q3',name:'Zindan Fatihi',type:'dungeon',need:3,reward:18000,lv:30},
+ {id:'q4',name:'Usta Farmcı',type:'metin',need:50,reward:45000,lv:50},
+ {id:'q5',name:'Efsane Savaşçı',type:'dungeon',need:10,reward:120000,lv:80}
+];
+function petData(){return pets.find(z=>z.id===p.pet.id)||pets[0]}
+function mountData(){return mounts.find(z=>z.id===p.mount.id)||mounts[0]}
+function rankName(){return ['Çaylak','Acemi','Savaşçı','Usta','Kahraman','Efsane','Şampiyon'][clamp(p.rank,0,6)]}
+function powerScore(){return Math.round(atk()*4+def()*3+maxHp()*.5+p.weapon.plus*80+p.armor.plus*60+p.rank*250+p.champ*180)}
+function buyPet(id){const q=pets.find(z=>z.id===id);if(!q||p.level<q.min||p.yang<q.cost)return toast('Şartlar yetersiz');p.yang-=q.cost;p.pet={id:q.id,level:1};toast(q.name+' alındı');renderPet();hud();save()}
+function buyMount(id){const q=mounts.find(z=>z.id===id);if(!q||p.level<q.min||p.yang<q.cost)return toast('Şartlar yetersiz');p.yang-=q.cost;p.mount={id:q.id,level:1};toast(q.name+' alındı');renderMount();hud();save()}
+function renderPet(){$('petList').innerHTML=pets.slice(1).map(q=>`<div class="row"><b>${q.icon} ${q.name}</b><small>LV.${q.min}+ • ATK +${q.atk} • DEF +${q.def}</small><button class="mini" data-pet="${q.id}" ${p.level<q.min||p.yang<q.cost?'disabled':''}>${p.pet.id===q.id?'AKTİF':q.cost+' Yang'}</button></div>`).join('');document.querySelectorAll('[data-pet]').forEach(b=>b.onclick=()=>buyPet(b.dataset.pet))}
+function renderMount(){$('mountList').innerHTML=mounts.slice(1).map(q=>`<div class="row"><b>${q.icon} ${q.name}</b><small>LV.${q.min}+ • Hız +%${Math.round(q.speed*100)}</small><button class="mini" data-mount="${q.id}" ${p.level<q.min||p.yang<q.cost?'disabled':''}>${p.mount.id===q.id?'AKTİF':q.cost+' Yang'}</button></div>`).join('');document.querySelectorAll('[data-mount]').forEach(b=>b.onclick=()=>buyMount(b.dataset.mount))}
+function renderQuests(){$('questList').innerHTML=ultraQuests.map(q=>{const v=p.questData[q.type]||0,done=!!p.claimed[q.id];return `<div class="questRow ${p.level<q.lv?'locked':''}"><b>${q.name}</b><small>${Math.min(v,q.need)} / ${q.need} • ${q.reward} Yang • LV.${q.lv}+</small><button class="mini" data-q="${q.id}" ${p.level<q.lv||v<q.need||done?'disabled':''}>${done?'ALINDI':'ÖDÜLÜ AL'}</button></div>`}).join('');document.querySelectorAll('[data-q]').forEach(b=>b.onclick=()=>claimQuest(b.dataset.q))}
+function claimQuest(id){const q=ultraQuests.find(z=>z.id===id);if(!q||p.claimed[id]||(p.questData[q.type]||0)<q.need)return;p.claimed[id]=true;p.yang+=q.reward;p.rankPoints+=10;toast('Görev tamamlandı');renderQuests();save()}
+function renderRank(){const need=50+p.rank*35;$('rankList').innerHTML=`<div class="tile"><b>🏆 ${rankName()}</b><small>Güç: ${powerScore()} • Rütbe Puanı ${p.rankPoints}/${need}</small><div class="bar"><i style="width:${Math.min(100,p.rankPoints/need*100)}%"></i></div><button id="rankUp" class="play" style="margin-top:8px" ${p.rank>=6||p.rankPoints<need?'disabled':''}>RÜTBE ATLAt</button></div>`;const b=$('rankUp');if(b)b.onclick=()=>{if(p.rankPoints<need||p.rank>=6)return;p.rankPoints-=need;p.rank++;toast(rankName());renderRank();hud();save()}}
+function rarityRoll(){const r=Math.random();return r<.03?'legend':r<.12?'epic':r<.35?'rare':'common'}
+function rarityBonus(r){return {common:0,rare:4,epic:9,legend:16}[r]||0}
+
+function b(){return cs[p.c]||cs.warrior}function maxHp(){return b().hp+(p.level-1)*5+p.armor.plus*10+p.champ*15}function atk(){return b().atk+p.weapon.atk+p.weapon.plus*7+(p.weapon.bonus||0)+Math.floor(p.level*.8)+p.champ*4+petData().atk+p.rank*4+(p.buffAtk||0)}function def(){return p.armor.def+p.armor.plus*5+(p.armor.bonus||0)+Math.floor(p.level*.35)+petData().def+p.rank*3+(p.buffDef||0)}function need(){return p.level>=120?250000*(1+p.champ*.35):Math.floor(75*Math.pow(p.level,1.72))}function curMap(){return maps.find(m=>m[0]===p.map)||maps[0]}function toast(m){const t=$('toast');t.textContent=m;t.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove('on'),650)}function iso(a,b){return{x:((a-b)*.5-camX)+W/2,y:((a+b)*.25-camY)+H*.57}}function addExp(n){p.exp+=n;let g=0;while(p.exp>=need()&&g++<100){p.exp-=need();if(p.level<120)p.level++;else if(p.champ<30)p.champ++;else{p.exp=0;break}p.hp=maxHp();toast(p.level<120?'LV '+p.level:'CL '+p.champ)}}
+function save(){try{localStorage.setItem(SAVE,JSON.stringify({...p,at:Date.now()}))}catch(e){}}function load(){try{const s=JSON.parse(localStorage.getItem(SAVE)||'null');if(s){Object.assign(p,s);
+if(!p.weapon)p.weapon={plus:0,atk:8,rarity:'common',bonus:0};
+if(!p.armor)p.armor={plus:0,def:4,rarity:'common',bonus:0};
+if(!p.pet)p.pet={id:'none',level:0};if(!p.mount)p.mount={id:'none',level:0};
+if(!p.questData)p.questData={mob:0,metin:0,dungeon:0};if(!p.claimed)p.claimed={};
+if(!Array.isArray(p.skillCd))p.skillCd=[0,0,0];p.rank=Number(p.rank)||0;p.rankPoints=Number(p.rankPoints)||0;p.forgePity=Number(p.forgePity)||0;
+}}catch(e){}}
+function spawnMob(){const m=curMap(),a=rand(0,6.28),r=rand(260,700),lv=clamp(Math.floor(rand(m[2],Math.max(m[2]+2,m[3]))),1,120);mobs.push({x:p.x+Math.cos(a)*r,y:p.y+Math.sin(a)*r,lv,hp:45+lv*8,max:45+lv*8,dead:0,dir:rand(0,6.28),elite:Math.random()<.12})}
+function spawnStone(){const m=curMap(),a=rand(0,6.28),r=rand(300,640),lv=clamp(Math.round((m[2]+m[3])/2),5,120);stones.push({x:p.x+Math.cos(a)*r,y:p.y+Math.sin(a)*r,lv,hp:420+lv*28,max:420+lv*28,dead:0})}
+function reset(){mobs.length=0;stones.length=0;target=null;for(let i=0;i<(innerWidth<761?10:14);i++)spawnMob();for(let i=0;i<(innerWidth<761?2:3);i++)spawnStone()}function near(){let z=null,bd=110;for(const a of [mobs,stones])for(const o of a){if(o.dead>0)continue;const d=dist(p,o);if(d<bd){bd=d;z=o}}return z}
+function kill(o){o.dead=5;target=null;const st=stones.includes(o),lv=o.lv,y=Math.round((st?120:18)*lv*rand(.8,1.2));p.yang+=y;p.kills++;p.questData.mob++;p.rankPoints+=st?2:0.15;addExp((st?18:3)*lv*lv);if(st){p.metins++;p.questData.metin++;if(Math.random()<.7)p.metinDrop++;if(Math.random()<.38)p.scroll++;if(Math.random()<.12)p.gem++;
+if(Math.random()<.18){const rr=rarityRoll();p.weapon.rarity=rr;p.weapon.bonus=Math.max(p.weapon.bonus||0,rarityBonus(rr));toast('Drop: '+rr.toUpperCase()+' silah bonusu')}
+else toast('Metin kırıldı')}else if(Math.random()<.06)p.scroll++}
+function hit(o){const cr=Math.random()<b().crit,dmg=Math.max(1,Math.round(atk()*(cr?1.7:1)*rand(.88,1.12)));o.hp-=dmg;parts.push({x:o.x,y:o.y,t:0,text:cr?'KRİT '+dmg:String(dmg)});if(o.hp<=0)kill(o)}
+
+function useSkill(i){
+ if(p.skillCd[i]>0)return;
+ if(i===0){
+   const n=near();if(n){n.hp-=atk()*2.4;if(n.hp<=0)kill(n);toast('💥 Güçlü Vuruş')}p.skillCd[i]=6;
+ }
+ if(i===1){
+   for(const arr of [mobs,stones])for(const o of arr){if(o.dead<=0&&dist(p,o)<150){o.hp-=atk()*1.45;if(o.hp<=0)kill(o)}}toast('⚡ Alan Saldırısı');p.skillCd[i]=10;
+ }
+ if(i===2){
+   p.buffDef=18+p.level*.3;p.buffAtk=6;p._buffTime=8;toast('🛡️ Savaş Aurası');p.skillCd[i]=16;
+ }
+}
+
+function update(dt){for(let i=0;i<3;i++)p.skillCd[i]=Math.max(0,(p.skillCd[i]||0)-dt);if(p._buffTime>0){p._buffTime-=dt;if(p._buffTime<=0){p.buffDef=0;p.buffAtk=0}}let dx=jx,dy=jy;if(keys.w||keys.arrowup)dy--;if(keys.s||keys.arrowdown)dy++;if(keys.a||keys.arrowleft)dx--;if(keys.d||keys.arrowright)dx++;let l=Math.hypot(dx,dy);if(l>1){dx/=l;dy/=l}if(l>.01&&!dungeon){const sp=b().sp*(1+mountData().speed);p.x=clamp(p.x+dx*sp*dt,80,2120);p.y=clamp(p.y+dy*sp*dt,80,2120)}if(!dungeon){target=near();if(target&&(press||keys[' '])){work+=dt;if(work>.48){work=0;hit(target)}}else work=0;for(const m of mobs){if(m.dead>0){m.dead-=dt;if(m.dead<=0){const a=rand(0,6.28),r=rand(300,700);m.x=p.x+Math.cos(a)*r;m.y=p.y+Math.sin(a)*r;m.hp=m.max}continue}const d=dist(p,m);if(d<145){p.hp=clamp(p.hp-Math.max(.5,m.lv*.6-def()*.15)*dt,0,maxHp());if(p.hp<=0){p.hp=maxHp();p.yang=Math.floor(p.yang*.95);p.x=p.y=1100;toast('Köye döndün')}}else if(d<360){const ax=p.x-m.x,ay=p.y-m.y,ll=Math.hypot(ax,ay)||1;m.x+=ax/ll*45*dt;m.y+=ay/ll*45*dt}}for(const s of stones)if(s.dead>0){s.dead-=dt;if(s.dead<=0){const a=rand(0,6.28),r=rand(300,650);s.x=p.x+Math.cos(a)*r;s.y=p.y+Math.sin(a)*r;s.hp=s.max}}if(p.hp<maxHp()*.35&&p.pot>0){p.pot--;p.hp=clamp(p.hp+maxHp()*.55,0,maxHp())}}else{if(press||keys[' ']){dungeon.hp-=atk()*dt*2.6;p.hp=clamp(p.hp-10*dt,0,maxHp())}if(p.hp<=0){p.hp=maxHp();dungeon=null;toast('Zindandan çıktın')}if(dungeon&&dungeon.hp<=0){p.yang+=dungeon.reward;p.gem++;p.questData.dungeon++;p.rankPoints+=8;addExp(dungeon.reward*8);toast('Boss yenildi');dungeon=null}}for(const q of parts)q.t+=dt;for(let i=parts.length-1;i>=0;i--)if(parts[i].t>1)parts.splice(i,1);camX+=(((p.x-p.y)*.5)-camX)*Math.min(1,dt*5);camY+=(((p.x+p.y)*.25)-camY)*Math.min(1,dt*5);saveT+=dt;if(saveT>10){saveT=0;save()}hud()}
+function hud(){$('yang').textContent=Math.floor(p.yang);$('metinDrop').textContent=p.metinDrop;$('scroll').textContent=p.scroll;$('gem').textContent=p.gem;$('hp').textContent=Math.round(p.hp);$('hpBar').style.width=p.hp/maxHp()*100+'%';$('lvl').textContent=p.level>=120?(p.champ?'CL'+p.champ:'120'):p.level;$('expBar').style.width=Math.min(100,p.exp/need()*100)+'%';$('quest').textContent=dungeon?'Zindan Bossu • '+Math.ceil(dungeon.hp)+' HP':curMap()[1]+' • '+p.metins+' Metin • '+p.kills+' Kesim';$('questBar').style.width=dungeon?dungeon.hp/dungeon.max*100+'%':(p.kills%20)/20*100+'%';
+$('petChip').textContent=`${petData().icon==='—'?'🐺':petData().icon} Yoldaş: ${petData().name}`;
+for(let i=0;i<3;i++){const b=$('skill'+(i+1));b.classList.toggle('cool',p.skillCd[i]>0);b.title=p.skillCd[i]>0?p.skillCd[i].toFixed(1)+' sn':''}
+$('buffs').innerHTML=p._buffTime>0?`<span>🛡️ Aura ${Math.ceil(p._buffTime)}s</span>`:'';$('mAtk').textContent=atk();$('mDef').textContent=def();$('quickPotion').textContent='🧪 '+p.pot;$('target').classList.toggle('on',!!target&&!dungeon);if(target){$('targetName').textContent=stones.includes(target)?'Metin Taşı '+target.lv:(target.elite?'⚡ Elit ':'')+'Canavar LV.'+target.lv;$('targetHp').style.width=Math.max(0,target.hp/target.max*100)+'%'}}
+function draw(){const m=curMap(),g=x.createLinearGradient(0,0,0,H);g.addColorStop(0,m[4]);g.addColorStop(1,'#3a3226');x.fillStyle=g;x.fillRect(0,0,W,H);if(dungeon){x.fillStyle='#201b1e';x.fillRect(0,0,W,H);x.font='70px serif';x.textAlign='center';x.fillText('👹',W/2,H*.47);return}const list=[];for(const o of mobs)if(o.dead<=0&&Math.abs(o.x-p.x)<700&&Math.abs(o.y-p.y)<700)list.push({z:o.x+o.y,f:()=>{const s=iso(o.x,o.y);x.fillStyle=o.elite?'#83518b':'#5b4939';x.beginPath();x.arc(s.x,s.y,10,0,6.28);x.fill()}});for(const o of stones)if(o.dead<=0&&Math.abs(o.x-p.x)<700&&Math.abs(o.y-p.y)<700)list.push({z:o.x+o.y,f:()=>{const s=iso(o.x,o.y);x.fillStyle='#4d3f49';x.beginPath();x.moveTo(s.x,s.y-40);x.lineTo(s.x-20,s.y+16);x.lineTo(s.x+20,s.y+16);x.closePath();x.fill();x.strokeStyle='#d35458';x.stroke()}});list.push({z:p.x+p.y+.5,f:()=>{const s=iso(p.x,p.y);x.fillStyle={warrior:'#b94a3d',ninja:'#45545f',sura:'#794c87',shaman:'#bd8846'}[p.c];x.beginPath();x.arc(s.x,s.y,14,0,6.28);x.fill();x.fillStyle='#ebc39d';x.beginPath();x.arc(s.x,s.y-18,7,0,6.28);x.fill()}});list.sort((a,b)=>a.z-b.z).forEach(o=>o.f());for(const q of parts){const s=iso(q.x,q.y);x.globalAlpha=1-q.t;x.fillStyle='#fff3a6';x.font='900 12px system-ui';x.fillText(q.text,s.x,s.y-q.t*25);x.globalAlpha=1}}
+const keys={};addEventListener('keydown',e=>keys[e.key.toLowerCase()]=1);addEventListener('keyup',e=>keys[e.key.toLowerCase()]=0);const joy=$('joy'),stick=$('stick');let jid=null,jx=0,jy=0,bx=0,by=0;function jm(a,b){let dx=a-bx,dy=b-by,l=Math.hypot(dx,dy),m=34;if(l>m){dx=dx/l*m;dy=dy/l*m}jx=dx/m;jy=dy/m;stick.style.transform=`translate(${dx}px,${dy}px)`}function jr(){jid=null;jx=jy=0;stick.style.transform='translate(0,0)';joy.classList.remove('on')}c.addEventListener('pointerdown',e=>{if(matchMedia('(pointer:fine)').matches||document.querySelector('.modal[style*="grid"]'))return;jid=e.pointerId;bx=e.clientX;by=e.clientY;joy.style.left=bx+'px';joy.style.top=by+'px';joy.classList.add('on');jm(e.clientX,e.clientY)});addEventListener('pointermove',e=>{if(e.pointerId===jid)jm(e.clientX,e.clientY)});addEventListener('pointerup',e=>{if(e.pointerId===jid)jr()});
+function renderInv(){$('invList').innerHTML=`<div class="row"><b class="rarity-${p.weapon.rarity||'common'}">🗡️ Silah +${p.weapon.plus}</b><small>Saldırı ${p.weapon.atk+p.weapon.plus*7+(p.weapon.bonus||0)} • ${String(p.weapon.rarity||'common').toUpperCase()}</small></div><div class="row"><b>🛡️ Zırh +${p.armor.plus}</b><small>Savunma ${p.armor.def+p.armor.plus*5}</small></div><div class="row"><b>🧪 İksir x${p.pot}</b></div>`}function renderUp(){
+ const pl=p.weapon.plus,ch=[100,90,82,72,62,48,35,24,15],cost=pl>=9?0:Math.round(500*Math.pow(2.05,pl));
+ const pity=Math.min(20,p.forgePity||0);
+ $('upCard').innerHTML=pl>=9?'<div class="tile"><b>Silah +9</b><small>Maksimum</small></div>':`<div class="tile"><b>Silah +${pl} → +${pl+1}</b><small>Temel %${ch[pl]} • Pity +%${pity} • ${cost} Yang ${pl>=5?'• 1 📜':''}</small><button id="forge" class="play">BAS</button></div>`;
+ const f=$('forge');if(f)f.onclick=()=>{if(p.yang<cost)return toast('Yang yetersiz');if(pl>=5&&p.scroll<1)return toast('Parşömen gerekli');p.yang-=cost;if(pl>=5)p.scroll--;const chance=Math.min(.98,(ch[pl]+pity)/100);if(Math.random()<chance){p.weapon.plus++;p.forgePity=0;toast('Başarılı +'+p.weapon.plus)}else{p.forgePity=Math.min(20,p.forgePity+4);if(pl>=8&&Math.random()<.45)p.weapon.plus=Math.max(0,p.weapon.plus-1);toast('Başarısız • pity arttı')}renderUp();hud();save()}
+}function renderMaps(){$('mapList').innerHTML=maps.map(m=>`<div class="row"><b>${m[1]}</b> <small>LV.${m[2]}-${m[3]}</small> <button class="mini" data-m="${m[0]}" ${p.level<m[2]?'disabled':''}>Git</button></div>`).join('');document.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{const m=maps.find(z=>z[0]===b.dataset.m);if(p.level<m[2])return;p.map=m[0];p.x=p.y=1100;reset();document.querySelectorAll('.modal').forEach(z=>z.style.display='none');toast(m[1])})}function renderDun(){$('dunList').innerHTML=duns.map((d,i)=>`<div class="row"><b>🏯 ${d[0]}</b><small>LV.${d[1]}+</small><button class="mini" data-d="${i}" ${p.level<d[1]?'disabled':''}>Gir</button></div>`).join('');document.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>{const d=duns[+b.dataset.d];if(p.level<d[1])return;dungeon={name:d[0],hp:1000+d[1]*55,max:1000+d[1]*55,reward:d[2]};document.querySelectorAll('.modal').forEach(z=>z.style.display='none')})}
+function open(id){jr();if(matchMedia('(pointer:coarse)').matches)setAutoAttack(false);$(id).style.display='grid'}document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>$(b.dataset.close).style.display='none');$('menu').onclick=()=>{$('stats').textContent=`LV ${p.level}${p.champ?' / CL '+p.champ:''} • ATK ${atk()} • DEF ${def()} • Güç ${powerScore()} • ${rankName()}`;open('menuM')};$('invB').onclick=()=>{renderInv();open('invM')};$('upB').onclick=()=>{renderUp();open('upM')};$('mapB').onclick=()=>{renderMaps();open('mapM')};$('dunB').onclick=()=>{renderDun();open('dunM')};
+$('questB').onclick=()=>{renderQuests();open('questM')};
+$('petB').onclick=()=>{renderPet();open('petM')};
+$('mountB').onclick=()=>{renderMount();open('mountM')};
+$('rankB').onclick=()=>{renderRank();open('rankM')};$('farm').onclick=()=>{const s=stones.find(z=>z.dead<=0);if(s){p.x=s.x-55;p.y=s.y;toast('Metin bulundu')}};$('skill1').onclick=()=>useSkill(0);$('skill2').onclick=()=>useSkill(1);$('skill3').onclick=()=>useSkill(2);$('atk').onpointerdown=()=>press=true;$('atk').onpointerup=$('atk').onpointercancel=()=>press=false;document.querySelectorAll('.class').forEach(a=>a.onclick=()=>{document.querySelectorAll('.class').forEach(z=>z.classList.remove('on'));a.classList.add('on');chosen=a.dataset.c});$('play').onclick=()=>{p.c=chosen;p.hp=Math.min(p.hp,maxHp());$('start').style.display='none';run=true;last=performance.now();requestAnimationFrame(loop)};
+let mobileAutoAttack=false;
+function setAutoAttack(v){mobileAutoAttack=!!v;press=mobileAutoAttack;$('atk').style.boxShadow=mobileAutoAttack?'0 0 0 3px #ffd260,0 8px 24px #0007':'0 8px 24px #0007'}
+if(matchMedia('(pointer:coarse)').matches){
+ $('atk').onclick=()=>{setAutoAttack(!mobileAutoAttack);toast(mobileAutoAttack?'Oto saldırı açık':'Oto saldırı kapalı')};
+ $('atk').onpointerdown=null;$('atk').onpointerup=null;$('atk').onpointercancel=null;
+}
+function openCharacterMenu(){
+ $('stats').textContent=`LV ${p.level}${p.champ?' / CL '+p.champ:''} • ATK ${atk()} • DEF ${def()} • Güç ${powerScore()} • ${rankName()}`;
+ open('menuM')
+}
+$('navMenu').onclick=openCharacterMenu;
+$('navFarm').onclick=()=>{$('farm').click()};
+$('navInv').onclick=()=>{renderInv();open('invM')};
+$('navMap').onclick=()=>{renderMaps();open('mapM')};
+$('quickPotion').onclick=()=>{
+ if(p.pot<=0)return toast('İksir kalmadı');
+ if(p.hp>=maxHp())return toast('Can zaten dolu');
+ p.pot--;p.hp=clamp(p.hp+maxHp()*.6,0,maxHp());toast('❤️ İksir kullanıldı');hud();save()
+};
+
+function resize(){D=1;W=innerWidth;H=innerHeight;c.width=W;c.height=H}addEventListener('resize',resize);resize();let mobileIdle=0;function loop(ts){if(!run)return;requestAnimationFrame(loop);const moving=Math.abs(jx)+Math.abs(jy)>.05||press;mobileIdle=moving?0:mobileIdle+((ts-last)/1000||0);const fps=(innerWidth<761&&mobileIdle>8)?24:30;if(ts-rr<1000/fps)return;const dt=Math.min(.05,(ts-last)/1000||0);last=ts;rr=ts;update(dt);draw()}load();p.c=chosen;reset();camX=(p.x-p.y)*.5;camY=(p.x+p.y)*.25;hud();draw();addEventListener('pagehide',save)})();
 </script></body></html>
