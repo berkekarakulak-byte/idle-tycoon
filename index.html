@@ -1,245 +1,220 @@
-<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Realm Stone Ultra — Mobile Redesign</title>
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Zaman Fabrikası Tycoon</title>
 <style>
-*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#17130e;font-family:system-ui,sans-serif;touch-action:none}canvas{position:fixed;inset:0;width:100%;height:100%}.hud{position:fixed;inset:0;color:white;pointer-events:none;text-shadow:0 2px 3px #000}.top,.left,.right,.bottom{position:absolute}.top{top:8px;left:50%;transform:translateX(-50%);display:flex;gap:6px}.left{left:8px;top:54px;width:210px}.right{right:8px;top:54px;display:grid;gap:6px}.bottom{right:10px;bottom:10px}.pill,.card,.status,.btn{background:#211d18e8;border:1px solid #ffffff22;border-radius:12px}.pill{height:36px;min-width:72px;padding:0 8px;display:flex;align-items:center;gap:5px;font-weight:900}.pill b{margin-left:auto}.card{padding:9px;font-size:10px;font-weight:900}.status{width:100px;padding:7px;font-size:9px;font-weight:900}.bar{height:5px;background:#ffffff22;border-radius:99px;overflow:hidden;margin-top:5px}.bar i{display:block;height:100%;width:0;background:#5dd877}.btn{pointer-events:auto;color:#fff;padding:8px 10px;font-weight:900;cursor:pointer}.gold{background:#8a642d}.red{background:#91372f}.attack{pointer-events:auto;width:66px;height:66px;border-radius:50%;border:2px solid #ffffff44;background:#a64034;color:#fff;font-size:24px}.joy{position:fixed;width:110px;height:110px;border:2px solid #ffffff44;border-radius:50%;background:#ffffff10;opacity:0;transform:translate(-50%,-50%);pointer-events:none}.joy.on{opacity:1}.stick{position:absolute;left:31px;top:31px;width:46px;height:46px;border-radius:50%;background:#fff}.start,.modal{position:fixed;inset:0;display:grid;place-items:center;background:#090705e8;z-index:20;padding:18px}.modal{display:none;z-index:30}.panel{width:min(420px,92vw);max-height:86vh;overflow:auto;background:#f3eadc;color:#30271b;border-radius:22px;padding:18px}.logo{text-align:center;font-size:30px;font-weight:1000;margin-bottom:14px}.logo span{display:block;font-size:13px;color:#9a6a25}.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.tile,.row{background:#e7ddce;border-radius:12px;padding:9px}.tile b,.tile small{display:block}.tile small,.row small{font-size:8px;opacity:.65}.play,.select,.close,.mini{border:0;border-radius:10px;padding:10px;font-weight:900;cursor:pointer}.play,.select,.mini{background:#a97832;color:white}.close{width:100%;background:#ddd1c1;color:#433525;margin-top:10px}.class{border:2px solid transparent;text-align:center}.class.on{border-color:#a97832}.target{position:absolute;left:50%;top:55px;transform:translateX(-50%);width:250px;background:#21130fe8;padding:7px;border-radius:12px;display:none}.target.on{display:block}.toast{position:absolute;left:50%;top:18%;transform:translateX(-50%);background:#211d18ee;padding:8px 12px;border-radius:99px;opacity:0}.toast.on{opacity:1}@media(max-width:560px){.top{left:auto;right:8px;transform:none;display:grid;grid-template-columns:repeat(2,72px)}.left,.right{top:92px}.pill{min-width:0}.target{top:92px}}
+  :root{
+    --bg:#0b0d14;--panel:#131827;--panel2:#1a2133;--text:#f4f7ff;
+    --muted:#8d98b5;--accent:#7c5cff;--accent2:#22d3ee;--good:#35d07f;
+    --danger:#ff5c7a;--border:#27304a;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:radial-gradient(circle at top,#171d33 0,#0b0d14 40%);color:var(--text);
+    font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh}
+  button{font:inherit}
+  .app{max-width:980px;margin:auto;padding:12px}
+  .top{display:flex;justify-content:space-between;gap:16px;align-items:center;margin-bottom:18px;flex-wrap:wrap}
+  .brand h1{margin:0;font-size:21px}.brand p{margin:4px 0 0;color:var(--muted)}
+  .stats{display:flex;gap:10px;flex-wrap:wrap}
+  .pill{background:rgba(19,24,39,.9);border:1px solid var(--border);border-radius:11px;padding:7px 10px}
+  .pill b{display:block;font-size:15px}.pill span{font-size:12px;color:var(--muted)}
+  .grid{display:grid;grid-template-columns:1.15fr .85fr;gap:16px}
+  .panel{background:rgba(19,24,39,.92);border:1px solid var(--border);border-radius:15px;padding:12px;box-shadow:0 16px 45px #0005}
+  .clockWrap{text-align:center;padding:12px 8px}
+  .clock{width:165px;height:165px;border-radius:50%;margin:0 auto 18px;display:grid;place-items:center;
+    background:conic-gradient(var(--accent2) 0 25%,var(--accent) 25% 60%,#252c42 60%);
+    box-shadow:0 0 55px #7c5cff33;position:relative;cursor:pointer;user-select:none;transition:.12s transform}
+  .clock:active{transform:scale(.965)}
+  .clock::before{content:"";position:absolute;inset:12px;background:#101522;border-radius:50%;border:1px solid #303a57}
+  .clock .inner{position:relative;z-index:2}.clock .big{font-size:25px;font-weight:900}.clock .small{color:var(--muted);font-size:13px}
+  .gain{font-size:13px;color:var(--good);min-height:20px}
+  .sectionTitle{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+  .sectionTitle h2{font-size:17px;margin:0}.sectionTitle span{color:var(--muted);font-size:12px}
+  .machines{display:grid;gap:10px}
+  .machine{display:flex;align-items:center;gap:9px;background:var(--panel2);border:1px solid var(--border);border-radius:11px;padding:8px}
+  .icon{width:36px;height:36px;border-radius:9px;background:#242b43;display:grid;place-items:center;font-size:22px}
+  .info{flex:1}.info b{display:block}.info small{color:var(--muted)}
+  .buy{border:0;background:linear-gradient(135deg,var(--accent),#5f81ff);color:white;border-radius:11px;padding:9px 12px;font-weight:800;cursor:pointer}
+  .buy:disabled{opacity:.35;cursor:not-allowed}
+  .era{display:flex;gap:8px;overflow:auto;padding-bottom:4px;margin-bottom:14px}
+  .era button{white-space:nowrap;border:1px solid var(--border);background:#171d2c;color:var(--muted);padding:8px 10px;border-radius:10px}
+  .era button.active{background:#2a2450;color:#fff;border-color:#684fff}
+  .progress{height:10px;border-radius:99px;background:#252c42;overflow:hidden;margin:8px 0 16px}
+  .progress i{display:block;height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent));width:0%}
+  .upgrades{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+  .upgrade{background:#171d2c;border:1px solid var(--border);border-radius:10px;padding:9px}
+  .upgrade b{font-size:14px}.upgrade p{font-size:12px;color:var(--muted);min-height:32px}
+  .upgrade button{width:100%;border:0;border-radius:9px;background:#24304a;color:white;padding:8px;cursor:pointer}
+  .prestige{margin-top:14px;background:linear-gradient(135deg,#291c45,#16294a);border:1px solid #5d46a8;border-radius:16px;padding:14px}
+  .prestige button{width:100%;border:0;border-radius:11px;background:linear-gradient(135deg,#d946ef,#7c5cff);color:white;padding:11px;font-weight:900;cursor:pointer}
+  .footer{color:var(--muted);font-size:12px;text-align:center;margin-top:18px}
+  .float{position:fixed;pointer-events:none;font-weight:900;color:var(--accent2);animation:fly .8s ease-out forwards}
+  @keyframes fly{to{transform:translateY(-65px);opacity:0}}
+  @media(max-width:820px){.app{padding:8px}.grid{grid-template-columns:1fr;gap:10px}.top{margin-bottom:10px}.clock{width:145px;height:145px}.upgrades{grid-template-columns:1fr 1fr}.panel{padding:10px}.machine{padding:7px}.brand p{font-size:12px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="top">
+    <div class="brand">
+      <h1>⏳ Zaman Fabrikası Tycoon</h1>
+      
+    </div>
+    <div class="stats">
+      <div class="pill"><b id="seconds">0</b><span>Toplam Saniye</span></div>
+      <div class="pill"><b id="sps">0/sn</b><span>Pasif Üretim</span></div>
+      <div class="pill"><b id="paradox">0</b><span>Paradoks</span></div>
+    </div>
+  </div>
 
-/* ULTRA SYSTEMS */
-.skillbar{position:absolute;left:50%;bottom:max(10px,env(safe-area-inset-bottom));transform:translateX(-50%);display:flex;gap:6px}
-.skill{pointer-events:auto;width:48px;height:48px;border-radius:12px;border:1px solid #ffffff2e;background:linear-gradient(#3e352d,#211d19);color:#fff;font-weight:950;cursor:pointer;position:relative;box-shadow:0 6px 18px #0006}
-.skill small{position:absolute;right:3px;bottom:2px;font-size:7px;opacity:.7}.skill.cool{opacity:.45}
-.buff{position:absolute;left:50%;top:92px;transform:translateX(-50%);display:flex;gap:5px}.buff span{background:#211d18d9;border:1px solid #ffffff22;border-radius:9px;padding:5px 7px;font-size:8px;font-weight:900}
-.rarity-common{color:#444}.rarity-rare{color:#2675c8}.rarity-epic{color:#8b48c8}.rarity-legend{color:#d48917}
-.eqgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
-.eqslot{background:#e7ddce;border-radius:12px;padding:9px}.eqslot b,.eqslot small{display:block}.eqslot small{font-size:8px;opacity:.65}
-.questRow{background:#e7ddce;border-radius:12px;padding:9px;margin-top:7px}.questRow b,.questRow small{display:block}.questRow small{font-size:8px;opacity:.65;margin-top:3px}
-.badge{display:inline-flex;align-items:center;gap:4px;padding:4px 7px;border-radius:99px;background:#dfd1ba;font-size:8px;font-weight:950}
-.petChip{position:absolute;left:9px;bottom:max(12px,env(safe-area-inset-bottom));background:#211d18df;border:1px solid #ffffff22;border-radius:12px;padding:7px 9px;font-size:9px;font-weight:900}
-@media(max-width:560px){.skillbar{bottom:max(80px,calc(env(safe-area-inset-bottom) + 72px))}.skill{width:44px;height:44px}.buff{top:128px}}
+  <div class="grid">
+    <section class="panel">
+      <div class="clockWrap">
+        <div class="clock" id="clock">
+          <div class="inner">
+            <div class="big">+<span id="clickPower">1</span>s</div>
+            
+          </div>
+        </div>
+        <div class="gain" id="gain"></div>
+      </div>
 
-/* MOBILE EDITION */
-:root{--safeB:max(10px,env(safe-area-inset-bottom));--safeT:max(8px,env(safe-area-inset-top))}
-html,body{touch-action:none;overscroll-behavior:none}
-.mobileNav{position:absolute;left:50%;bottom:var(--safeB);transform:translateX(-50%);display:flex;gap:6px;pointer-events:auto}
-.mobileNav button{width:44px;height:44px;border:1px solid #ffffff28;border-radius:12px;background:#211d18e8;color:#fff;font-size:19px;font-weight:950;box-shadow:0 7px 18px #0006}
-.mobileNav button.active{background:#8a642d}
-#menu,#farm{display:none}
-.mobileMeta{position:absolute;left:8px;top:92px;background:#211d18dd;border:1px solid #ffffff22;border-radius:11px;padding:6px 8px;font-size:8px;font-weight:900}
-.quickItem{pointer-events:auto;position:absolute;right:10px;bottom:86px;width:46px;height:46px;border-radius:12px;border:1px solid #ffffff25;background:#2d2a24dd;color:#fff;font-weight:950}
-@media(max-width:760px){
- .top{top:var(--safeT);left:8px;right:8px;transform:none;display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
- .pill{min-width:0;height:34px;padding:0 6px;font-size:10px}
- .left{left:8px;top:50px;width:min(180px,48vw)}
- .right{right:8px;top:50px;gap:5px}
- .status{width:88px;padding:6px;font-size:8px}
- .target{top:92px;width:min(230px,58vw);font-size:8px}
- .card{padding:7px 8px;font-size:9px}
- .attack{width:66px;height:66px;font-size:23px}
- .bottom{right:9px;bottom:86px}
- .skillbar{left:auto;right:84px;bottom:86px;transform:none;gap:5px}
- .skill{width:46px;height:46px;border-radius:12px}
- .petChip{left:8px;bottom:86px;font-size:8px;padding:6px 8px}
- .buff{top:122px}
- .panel{width:min(430px,96vw);max-height:82vh;border-radius:18px;padding:15px}
- .grid{grid-template-columns:1fr 1fr;gap:7px}
- .select{padding:11px 8px;font-size:11px}
- .row{padding:8px}
- .mini{padding:8px 9px}
-}
-@media(min-width:761px){.mobileNav,.mobileMeta,.quickItem{display:none}}
+      <div class="sectionTitle"><h2>⚙️ Zaman Makineleri</h2></div>
+      <div class="machines" id="machines"></div>
+    </section>
 
-/* MOBILE REDESIGN */
-:root{--ui-bg:rgba(12,15,18,.90);--ui-line:rgba(255,255,255,.10);--ui-gold:#d9ae55}
-.top{left:12px!important;right:12px!important;top:max(8px,env(safe-area-inset-top))!important;transform:none!important;display:flex!important;gap:5px!important;justify-content:center!important}
-.pill{min-width:0!important;height:32px!important;padding:0 7px!important;flex:1;max-width:92px;border-radius:10px!important;background:linear-gradient(180deg,rgba(29,34,39,.96),rgba(14,18,22,.96))!important;border:1px solid var(--ui-line)!important;font-size:9px!important}
-.left{left:10px!important;top:max(49px,calc(env(safe-area-inset-top) + 41px))!important;width:min(190px,53vw)!important}
-.left .card,.status{background:linear-gradient(180deg,rgba(26,31,35,.93),rgba(12,16,19,.93))!important;border:1px solid var(--ui-line)!important}
-.right{right:10px!important;top:max(49px,calc(env(safe-area-inset-top) + 41px))!important}
-.status{width:90px!important;padding:6px 7px!important;border-radius:10px!important;font-size:8px!important}
-#menu,#farm,#mobileMeta,#petChip{display:none!important}
-.target{top:max(89px,calc(env(safe-area-inset-top) + 81px))!important;width:min(250px,64vw)!important;padding:6px 9px!important;border-radius:10px!important;background:rgba(34,21,18,.94)!important}
-.mobileNav{left:10px!important;right:10px!important;bottom:max(8px,env(safe-area-inset-bottom))!important;transform:none!important;height:54px;padding:5px!important;display:grid!important;grid-template-columns:repeat(5,1fr)!important;gap:4px!important;border-radius:17px;background:linear-gradient(180deg,rgba(27,31,35,.97),rgba(12,15,18,.98));border:1px solid var(--ui-line);box-shadow:0 12px 28px #0009!important}
-.mobileNav button{width:auto!important;height:44px!important;border:0!important;border-radius:12px!important;background:transparent!important;color:#b7bec4!important;font-size:18px!important;box-shadow:none!important}
-.mobileNav button.active{background:linear-gradient(180deg,#5d4931,#3a2d1e)!important;color:#f3ca76!important}
-.mobileNav button:after{display:block;font-size:6.5px;font-weight:900;margin-top:1px}
-#navMenu:after{content:'KARAKTER'}#navFarm:after{content:'FARM'}#navInv:after{content:'ÇANTA'}#navMap:after{content:'HARİTA'}#navMore:after{content:'DAHA'}
-.bottom{right:12px!important;bottom:max(79px,calc(env(safe-area-inset-bottom) + 70px))!important}
-.attack{width:72px!important;height:72px!important;background:radial-gradient(circle at 35% 28%,#e27662,#8b2d28 72%)!important;border:2px solid rgba(255,218,183,.42)!important;box-shadow:0 0 0 5px rgba(86,28,25,.26),0 12px 28px #000a!important}
-.skillbar{left:auto!important;right:92px!important;bottom:max(82px,calc(env(safe-area-inset-bottom) + 73px))!important;transform:none!important;display:grid!important;grid-template-columns:repeat(2,46px)!important;gap:5px!important}
-.skill{width:46px!important;height:46px!important;border-radius:13px!important;background:linear-gradient(145deg,#343a40,#181c20)!important;border:1px solid rgba(255,255,255,.13)!important}
-#skill3{grid-column:2}
-.quickItem{right:auto!important;left:12px!important;bottom:max(78px,calc(env(safe-area-inset-bottom) + 69px))!important;width:49px!important;height:49px!important;border-radius:14px!important;background:linear-gradient(145deg,#344239,#17211b)!important}
-.buff{top:auto!important;left:68px!important;bottom:max(82px,calc(env(safe-area-inset-bottom) + 73px))!important;transform:none!important}
-.joy{width:118px!important;height:118px!important;background:radial-gradient(circle,rgba(255,255,255,.06),rgba(255,255,255,.015))!important;border:1px solid rgba(255,255,255,.24)!important}
-.panel{width:min(430px,94vw)!important;max-height:80vh!important;padding:16px!important;border-radius:20px!important;background:linear-gradient(180deg,#f4efe6,#e4dacb)!important}
-.moreGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}
-.moreBtn{border:0;border-radius:13px;padding:13px 8px;background:linear-gradient(145deg,#e8ddcc,#d8c9b4);color:#443422;font-weight:950;cursor:pointer}
-.moreBtn span{display:block;font-size:23px;margin-bottom:4px}.moreBtn small{display:block;font-size:8px;opacity:.58;margin-top:3px}
-</style></head><body>
-<canvas id="game"></canvas><div class="hud">
-<div class="top"><div class="pill">💰<b id="yang">0</b></div><div class="pill">🪨<b id="metinDrop">0</b></div><div class="pill">📜<b id="scroll">0</b></div><div class="pill">💎<b id="gem">0</b></div></div>
-<div class="left"><div class="card"><div id="quest">Köy çevresinde kasıl</div><div class="bar"><i id="questBar"></i></div></div><button id="farm" class="btn red" style="margin-top:6px">🪨 METİN FARM</button></div>
-<div class="right"><div class="status">❤️ <b id="hp">100</b><div class="bar"><i id="hpBar"></i></div></div><div class="status">LV <b id="lvl">1</b><div class="bar"><i id="expBar"></i></div></div><button id="menu" class="btn gold">☰ MENÜ</button></div>
-<div id="target" class="target"><b id="targetName"></b><div class="bar"><i id="targetHp"></i></div></div>
-<div class="skillbar">
-<button id="skill1" class="skill">💥<small>1</small></button>
-<button id="skill2" class="skill">⚡<small>2</small></button>
-<button id="skill3" class="skill">🛡️<small>3</small></button>
+    <aside class="panel">
+      <div class="sectionTitle"><h2>🌀 Çağ Haritası</h2><span id="eraText">İlkel Çağ</span></div>
+      <div class="era" id="eras"></div>
+      <div class="progress"><i id="eraProgress"></i></div>
+
+      <div class="sectionTitle"><h2>🧠 Araştırmalar</h2></div>
+      <div class="upgrades" id="upgrades"></div>
+
+      <div class="prestige">
+        <b>💠 Büyük Paradoks</b>
+        
+        <p><strong>Kazanacağın:</strong> <span id="paradoxGain">0</span> Paradoks</p>
+        <button id="prestigeBtn">Zaman Çizgisini Kır</button>
+      </div>
+    </aside>
+  </div>
+  
 </div>
-<div id="buffs" class="buff"></div>
-<div id="petChip" class="petChip">🐺 Yoldaş: Yok</div>
-<div class="bottom"><button id="atk" class="attack">⚔️</button></div><div id="joy" class="joy"><div id="stick" class="stick"></div></div>
-<button id="quickPotion" class="quickItem">🧪</button>
-<div class="mobileNav">
-<button id="navMenu" class="active">👤</button>
-<button id="navFarm">🪨</button>
-<button id="navInv">🎒</button>
-<button id="navMap">🗺️</button>
-<button id="navMore">•••</button>
-</div>
-<div id="toast" class="toast"></div></div>
-
-<div id="start" class="start"><div class="panel"><div class="logo">REALM STONE ULTRA<span>PREMIUM MOBILE MMORPG</span></div><div class="grid">
-<div class="tile class on" data-c="warrior">🗡️<b>Savaşçı</b><small>Yakın dövüş</small></div><div class="tile class" data-c="ninja">🥷<b>Ninja</b><small>Kritik + hız</small></div><div class="tile class" data-c="sura">🔥<b>Sura</b><small>Büyülü güç</small></div><div class="tile class" data-c="shaman">🪭<b>Şaman</b><small>Buff + iyileştirme</small></div></div><button id="play" class="play" style="width:100%;margin-top:10px">OYUNA GİR</button></div></div>
-
-<div id="menuM" class="modal"><div class="panel"><h2>👤 Karakter Merkezi</h2><p id="stats"></p><div class="grid"><button id="invB" class="select">🎒 Envanter</button><button id="upB" class="select">🔨 Eşya Bas</button><button id="mapB" class="select">🗺️ Haritalar</button><button id="dunB" class="select">🏯 Zindanlar</button>
-<button id="questB" class="select">📜 Görevler</button>
-<button id="petB" class="select">🐺 Yoldaş</button>
-<button id="mountB" class="select">🐎 Binek</button>
-<button id="rankB" class="select">🏆 Rütbe</button></div><button class="close" data-close="menuM">Kapat</button></div></div>
-<div id="invM" class="modal"><div class="panel"><h2>Envanter</h2><div id="invList"></div><button class="close" data-close="invM">Kapat</button></div></div>
-<div id="upM" class="modal"><div class="panel"><h2>Demirci</h2><div id="upCard"></div><button class="close" data-close="upM">Kapat</button></div></div>
-<div id="mapM" class="modal"><div class="panel"><h2>Dünya Haritası</h2><div id="mapList"></div><button class="close" data-close="mapM">Kapat</button></div></div>
-<div id="dunM" class="modal"><div class="panel"><h2>Zindanlar</h2><div id="dunList"></div><button class="close" data-close="dunM">Kapat</button></div></div>
-
-<div id="moreM" class="modal"><div class="panel">
-<h2>⚔️ Sistemler</h2><p>Karakter gelişimi ve diğer içerikler.</p>
-<div class="moreGrid">
-<button id="moreUpgrade" class="moreBtn"><span>🔨</span>Demirci<small>+ bas ve güçlen</small></button>
-<button id="moreDungeon" class="moreBtn"><span>🏯</span>Zindan<small>Boss ve ödüller</small></button>
-<button id="moreQuest" class="moreBtn"><span>📜</span>Görevler<small>Kalıcı hedefler</small></button>
-<button id="morePet" class="moreBtn"><span>🐺</span>Yoldaş<small>Ek saldırı ve savunma</small></button>
-<button id="moreMount" class="moreBtn"><span>🐎</span>Binek<small>Hareket bonusları</small></button>
-<button id="moreRank" class="moreBtn"><span>🏆</span>Rütbe<small>Güç ve prestij</small></button>
-</div><button class="close" data-close="moreM">Kapat</button></div></div>
-
-<div id="questM" class="modal"><div class="panel"><h2>📜 Görevler</h2><div id="questList"></div><button class="close" data-close="questM">Kapat</button></div></div>
-<div id="petM" class="modal"><div class="panel"><h2>🐺 Yoldaş Sistemi</h2><div id="petList"></div><button class="close" data-close="petM">Kapat</button></div></div>
-<div id="mountM" class="modal"><div class="panel"><h2>🐎 Binek Sistemi</h2><div id="mountList"></div><button class="close" data-close="mountM">Kapat</button></div></div>
-<div id="rankM" class="modal"><div class="panel"><h2>🏆 Rütbe & Güç</h2><div id="rankList"></div><button class="close" data-close="rankM">Kapat</button></div></div>
 
 <script>
-(()=>{'use strict';const $=i=>document.getElementById(i),c=$('game'),x=c.getContext('2d');let W=1,H=1,D=1,last=0,rr=0,run=false,chosen='warrior',press=false,camX=0,camY=0,work=0,saveT=0,target=null,dungeon=null;const SAVE='realm_stone_ultra_mobile_v3',rand=(a,b)=>a+Math.random()*(b-a),clamp=(v,a,b)=>Math.max(a,Math.min(b,v)),dist=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);const cs={warrior:{hp:120,atk:14,crit:.05,sp:205},ninja:{hp:95,atk:12,crit:.15,sp:235},sura:{hp:105,atk:15,crit:.08,sp:205},shaman:{hp:100,atk:11,crit:.07,sp:210}};const maps=[['v1','Başlangıç Köyü',1,15,'#8caf68'],['v2','İkinci Köy',15,30,'#76965a'],['valley','Ejder Vadisi',30,45,'#71836c'],['desert','Yongbi Çölü',45,60,'#c8a469'],['ice','Buz Dağı',60,75,'#afd4dc'],['fire','Ateş Diyarı',75,90,'#754a3b'],['forest','Kızıl Orman',90,105,'#5e6b45'],['cave','Sürgün Mağarası',105,120,'#4d4d55'],['champ','Şampiyon Toprakları',120,150,'#768894']];const duns=[['Maymun Tapınağı',30,900],['Örümcek Zindanı',50,1800],['Şeytan Kulesi',75,4200],['Ejder Odası',100,9000],['Şampiyon Kulesi',120,18000]];const p={x:1100,y:1100,c:'warrior',level:1,champ:0,exp:0,hp:120,yang:0,metinDrop:0,scroll:0,gem:0,kills:0,metins:0,map:'v1',pot:5,weapon:{plus:0,atk:8,rarity:'common',bonus:0},
-armor:{plus:0,def:4,rarity:'common',bonus:0},
-pet:{id:'none',level:0},mount:{id:'none',level:0},
-rank:0,rankPoints:0,skillCd:[0,0,0],buffAtk:0,buffDef:0,
-questData:{mob:0,metin:0,dungeon:0},claimed:{},forgePity:0};const mobs=[],stones=[],parts=[];
-
-const pets=[
- {id:'none',name:'Yok',icon:'—',min:1,atk:0,def:0,cost:0},
- {id:'wolf',name:'Gölge Kurt',icon:'🐺',min:20,atk:6,def:2,cost:12000},
- {id:'tiger',name:'Beyaz Kaplan',icon:'🐯',min:50,atk:14,def:5,cost:45000},
- {id:'dragon',name:'Mini Ejder',icon:'🐉',min:90,atk:28,def:10,cost:160000}
+const machineDefs=[
+  {name:"Cep Saati Atölyesi",icon:"⌚",base:15,prod:1},
+  {name:"Kronometre Hattı",icon:"⏱️",base:120,prod:6},
+  {name:"Atom Saati Laboratuvarı",icon:"⚛️",base:900,prod:35},
+  {name:"Zaman Portalı",icon:"🌀",base:6500,prod:180},
+  {name:"Kara Delik Reaktörü",icon:"🕳️",base:42000,prod:950}
 ];
-const mounts=[
- {id:'none',name:'Yok',icon:'—',min:1,speed:0,cost:0},
- {id:'horse',name:'Savaş Atı',icon:'🐎',min:25,speed:.12,cost:15000},
- {id:'lion',name:'Savaş Aslanı',icon:'🦁',min:60,speed:.22,cost:65000},
- {id:'wyrm',name:'Ejder Bineği',icon:'🐲',min:100,speed:.35,cost:220000}
+const eraDefs=[
+  {name:"İlkel Çağ",need:0},{name:"Sanayi Çağı",need:500},{name:"Dijital Çağ",need:5000},
+  {name:"Kuantum Çağı",need:50000},{name:"Ölümsüzlük Çağı",need:500000}
 ];
-const ultraQuests=[
- {id:'q1',name:'Köy Temizliği',type:'mob',need:30,reward:2500,lv:1},
- {id:'q2',name:'Metin Avcısı',type:'metin',need:10,reward:6000,lv:10},
- {id:'q3',name:'Zindan Fatihi',type:'dungeon',need:3,reward:18000,lv:30},
- {id:'q4',name:'Usta Farmcı',type:'metin',need:50,reward:45000,lv:50},
- {id:'q5',name:'Efsane Savaşçı',type:'dungeon',need:10,reward:120000,lv:80}
+const upgradeDefs=[
+  {id:"click2",name:"Güçlü Dokunuş",desc:"Tıklama gücünü 2× yapar.",cost:250,type:"click",mult:2},
+  {id:"auto2",name:"Hızlandırılmış Akış",desc:"Tüm makinelerin üretimini 2× yapar.",cost:1500,type:"auto",mult:2},
+  {id:"click5",name:"Zaman Eldiveni",desc:"Tıklama gücünü 5× yapar.",cost:7500,type:"click",mult:5},
+  {id:"auto3",name:"Kuantum Senkronu",desc:"Tüm makinelerin üretimini 3× yapar.",cost:25000,type:"auto",mult:3}
 ];
-function petData(){return pets.find(z=>z.id===p.pet.id)||pets[0]}
-function mountData(){return mounts.find(z=>z.id===p.mount.id)||mounts[0]}
-function rankName(){return ['Çaylak','Acemi','Savaşçı','Usta','Kahraman','Efsane','Şampiyon'][clamp(p.rank,0,6)]}
-function powerScore(){return Math.round(atk()*4+def()*3+maxHp()*.5+p.weapon.plus*80+p.armor.plus*60+p.rank*250+p.champ*180)}
-function buyPet(id){const q=pets.find(z=>z.id===id);if(!q||p.level<q.min||p.yang<q.cost)return toast('Şartlar yetersiz');p.yang-=q.cost;p.pet={id:q.id,level:1};toast(q.name+' alındı');renderPet();hud();save()}
-function buyMount(id){const q=mounts.find(z=>z.id===id);if(!q||p.level<q.min||p.yang<q.cost)return toast('Şartlar yetersiz');p.yang-=q.cost;p.mount={id:q.id,level:1};toast(q.name+' alındı');renderMount();hud();save()}
-function renderPet(){$('petList').innerHTML=pets.slice(1).map(q=>`<div class="row"><b>${q.icon} ${q.name}</b><small>LV.${q.min}+ • ATK +${q.atk} • DEF +${q.def}</small><button class="mini" data-pet="${q.id}" ${p.level<q.min||p.yang<q.cost?'disabled':''}>${p.pet.id===q.id?'AKTİF':q.cost+' Yang'}</button></div>`).join('');document.querySelectorAll('[data-pet]').forEach(b=>b.onclick=()=>buyPet(b.dataset.pet))}
-function renderMount(){$('mountList').innerHTML=mounts.slice(1).map(q=>`<div class="row"><b>${q.icon} ${q.name}</b><small>LV.${q.min}+ • Hız +%${Math.round(q.speed*100)}</small><button class="mini" data-mount="${q.id}" ${p.level<q.min||p.yang<q.cost?'disabled':''}>${p.mount.id===q.id?'AKTİF':q.cost+' Yang'}</button></div>`).join('');document.querySelectorAll('[data-mount]').forEach(b=>b.onclick=()=>buyMount(b.dataset.mount))}
-function renderQuests(){$('questList').innerHTML=ultraQuests.map(q=>{const v=p.questData[q.type]||0,done=!!p.claimed[q.id];return `<div class="questRow ${p.level<q.lv?'locked':''}"><b>${q.name}</b><small>${Math.min(v,q.need)} / ${q.need} • ${q.reward} Yang • LV.${q.lv}+</small><button class="mini" data-q="${q.id}" ${p.level<q.lv||v<q.need||done?'disabled':''}>${done?'ALINDI':'ÖDÜLÜ AL'}</button></div>`}).join('');document.querySelectorAll('[data-q]').forEach(b=>b.onclick=()=>claimQuest(b.dataset.q))}
-function claimQuest(id){const q=ultraQuests.find(z=>z.id===id);if(!q||p.claimed[id]||(p.questData[q.type]||0)<q.need)return;p.claimed[id]=true;p.yang+=q.reward;p.rankPoints+=10;toast('Görev tamamlandı');renderQuests();save()}
-function renderRank(){const need=50+p.rank*35;$('rankList').innerHTML=`<div class="tile"><b>🏆 ${rankName()}</b><small>Güç: ${powerScore()} • Rütbe Puanı ${p.rankPoints}/${need}</small><div class="bar"><i style="width:${Math.min(100,p.rankPoints/need*100)}%"></i></div><button id="rankUp" class="play" style="margin-top:8px" ${p.rank>=6||p.rankPoints<need?'disabled':''}>RÜTBE ATLAt</button></div>`;const b=$('rankUp');if(b)b.onclick=()=>{if(p.rankPoints<need||p.rank>=6)return;p.rankPoints-=need;p.rank++;toast(rankName());renderRank();hud();save()}}
-function rarityRoll(){const r=Math.random();return r<.03?'legend':r<.12?'epic':r<.35?'rare':'common'}
-function rarityBonus(r){return {common:0,rare:4,epic:9,legend:16}[r]||0}
+let state={seconds:0,total:0,paradox:0,machines:[0,0,0,0,0],upgrades:[],clickMult:1,autoMult:1};
 
-function b(){return cs[p.c]||cs.warrior}function maxHp(){return b().hp+(p.level-1)*5+p.armor.plus*10+p.champ*15}function atk(){return b().atk+p.weapon.atk+p.weapon.plus*7+(p.weapon.bonus||0)+Math.floor(p.level*.8)+p.champ*4+petData().atk+p.rank*4+(p.buffAtk||0)}function def(){return p.armor.def+p.armor.plus*5+(p.armor.bonus||0)+Math.floor(p.level*.35)+petData().def+p.rank*3+(p.buffDef||0)}function need(){return p.level>=120?250000*(1+p.champ*.35):Math.floor(75*Math.pow(p.level,1.72))}function curMap(){return maps.find(m=>m[0]===p.map)||maps[0]}function toast(m){const t=$('toast');t.textContent=m;t.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove('on'),650)}function iso(a,b){return{x:((a-b)*.5-camX)+W/2,y:((a+b)*.25-camY)+H*.57}}function addExp(n){p.exp+=n;let g=0;while(p.exp>=need()&&g++<100){p.exp-=need();if(p.level<120)p.level++;else if(p.champ<30)p.champ++;else{p.exp=0;break}p.hp=maxHp();toast(p.level<120?'LV '+p.level:'CL '+p.champ)}}
-function save(){try{localStorage.setItem(SAVE,JSON.stringify({...p,at:Date.now()}))}catch(e){}}function load(){try{const s=JSON.parse(localStorage.getItem(SAVE)||'null');if(s){Object.assign(p,s);
-if(!p.weapon)p.weapon={plus:0,atk:8,rarity:'common',bonus:0};
-if(!p.armor)p.armor={plus:0,def:4,rarity:'common',bonus:0};
-if(!p.pet)p.pet={id:'none',level:0};if(!p.mount)p.mount={id:'none',level:0};
-if(!p.questData)p.questData={mob:0,metin:0,dungeon:0};if(!p.claimed)p.claimed={};
-if(!Array.isArray(p.skillCd))p.skillCd=[0,0,0];p.rank=Number(p.rank)||0;p.rankPoints=Number(p.rankPoints)||0;p.forgePity=Number(p.forgePity)||0;
-}}catch(e){}}
-function spawnMob(){const m=curMap(),a=rand(0,6.28),r=rand(260,700),lv=clamp(Math.floor(rand(m[2],Math.max(m[2]+2,m[3]))),1,120);mobs.push({x:p.x+Math.cos(a)*r,y:p.y+Math.sin(a)*r,lv,hp:45+lv*8,max:45+lv*8,dead:0,dir:rand(0,6.28),elite:Math.random()<.12})}
-function spawnStone(){const m=curMap(),a=rand(0,6.28),r=rand(300,640),lv=clamp(Math.round((m[2]+m[3])/2),5,120);stones.push({x:p.x+Math.cos(a)*r,y:p.y+Math.sin(a)*r,lv,hp:420+lv*28,max:420+lv*28,dead:0})}
-function reset(){mobs.length=0;stones.length=0;target=null;for(let i=0;i<(innerWidth<761?10:14);i++)spawnMob();for(let i=0;i<(innerWidth<761?2:3);i++)spawnStone()}function near(){let z=null,bd=110;for(const a of [mobs,stones])for(const o of a){if(o.dead>0)continue;const d=dist(p,o);if(d<bd){bd=d;z=o}}return z}
-function kill(o){o.dead=5;target=null;const st=stones.includes(o),lv=o.lv,y=Math.round((st?120:18)*lv*rand(.8,1.2));p.yang+=y;p.kills++;p.questData.mob++;p.rankPoints+=st?2:0.15;addExp((st?18:3)*lv*lv);if(st){p.metins++;p.questData.metin++;if(Math.random()<.7)p.metinDrop++;if(Math.random()<.38)p.scroll++;if(Math.random()<.12)p.gem++;
-if(Math.random()<.18){const rr=rarityRoll();p.weapon.rarity=rr;p.weapon.bonus=Math.max(p.weapon.bonus||0,rarityBonus(rr));toast('Drop: '+rr.toUpperCase()+' silah bonusu')}
-else toast('Metin kırıldı')}else if(Math.random()<.06)p.scroll++}
-function hit(o){const cr=Math.random()<b().crit,dmg=Math.max(1,Math.round(atk()*(cr?1.7:1)*rand(.88,1.12)));o.hp-=dmg;parts.push({x:o.x,y:o.y,t:0,text:cr?'KRİT '+dmg:String(dmg)});if(o.hp<=0)kill(o)}
+try{
+  const saved=JSON.parse(localStorage.getItem("zamanTycoonSave"));
+  if(saved) state={...state,...saved};
+}catch(e){}
 
-function useSkill(i){
- if(p.skillCd[i]>0)return;
- if(i===0){
-   const n=near();if(n){n.hp-=atk()*2.4;if(n.hp<=0)kill(n);toast('💥 Güçlü Vuruş')}p.skillCd[i]=6;
- }
- if(i===1){
-   for(const arr of [mobs,stones])for(const o of arr){if(o.dead<=0&&dist(p,o)<150){o.hp-=atk()*1.45;if(o.hp<=0)kill(o)}}toast('⚡ Alan Saldırısı');p.skillCd[i]=10;
- }
- if(i===2){
-   p.buffDef=18+p.level*.3;p.buffAtk=6;p._buffTime=8;toast('🛡️ Savaş Aurası');p.skillCd[i]=16;
- }
-}
-
-function update(dt){for(let i=0;i<3;i++)p.skillCd[i]=Math.max(0,(p.skillCd[i]||0)-dt);if(p._buffTime>0){p._buffTime-=dt;if(p._buffTime<=0){p.buffDef=0;p.buffAtk=0}}let dx=jx,dy=jy;if(keys.w||keys.arrowup)dy--;if(keys.s||keys.arrowdown)dy++;if(keys.a||keys.arrowleft)dx--;if(keys.d||keys.arrowright)dx++;let l=Math.hypot(dx,dy);if(l>1){dx/=l;dy/=l}if(l>.01&&!dungeon){const sp=b().sp*(1+mountData().speed);p.x=clamp(p.x+dx*sp*dt,80,2120);p.y=clamp(p.y+dy*sp*dt,80,2120)}if(!dungeon){target=near();if(target&&(press||keys[' '])){work+=dt;if(work>.48){work=0;hit(target)}}else work=0;for(const m of mobs){if(m.dead>0){m.dead-=dt;if(m.dead<=0){const a=rand(0,6.28),r=rand(300,700);m.x=p.x+Math.cos(a)*r;m.y=p.y+Math.sin(a)*r;m.hp=m.max}continue}const d=dist(p,m);if(d<145){p.hp=clamp(p.hp-Math.max(.5,m.lv*.6-def()*.15)*dt,0,maxHp());if(p.hp<=0){p.hp=maxHp();p.yang=Math.floor(p.yang*.95);p.x=p.y=1100;toast('Köye döndün')}}else if(d<360){const ax=p.x-m.x,ay=p.y-m.y,ll=Math.hypot(ax,ay)||1;m.x+=ax/ll*45*dt;m.y+=ay/ll*45*dt}}for(const s of stones)if(s.dead>0){s.dead-=dt;if(s.dead<=0){const a=rand(0,6.28),r=rand(300,650);s.x=p.x+Math.cos(a)*r;s.y=p.y+Math.sin(a)*r;s.hp=s.max}}if(p.hp<maxHp()*.35&&p.pot>0){p.pot--;p.hp=clamp(p.hp+maxHp()*.55,0,maxHp())}}else{if(press||keys[' ']){dungeon.hp-=atk()*dt*2.6;p.hp=clamp(p.hp-10*dt,0,maxHp())}if(p.hp<=0){p.hp=maxHp();dungeon=null;toast('Zindandan çıktın')}if(dungeon&&dungeon.hp<=0){p.yang+=dungeon.reward;p.gem++;p.questData.dungeon++;p.rankPoints+=8;addExp(dungeon.reward*8);toast('Boss yenildi');dungeon=null}}for(const q of parts)q.t+=dt;for(let i=parts.length-1;i>=0;i--)if(parts[i].t>1)parts.splice(i,1);camX+=(((p.x-p.y)*.5)-camX)*Math.min(1,dt*5);camY+=(((p.x+p.y)*.25)-camY)*Math.min(1,dt*5);saveT+=dt;if(saveT>10){saveT=0;save()}hud()}
-function hud(){$('yang').textContent=Math.floor(p.yang);$('metinDrop').textContent=p.metinDrop;$('scroll').textContent=p.scroll;$('gem').textContent=p.gem;$('hp').textContent=Math.round(p.hp);$('hpBar').style.width=p.hp/maxHp()*100+'%';$('lvl').textContent=p.level>=120?(p.champ?'CL'+p.champ:'120'):p.level;$('expBar').style.width=Math.min(100,p.exp/need()*100)+'%';$('quest').textContent=dungeon?'Zindan Bossu • '+Math.ceil(dungeon.hp)+' HP':curMap()[1]+' • '+p.metins+' Metin • '+p.kills+' Kesim';$('questBar').style.width=dungeon?dungeon.hp/dungeon.max*100+'%':(p.kills%20)/20*100+'%';
-$('petChip').textContent=`${petData().icon==='—'?'🐺':petData().icon} Yoldaş: ${petData().name}`;
-for(let i=0;i<3;i++){const b=$('skill'+(i+1));b.classList.toggle('cool',p.skillCd[i]>0);b.title=p.skillCd[i]>0?p.skillCd[i].toFixed(1)+' sn':''}
-$('buffs').innerHTML=p._buffTime>0?`<span>🛡️ Aura ${Math.ceil(p._buffTime)}s</span>`:'';$('quickPotion').textContent='🧪 '+p.pot;$('target').classList.toggle('on',!!target&&!dungeon);if(target){$('targetName').textContent=stones.includes(target)?'Metin Taşı '+target.lv:(target.elite?'⚡ Elit ':'')+'Canavar LV.'+target.lv;$('targetHp').style.width=Math.max(0,target.hp/target.max*100)+'%'}}
-function draw(){const m=curMap(),g=x.createLinearGradient(0,0,0,H);g.addColorStop(0,m[4]);g.addColorStop(1,'#3a3226');x.fillStyle=g;x.fillRect(0,0,W,H);if(dungeon){x.fillStyle='#201b1e';x.fillRect(0,0,W,H);x.font='70px serif';x.textAlign='center';x.fillText('👹',W/2,H*.47);return}const list=[];for(const o of mobs)if(o.dead<=0&&Math.abs(o.x-p.x)<700&&Math.abs(o.y-p.y)<700)list.push({z:o.x+o.y,f:()=>{const s=iso(o.x,o.y);x.fillStyle=o.elite?'#83518b':'#5b4939';x.beginPath();x.arc(s.x,s.y,10,0,6.28);x.fill()}});for(const o of stones)if(o.dead<=0&&Math.abs(o.x-p.x)<700&&Math.abs(o.y-p.y)<700)list.push({z:o.x+o.y,f:()=>{const s=iso(o.x,o.y);x.fillStyle='#4d3f49';x.beginPath();x.moveTo(s.x,s.y-40);x.lineTo(s.x-20,s.y+16);x.lineTo(s.x+20,s.y+16);x.closePath();x.fill();x.strokeStyle='#d35458';x.stroke()}});list.push({z:p.x+p.y+.5,f:()=>{const s=iso(p.x,p.y);x.fillStyle={warrior:'#b94a3d',ninja:'#45545f',sura:'#794c87',shaman:'#bd8846'}[p.c];x.beginPath();x.arc(s.x,s.y,14,0,6.28);x.fill();x.fillStyle='#ebc39d';x.beginPath();x.arc(s.x,s.y-18,7,0,6.28);x.fill()}});list.sort((a,b)=>a.z-b.z).forEach(o=>o.f());for(const q of parts){const s=iso(q.x,q.y);x.globalAlpha=1-q.t;x.fillStyle='#fff3a6';x.font='900 12px system-ui';x.fillText(q.text,s.x,s.y-q.t*25);x.globalAlpha=1}}
-const keys={};addEventListener('keydown',e=>keys[e.key.toLowerCase()]=1);addEventListener('keyup',e=>keys[e.key.toLowerCase()]=0);const joy=$('joy'),stick=$('stick');let jid=null,jx=0,jy=0,bx=0,by=0;function jm(a,b){let dx=a-bx,dy=b-by,l=Math.hypot(dx,dy),m=34;if(l>m){dx=dx/l*m;dy=dy/l*m}jx=dx/m;jy=dy/m;stick.style.transform=`translate(${dx}px,${dy}px)`}function jr(){jid=null;jx=jy=0;stick.style.transform='translate(0,0)';joy.classList.remove('on')}c.addEventListener('pointerdown',e=>{if(matchMedia('(pointer:fine)').matches||document.querySelector('.modal[style*="grid"]'))return;jid=e.pointerId;bx=e.clientX;by=e.clientY;joy.style.left=bx+'px';joy.style.top=by+'px';joy.classList.add('on');jm(e.clientX,e.clientY)});addEventListener('pointermove',e=>{if(e.pointerId===jid)jm(e.clientX,e.clientY)});addEventListener('pointerup',e=>{if(e.pointerId===jid)jr()});
-function renderInv(){$('invList').innerHTML=`<div class="row"><b class="rarity-${p.weapon.rarity||'common'}">🗡️ Silah +${p.weapon.plus}</b><small>Saldırı ${p.weapon.atk+p.weapon.plus*7+(p.weapon.bonus||0)} • ${String(p.weapon.rarity||'common').toUpperCase()}</small></div><div class="row"><b>🛡️ Zırh +${p.armor.plus}</b><small>Savunma ${p.armor.def+p.armor.plus*5}</small></div><div class="row"><b>🧪 İksir x${p.pot}</b></div>`}function renderUp(){
- const pl=p.weapon.plus,ch=[100,90,82,72,62,48,35,24,15],cost=pl>=9?0:Math.round(500*Math.pow(2.05,pl));
- const pity=Math.min(20,p.forgePity||0);
- $('upCard').innerHTML=pl>=9?'<div class="tile"><b>Silah +9</b><small>Maksimum</small></div>':`<div class="tile"><b>Silah +${pl} → +${pl+1}</b><small>Temel %${ch[pl]} • Pity +%${pity} • ${cost} Yang ${pl>=5?'• 1 📜':''}</small><button id="forge" class="play">BAS</button></div>`;
- const f=$('forge');if(f)f.onclick=()=>{if(p.yang<cost)return toast('Yang yetersiz');if(pl>=5&&p.scroll<1)return toast('Parşömen gerekli');p.yang-=cost;if(pl>=5)p.scroll--;const chance=Math.min(.98,(ch[pl]+pity)/100);if(Math.random()<chance){p.weapon.plus++;p.forgePity=0;toast('Başarılı +'+p.weapon.plus)}else{p.forgePity=Math.min(20,p.forgePity+4);if(pl>=8&&Math.random()<.45)p.weapon.plus=Math.max(0,p.weapon.plus-1);toast('Başarısız • pity arttı')}renderUp();hud();save()}
-}function renderMaps(){$('mapList').innerHTML=maps.map(m=>`<div class="row"><b>${m[1]}</b> <small>LV.${m[2]}-${m[3]}</small> <button class="mini" data-m="${m[0]}" ${p.level<m[2]?'disabled':''}>Git</button></div>`).join('');document.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{const m=maps.find(z=>z[0]===b.dataset.m);if(p.level<m[2])return;p.map=m[0];p.x=p.y=1100;reset();document.querySelectorAll('.modal').forEach(z=>z.style.display='none');toast(m[1])})}function renderDun(){$('dunList').innerHTML=duns.map((d,i)=>`<div class="row"><b>🏯 ${d[0]}</b><small>LV.${d[1]}+</small><button class="mini" data-d="${i}" ${p.level<d[1]?'disabled':''}>Gir</button></div>`).join('');document.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>{const d=duns[+b.dataset.d];if(p.level<d[1])return;dungeon={name:d[0],hp:1000+d[1]*55,max:1000+d[1]*55,reward:d[2]};document.querySelectorAll('.modal').forEach(z=>z.style.display='none')})}
-function open(id){jr();if(matchMedia('(pointer:coarse)').matches)setAutoAttack(false);document.querySelectorAll('.modal').forEach(m=>{if(m.id!==id)m.style.display='none'});$(id).style.display='grid'}document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>$(b.dataset.close).style.display='none');$('menu').onclick=()=>{$('stats').textContent=`LV ${p.level}${p.champ?' / CL '+p.champ:''} • ATK ${atk()} • DEF ${def()} • Güç ${powerScore()} • ${rankName()}`;open('menuM')};$('invB').onclick=()=>{renderInv();open('invM')};$('upB').onclick=()=>{renderUp();open('upM')};$('mapB').onclick=()=>{renderMaps();open('mapM')};$('dunB').onclick=()=>{renderDun();open('dunM')};
-$('questB').onclick=()=>{renderQuests();open('questM')};
-$('petB').onclick=()=>{renderPet();open('petM')};
-$('mountB').onclick=()=>{renderMount();open('mountM')};
-$('rankB').onclick=()=>{renderRank();open('rankM')};$('farm').onclick=()=>{const s=stones.find(z=>z.dead<=0);if(s){p.x=s.x-55;p.y=s.y;toast('Metin bulundu')}};$('skill1').onclick=()=>useSkill(0);$('skill2').onclick=()=>useSkill(1);$('skill3').onclick=()=>useSkill(2);$('atk').onpointerdown=()=>press=true;$('atk').onpointerup=$('atk').onpointercancel=()=>press=false;document.querySelectorAll('.class').forEach(a=>a.onclick=()=>{document.querySelectorAll('.class').forEach(z=>z.classList.remove('on'));a.classList.add('on');chosen=a.dataset.c});$('play').onclick=()=>{p.c=chosen;p.hp=Math.min(p.hp,maxHp());$('start').style.display='none';run=true;last=performance.now();requestAnimationFrame(loop)};
-let mobileAutoAttack=false;
-function setAutoAttack(v){mobileAutoAttack=!!v;press=mobileAutoAttack;$('atk').style.boxShadow=mobileAutoAttack?'0 0 0 3px #ffd260,0 8px 24px #0007':'0 8px 24px #0007'}
-if(matchMedia('(pointer:coarse)').matches){
- $('atk').onclick=()=>{setAutoAttack(!mobileAutoAttack);toast(mobileAutoAttack?'Oto saldırı açık':'Oto saldırı kapalı')};
- $('atk').onpointerdown=null;$('atk').onpointerup=null;$('atk').onpointercancel=null;
-}
-function openCharacterMenu(){
- $('stats').textContent=`LV ${p.level}${p.champ?' / CL '+p.champ:''} • ATK ${atk()} • DEF ${def()} • Güç ${powerScore()} • ${rankName()}`;
- open('menuM')
-}
-function setNav(id){document.querySelectorAll('.mobileNav button').forEach(b=>b.classList.remove('active'));const n=$(id);if(n)n.classList.add('active')}
-$('navMenu').onclick=()=>{setNav('navMenu');openCharacterMenu()};
-$('navFarm').onclick=()=>{setNav('navFarm');$('farm').click()};
-$('navInv').onclick=()=>{setNav('navInv');renderInv();open('invM')};
-$('navMap').onclick=()=>{setNav('navMap');renderMaps();open('mapM')};
-$('navMore').onclick=()=>{setNav('navMore');open('moreM')};
-$('moreUpgrade').onclick=()=>{renderUp();open('upM')};
-$('moreDungeon').onclick=()=>{renderDun();open('dunM')};
-$('moreQuest').onclick=()=>{renderQuests();open('questM')};
-$('morePet').onclick=()=>{renderPet();open('petM')};
-$('moreMount').onclick=()=>{renderMount();open('mountM')};
-$('moreRank').onclick=()=>{renderRank();open('rankM')};
-$('quickPotion').onclick=()=>{
- if(p.pot<=0)return toast('İksir kalmadı');
- if(p.hp>=maxHp())return toast('Can zaten dolu');
- p.pot--;p.hp=clamp(p.hp+maxHp()*.6,0,maxHp());toast('❤️ İksir kullanıldı');hud();save()
+const $=id=>document.getElementById(id);
+const fmt=n=>{
+  if(n<1000)return Math.floor(n).toLocaleString("tr-TR");
+  const u=[["K",1e3],["M",1e6],["B",1e9],["T",1e12]];
+  for(let i=u.length-1;i>=0;i--) if(n>=u[i][1]) return (n/u[i][1]).toFixed(n/u[i][1]>=100?0:1)+u[i][0];
+  return Math.floor(n);
 };
-
-function resize(){D=1;W=innerWidth;H=innerHeight;c.width=W;c.height=H}addEventListener('resize',resize);resize();let mobileIdle=0;function loop(ts){if(!run)return;requestAnimationFrame(loop);const moving=Math.abs(jx)+Math.abs(jy)>.05||press;mobileIdle=moving?0:mobileIdle+((ts-last)/1000||0);const fps=(innerWidth<761&&mobileIdle>8)?24:30;if(ts-rr<1000/fps)return;const dt=Math.min(.05,(ts-last)/1000||0);last=ts;rr=ts;update(dt);draw()}load();p.c=chosen;reset();camX=(p.x-p.y)*.5;camY=(p.x+p.y)*.25;hud();draw();addEventListener('pagehide',save)})();
-</script></body></html>
+function paradoxMult(){return 1+state.paradox*.25}
+function sps(){
+  return machineDefs.reduce((a,m,i)=>a+m.prod*state.machines[i],0)*state.autoMult*paradoxMult();
+}
+function clickPower(){return state.clickMult*paradoxMult()}
+function machineCost(i){return Math.floor(machineDefs[i].base*Math.pow(1.17,state.machines[i]))}
+function prestigeGain(){return Math.floor(Math.sqrt(state.total/100000))}
+function currentEra(){
+  let idx=0;
+  eraDefs.forEach((e,i)=>{if(state.total>=e.need)idx=i});
+  return idx;
+}
+function renderMachines(){
+  $("machines").innerHTML=machineDefs.map((m,i)=>`
+    <div class="machine">
+      <div class="icon">${m.icon}</div>
+      <div class="info"><b>${m.name}</b><small>${state.machines[i]} adet • +${fmt(m.prod*state.autoMult*paradoxMult())}/sn</small></div>
+      <button class="buy" onclick="buyMachine(${i})" ${state.seconds<machineCost(i)?"disabled":""}>${fmt(machineCost(i))}s</button>
+    </div>`).join("");
+}
+function renderUpgrades(){
+  $("upgrades").innerHTML=upgradeDefs.map(u=>{
+    const bought=state.upgrades.includes(u.id);
+    return `<div class="upgrade"><b>${u.name}</b><p>${u.desc}</p>
+      <button onclick="buyUpgrade('${u.id}')" ${bought||state.seconds<u.cost?"disabled":""}>
+      ${bought?"Alındı":fmt(u.cost)+"s"}</button></div>`;
+  }).join("");
+}
+function renderEras(){
+  const cur=currentEra();
+  $("eras").innerHTML=eraDefs.map((e,i)=>`<button class="${i===cur?"active":""}">${e.name}</button>`).join("");
+  $("eraText").textContent=eraDefs[cur].name;
+  const next=eraDefs[cur+1];
+  let pct=100;
+  if(next){
+    const start=eraDefs[cur].need;
+    pct=Math.max(0,Math.min(100,(state.total-start)/(next.need-start)*100));
+  }
+  $("eraProgress").style.width=pct+"%";
+}
+function render(){
+  $("seconds").textContent=fmt(state.seconds);
+  $("sps").textContent=fmt(sps())+"/sn";
+  $("paradox").textContent=fmt(state.paradox);
+  $("clickPower").textContent=fmt(clickPower());
+  $("paradoxGain").textContent=prestigeGain();
+  $("prestigeBtn").disabled=prestigeGain()<1;
+  renderMachines();renderUpgrades();renderEras();
+}
+function buyMachine(i){
+  const c=machineCost(i);
+  if(state.seconds>=c){state.seconds-=c;state.machines[i]++;render();}
+}
+function buyUpgrade(id){
+  const u=upgradeDefs.find(x=>x.id===id);
+  if(!u||state.upgrades.includes(id)||state.seconds<u.cost)return;
+  state.seconds-=u.cost;state.upgrades.push(id);
+  if(u.type==="click")state.clickMult*=u.mult;
+  if(u.type==="auto")state.autoMult*=u.mult;
+  render();
+}
+$("clock").addEventListener("click",e=>{
+  const gain=clickPower(); state.seconds+=gain;state.total+=gain;
+  
+  const f=document.createElement("div");f.className="float";f.textContent="+"+fmt(gain)+"s";
+  f.style.left=e.clientX+"px";f.style.top=e.clientY+"px";document.body.appendChild(f);
+  setTimeout(()=>f.remove(),800);render();
+});
+$("prestigeBtn").onclick=()=>{
+  const g=prestigeGain(); if(g<1)return;
+  state={seconds:0,total:0,paradox:state.paradox+g,machines:[0,0,0,0,0],upgrades:[],clickMult:1,autoMult:1};
+  
+  render();
+};
+setInterval(()=>{
+  const gain=sps()/10; state.seconds+=gain;state.total+=gain;
+},100);
+setInterval(()=>{render();localStorage.setItem("zamanTycoonSave",JSON.stringify(state));},1000);
+render();
+</script>
+</body>
+</html>
