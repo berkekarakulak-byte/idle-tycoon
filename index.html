@@ -1,220 +1,463 @@
 <!doctype html>
 <html lang="tr">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Zaman Fabrikası Tycoon</title>
-<style>
-  :root{
-    --bg:#0b0d14;--panel:#131827;--panel2:#1a2133;--text:#f4f7ff;
-    --muted:#8d98b5;--accent:#7c5cff;--accent2:#22d3ee;--good:#35d07f;
-    --danger:#ff5c7a;--border:#27304a;
-  }
-  *{box-sizing:border-box}
-  body{margin:0;background:radial-gradient(circle at top,#171d33 0,#0b0d14 40%);color:var(--text);
-    font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh}
-  button{font:inherit}
-  .app{max-width:980px;margin:auto;padding:12px}
-  .top{display:flex;justify-content:space-between;gap:16px;align-items:center;margin-bottom:18px;flex-wrap:wrap}
-  .brand h1{margin:0;font-size:21px}.brand p{margin:4px 0 0;color:var(--muted)}
-  .stats{display:flex;gap:10px;flex-wrap:wrap}
-  .pill{background:rgba(19,24,39,.9);border:1px solid var(--border);border-radius:11px;padding:7px 10px}
-  .pill b{display:block;font-size:15px}.pill span{font-size:12px;color:var(--muted)}
-  .grid{display:grid;grid-template-columns:1.15fr .85fr;gap:16px}
-  .panel{background:rgba(19,24,39,.92);border:1px solid var(--border);border-radius:15px;padding:12px;box-shadow:0 16px 45px #0005}
-  .clockWrap{text-align:center;padding:12px 8px}
-  .clock{width:165px;height:165px;border-radius:50%;margin:0 auto 18px;display:grid;place-items:center;
-    background:conic-gradient(var(--accent2) 0 25%,var(--accent) 25% 60%,#252c42 60%);
-    box-shadow:0 0 55px #7c5cff33;position:relative;cursor:pointer;user-select:none;transition:.12s transform}
-  .clock:active{transform:scale(.965)}
-  .clock::before{content:"";position:absolute;inset:12px;background:#101522;border-radius:50%;border:1px solid #303a57}
-  .clock .inner{position:relative;z-index:2}.clock .big{font-size:25px;font-weight:900}.clock .small{color:var(--muted);font-size:13px}
-  .gain{font-size:13px;color:var(--good);min-height:20px}
-  .sectionTitle{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-  .sectionTitle h2{font-size:17px;margin:0}.sectionTitle span{color:var(--muted);font-size:12px}
-  .machines{display:grid;gap:10px}
-  .machine{display:flex;align-items:center;gap:9px;background:var(--panel2);border:1px solid var(--border);border-radius:11px;padding:8px}
-  .icon{width:36px;height:36px;border-radius:9px;background:#242b43;display:grid;place-items:center;font-size:22px}
-  .info{flex:1}.info b{display:block}.info small{color:var(--muted)}
-  .buy{border:0;background:linear-gradient(135deg,var(--accent),#5f81ff);color:white;border-radius:11px;padding:9px 12px;font-weight:800;cursor:pointer}
-  .buy:disabled{opacity:.35;cursor:not-allowed}
-  .era{display:flex;gap:8px;overflow:auto;padding-bottom:4px;margin-bottom:14px}
-  .era button{white-space:nowrap;border:1px solid var(--border);background:#171d2c;color:var(--muted);padding:8px 10px;border-radius:10px}
-  .era button.active{background:#2a2450;color:#fff;border-color:#684fff}
-  .progress{height:10px;border-radius:99px;background:#252c42;overflow:hidden;margin:8px 0 16px}
-  .progress i{display:block;height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent));width:0%}
-  .upgrades{display:grid;grid-template-columns:1fr 1fr;gap:7px}
-  .upgrade{background:#171d2c;border:1px solid var(--border);border-radius:10px;padding:9px}
-  .upgrade b{font-size:14px}.upgrade p{font-size:12px;color:var(--muted);min-height:32px}
-  .upgrade button{width:100%;border:0;border-radius:9px;background:#24304a;color:white;padding:8px;cursor:pointer}
-  .prestige{margin-top:14px;background:linear-gradient(135deg,#291c45,#16294a);border:1px solid #5d46a8;border-radius:16px;padding:14px}
-  .prestige button{width:100%;border:0;border-radius:11px;background:linear-gradient(135deg,#d946ef,#7c5cff);color:white;padding:11px;font-weight:900;cursor:pointer}
-  .footer{color:var(--muted);font-size:12px;text-align:center;margin-top:18px}
-  .float{position:fixed;pointer-events:none;font-weight:900;color:var(--accent2);animation:fly .8s ease-out forwards}
-  @keyframes fly{to{transform:translateY(-65px);opacity:0}}
-  @media(max-width:820px){.app{padding:8px}.grid{grid-template-columns:1fr;gap:10px}.top{margin-bottom:10px}.clock{width:145px;height:145px}.upgrades{grid-template-columns:1fr 1fr}.panel{padding:10px}.machine{padding:7px}.brand p{font-size:12px}}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#090b10">
+  <title>MBK Grafik AI</title>
+
+  <style>
+    :root{
+      --bg:#090b10;
+      --card:#121722;
+      --card2:#171d29;
+      --border:#293142;
+      --text:#f7f8fb;
+      --muted:#98a2b3;
+      --green:#39d98a;
+      --red:#ff687d;
+      --yellow:#ffd54a;
+      --blue:#74a8ff;
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+      padding:
+        calc(14px + env(safe-area-inset-top))
+        14px
+        calc(30px + env(safe-area-inset-bottom));
+    }
+
+    .app{
+      max-width:620px;
+      margin:auto;
+    }
+
+    .header{
+      margin:8px 2px 18px;
+    }
+
+    .title{
+      font-size:28px;
+      font-weight:900;
+      letter-spacing:-.8px;
+    }
+
+    .subtitle{
+      margin-top:5px;
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    .card{
+      background:linear-gradient(180deg,var(--card2),var(--card));
+      border:1px solid var(--border);
+      border-radius:20px;
+      padding:16px;
+      margin-bottom:12px;
+      box-shadow:0 10px 30px rgba(0,0,0,.18);
+    }
+
+    .controls{
+      display:grid;
+      gap:10px;
+    }
+
+    .row{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+    }
+
+    input,select,button{
+      width:100%;
+      min-height:48px;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background:#0d1118;
+      color:var(--text);
+      font-size:16px;
+      padding:12px 13px;
+      outline:none;
+    }
+
+    input:focus,select:focus{
+      border-color:var(--blue);
+    }
+
+    button{
+      background:#f4f6fb;
+      color:#10131a;
+      font-weight:900;
+      border:0;
+      cursor:pointer;
+    }
+
+    button:active{
+      transform:scale(.99);
+    }
+
+    .mini-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+    }
+
+    .mini{
+      background:#0d1118;
+      border:1px solid var(--border);
+      border-radius:15px;
+      padding:13px;
+    }
+
+    .label{
+      color:var(--muted);
+      font-size:12px;
+      margin-bottom:5px;
+    }
+
+    .value{
+      font-size:17px;
+      font-weight:800;
+    }
+
+    .hero{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:12px;
+    }
+
+    .symbol{
+      font-size:25px;
+      font-weight:900;
+    }
+
+    .price{
+      font-size:24px;
+      font-weight:900;
+      text-align:right;
+    }
+
+    .pill{
+      display:inline-block;
+      margin-top:8px;
+      padding:6px 9px;
+      border:1px solid var(--border);
+      border-radius:999px;
+      color:var(--muted);
+      font-size:12px;
+    }
+
+    .section-title{
+      font-weight:900;
+      margin:0 0 12px;
+    }
+
+    .level,.target{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      padding:10px 0;
+      border-bottom:1px solid rgba(255,255,255,.06);
+      font-size:14px;
+    }
+
+    .level:last-child,.target:last-child{
+      border-bottom:0;
+    }
+
+    .green{color:var(--green)}
+    .red{color:var(--red)}
+    .yellow{color:var(--yellow)}
+    .blue{color:var(--blue)}
+
+    .hidden{display:none}
+
+    .loading{
+      text-align:center;
+      color:var(--muted);
+      padding:22px;
+    }
+
+    .error{
+      color:var(--red);
+      line-height:1.5;
+    }
+
+    .summary{
+      color:#d9dee7;
+      line-height:1.55;
+      font-size:14px;
+    }
+
+    .footer{
+      text-align:center;
+      color:var(--muted);
+      font-size:11px;
+      padding:8px 4px 20px;
+    }
+
+    .backend{
+      font-size:13px;
+    }
+  </style>
 </head>
+
 <body>
 <div class="app">
-  <div class="top">
-    <div class="brand">
-      <h1>⏳ Zaman Fabrikası Tycoon</h1>
-      
-    </div>
-    <div class="stats">
-      <div class="pill"><b id="seconds">0</b><span>Toplam Saniye</span></div>
-      <div class="pill"><b id="sps">0/sn</b><span>Pasif Üretim</span></div>
-      <div class="pill"><b id="paradox">0</b><span>Paradoks</span></div>
-    </div>
+
+  <div class="header">
+    <div class="title">📈 MBK Grafik AI</div>
+    <div class="subtitle">Mobil teknik analiz ve karar destek sistemi</div>
   </div>
 
-  <div class="grid">
-    <section class="panel">
-      <div class="clockWrap">
-        <div class="clock" id="clock">
-          <div class="inner">
-            <div class="big">+<span id="clickPower">1</span>s</div>
-            
-          </div>
+  <div class="card controls">
+    <input id="backend" class="backend" value="http://127.0.0.1:8000" placeholder="Backend adresi">
+
+    <input id="symbol" value="AAPL" placeholder="Hisse sembolü: AAPL, NVDA, IMMP">
+
+    <div class="row">
+      <select id="period">
+        <option value="1mo">1 Ay</option>
+        <option value="3mo" selected>3 Ay</option>
+        <option value="6mo">6 Ay</option>
+        <option value="1y">1 Yıl</option>
+      </select>
+
+      <select id="interval">
+        <option value="5m">5 Dakika</option>
+        <option value="15m">15 Dakika</option>
+        <option value="30m">30 Dakika</option>
+        <option value="1h">1 Saat</option>
+        <option value="1d" selected>Günlük</option>
+      </select>
+    </div>
+
+    <button onclick="runAnalysis()">ANALİZ ET</button>
+  </div>
+
+  <div id="loading" class="card loading hidden">
+    Analiz hazırlanıyor...
+  </div>
+
+  <div id="errorBox" class="card error hidden"></div>
+
+  <div id="result" class="hidden">
+
+    <div class="card">
+      <div class="hero">
+        <div>
+          <div id="resSymbol" class="symbol"></div>
+          <div id="resTrend" class="pill"></div>
         </div>
-        <div class="gain" id="gain"></div>
+        <div>
+          <div class="label" style="text-align:right">Fiyat</div>
+          <div id="resPrice" class="price"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mini-grid">
+      <div class="mini">
+        <div class="label">Momentum</div>
+        <div id="resMomentum" class="value"></div>
       </div>
 
-      <div class="sectionTitle"><h2>⚙️ Zaman Makineleri</h2></div>
-      <div class="machines" id="machines"></div>
-    </section>
-
-    <aside class="panel">
-      <div class="sectionTitle"><h2>🌀 Çağ Haritası</h2><span id="eraText">İlkel Çağ</span></div>
-      <div class="era" id="eras"></div>
-      <div class="progress"><i id="eraProgress"></i></div>
-
-      <div class="sectionTitle"><h2>🧠 Araştırmalar</h2></div>
-      <div class="upgrades" id="upgrades"></div>
-
-      <div class="prestige">
-        <b>💠 Büyük Paradoks</b>
-        
-        <p><strong>Kazanacağın:</strong> <span id="paradoxGain">0</span> Paradoks</p>
-        <button id="prestigeBtn">Zaman Çizgisini Kır</button>
+      <div class="mini">
+        <div class="label">Hacim</div>
+        <div id="resVolume" class="value"></div>
       </div>
-    </aside>
+    </div>
+
+    <div class="card">
+      <div class="section-title">⭐ Kritik Seviyeler</div>
+
+      <div class="mini-grid">
+        <div>
+          <div class="label green">Destek</div>
+          <div id="supports"></div>
+        </div>
+
+        <div>
+          <div class="label red">Direnç</div>
+          <div id="resistances"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">Strateji</div>
+
+      <div class="level">
+        <span>Giriş bölgesi</span>
+        <strong id="entryZone" class="blue"></strong>
+      </div>
+
+      <div class="level">
+        <span>Stop</span>
+        <strong id="stop" class="red"></strong>
+      </div>
+
+      <div class="level">
+        <span>Risk / Ödül</span>
+        <strong id="rr"></strong>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">Hedefler</div>
+      <div id="targets"></div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">İndikatörler</div>
+
+      <div class="mini-grid">
+        <div class="mini">
+          <div class="label">RSI</div>
+          <div id="rsi" class="value"></div>
+        </div>
+
+        <div class="mini">
+          <div class="label">MACD</div>
+          <div id="macd" class="value"></div>
+        </div>
+
+        <div class="mini">
+          <div class="label">EMA 20</div>
+          <div id="ema20" class="value"></div>
+        </div>
+
+        <div class="mini">
+          <div class="label">VWAP</div>
+          <div id="vwap" class="value"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">AI Yorumu</div>
+      <div id="summary" class="summary"></div>
+    </div>
+
   </div>
-  
+
+  <div class="footer">
+    Yatırım tavsiyesi değildir • MBK Grafik AI
+  </div>
 </div>
 
 <script>
-const machineDefs=[
-  {name:"Cep Saati Atölyesi",icon:"⌚",base:15,prod:1},
-  {name:"Kronometre Hattı",icon:"⏱️",base:120,prod:6},
-  {name:"Atom Saati Laboratuvarı",icon:"⚛️",base:900,prod:35},
-  {name:"Zaman Portalı",icon:"🌀",base:6500,prod:180},
-  {name:"Kara Delik Reaktörü",icon:"🕳️",base:42000,prod:950}
-];
-const eraDefs=[
-  {name:"İlkel Çağ",need:0},{name:"Sanayi Çağı",need:500},{name:"Dijital Çağ",need:5000},
-  {name:"Kuantum Çağı",need:50000},{name:"Ölümsüzlük Çağı",need:500000}
-];
-const upgradeDefs=[
-  {id:"click2",name:"Güçlü Dokunuş",desc:"Tıklama gücünü 2× yapar.",cost:250,type:"click",mult:2},
-  {id:"auto2",name:"Hızlandırılmış Akış",desc:"Tüm makinelerin üretimini 2× yapar.",cost:1500,type:"auto",mult:2},
-  {id:"click5",name:"Zaman Eldiveni",desc:"Tıklama gücünü 5× yapar.",cost:7500,type:"click",mult:5},
-  {id:"auto3",name:"Kuantum Senkronu",desc:"Tüm makinelerin üretimini 3× yapar.",cost:25000,type:"auto",mult:3}
-];
-let state={seconds:0,total:0,paradox:0,machines:[0,0,0,0,0],upgrades:[],clickMult:1,autoMult:1};
+function fmt(v){
+  if(v === null || v === undefined) return "-";
+  const n = Number(v);
+  if(Math.abs(n) >= 100) return n.toFixed(2);
+  if(Math.abs(n) >= 1) return n.toFixed(3);
+  return n.toFixed(4);
+}
 
-try{
-  const saved=JSON.parse(localStorage.getItem("zamanTycoonSave"));
-  if(saved) state={...state,...saved};
-}catch(e){}
+function show(id, visible){
+  document.getElementById(id).classList.toggle("hidden", !visible);
+}
 
-const $=id=>document.getElementById(id);
-const fmt=n=>{
-  if(n<1000)return Math.floor(n).toLocaleString("tr-TR");
-  const u=[["K",1e3],["M",1e6],["B",1e9],["T",1e12]];
-  for(let i=u.length-1;i>=0;i--) if(n>=u[i][1]) return (n/u[i][1]).toFixed(n/u[i][1]>=100?0:1)+u[i][0];
-  return Math.floor(n);
-};
-function paradoxMult(){return 1+state.paradox*.25}
-function sps(){
-  return machineDefs.reduce((a,m,i)=>a+m.prod*state.machines[i],0)*state.autoMult*paradoxMult();
-}
-function clickPower(){return state.clickMult*paradoxMult()}
-function machineCost(i){return Math.floor(machineDefs[i].base*Math.pow(1.17,state.machines[i]))}
-function prestigeGain(){return Math.floor(Math.sqrt(state.total/100000))}
-function currentEra(){
-  let idx=0;
-  eraDefs.forEach((e,i)=>{if(state.total>=e.need)idx=i});
-  return idx;
-}
-function renderMachines(){
-  $("machines").innerHTML=machineDefs.map((m,i)=>`
-    <div class="machine">
-      <div class="icon">${m.icon}</div>
-      <div class="info"><b>${m.name}</b><small>${state.machines[i]} adet • +${fmt(m.prod*state.autoMult*paradoxMult())}/sn</small></div>
-      <button class="buy" onclick="buyMachine(${i})" ${state.seconds<machineCost(i)?"disabled":""}>${fmt(machineCost(i))}s</button>
-    </div>`).join("");
-}
-function renderUpgrades(){
-  $("upgrades").innerHTML=upgradeDefs.map(u=>{
-    const bought=state.upgrades.includes(u.id);
-    return `<div class="upgrade"><b>${u.name}</b><p>${u.desc}</p>
-      <button onclick="buyUpgrade('${u.id}')" ${bought||state.seconds<u.cost?"disabled":""}>
-      ${bought?"Alındı":fmt(u.cost)+"s"}</button></div>`;
-  }).join("");
-}
-function renderEras(){
-  const cur=currentEra();
-  $("eras").innerHTML=eraDefs.map((e,i)=>`<button class="${i===cur?"active":""}">${e.name}</button>`).join("");
-  $("eraText").textContent=eraDefs[cur].name;
-  const next=eraDefs[cur+1];
-  let pct=100;
-  if(next){
-    const start=eraDefs[cur].need;
-    pct=Math.max(0,Math.min(100,(state.total-start)/(next.need-start)*100));
+async function runAnalysis(){
+  const backend = document.getElementById("backend").value.trim().replace(/\/+$/, "");
+  const symbol = document.getElementById("symbol").value.trim().toUpperCase();
+  const period = document.getElementById("period").value;
+  const interval = document.getElementById("interval").value;
+
+  if(!backend || !symbol){
+    document.getElementById("errorBox").textContent = "Backend adresi ve hisse sembolü gerekli.";
+    show("errorBox", true);
+    return;
   }
-  $("eraProgress").style.width=pct+"%";
+
+  show("loading", true);
+  show("errorBox", false);
+  show("result", false);
+
+  try{
+    const url = `${backend}/analyze?symbol=${encodeURIComponent(symbol)}&period=${period}&interval=${interval}`;
+    const response = await fetch(url);
+    const data = await response.json();
+
+    if(!response.ok){
+      throw new Error(data.detail || "Analiz yapılamadı.");
+    }
+
+    document.getElementById("resSymbol").textContent = data.symbol;
+    document.getElementById("resPrice").textContent = fmt(data.price);
+    document.getElementById("resTrend").textContent = data.trend;
+    document.getElementById("resMomentum").textContent = data.momentum;
+    document.getElementById("resVolume").textContent = data.volume_status;
+
+    document.getElementById("supports").innerHTML =
+      data.supports?.length
+      ? data.supports.map(x => `
+          <div class="level">
+            <span>⭐ ${fmt(x.price)}</span>
+            <small>-%${x.distance_pct}</small>
+          </div>
+        `).join("")
+      : `<div class="level"><span>Bulunamadı</span></div>`;
+
+    document.getElementById("resistances").innerHTML =
+      data.resistances?.length
+      ? data.resistances.map(x => `
+          <div class="level">
+            <span>⭐ ${fmt(x.price)}</span>
+            <small>+%${x.distance_pct}</small>
+          </div>
+        `).join("")
+      : `<div class="level"><span>Bulunamadı</span></div>`;
+
+    document.getElementById("entryZone").textContent =
+      `${fmt(data.entry_zone?.[0])} – ${fmt(data.entry_zone?.[1])}`;
+
+    document.getElementById("stop").textContent = fmt(data.stop);
+
+    document.getElementById("rr").textContent =
+      data.risk_reward === null || data.risk_reward === undefined
+      ? "-"
+      : `1 : ${data.risk_reward}`;
+
+    document.getElementById("targets").innerHTML =
+      data.targets?.length
+      ? data.targets.map((x,i) => `
+          <div class="target">
+            <span>Hedef ${i+1}: <strong>${fmt(x.price)}</strong></span>
+            <strong class="green">+%${x.profit_pct}</strong>
+          </div>
+        `).join("")
+      : `<div class="target"><span>Hedef bulunamadı</span></div>`;
+
+    document.getElementById("rsi").textContent = fmt(data.indicators?.rsi);
+    document.getElementById("macd").textContent = fmt(data.indicators?.macd);
+    document.getElementById("ema20").textContent = fmt(data.indicators?.ema20);
+    document.getElementById("vwap").textContent = fmt(data.indicators?.vwap);
+    document.getElementById("summary").textContent = data.summary || "-";
+
+    show("result", true);
+
+  }catch(err){
+    document.getElementById("errorBox").textContent =
+      err.message + " Backend internetteyse HTTPS adresini yazdığından emin ol.";
+    show("errorBox", true);
+  }finally{
+    show("loading", false);
+  }
 }
-function render(){
-  $("seconds").textContent=fmt(state.seconds);
-  $("sps").textContent=fmt(sps())+"/sn";
-  $("paradox").textContent=fmt(state.paradox);
-  $("clickPower").textContent=fmt(clickPower());
-  $("paradoxGain").textContent=prestigeGain();
-  $("prestigeBtn").disabled=prestigeGain()<1;
-  renderMachines();renderUpgrades();renderEras();
-}
-function buyMachine(i){
-  const c=machineCost(i);
-  if(state.seconds>=c){state.seconds-=c;state.machines[i]++;render();}
-}
-function buyUpgrade(id){
-  const u=upgradeDefs.find(x=>x.id===id);
-  if(!u||state.upgrades.includes(id)||state.seconds<u.cost)return;
-  state.seconds-=u.cost;state.upgrades.push(id);
-  if(u.type==="click")state.clickMult*=u.mult;
-  if(u.type==="auto")state.autoMult*=u.mult;
-  render();
-}
-$("clock").addEventListener("click",e=>{
-  const gain=clickPower(); state.seconds+=gain;state.total+=gain;
-  
-  const f=document.createElement("div");f.className="float";f.textContent="+"+fmt(gain)+"s";
-  f.style.left=e.clientX+"px";f.style.top=e.clientY+"px";document.body.appendChild(f);
-  setTimeout(()=>f.remove(),800);render();
+
+document.getElementById("symbol").addEventListener("keydown", e=>{
+  if(e.key === "Enter") runAnalysis();
 });
-$("prestigeBtn").onclick=()=>{
-  const g=prestigeGain(); if(g<1)return;
-  state={seconds:0,total:0,paradox:state.paradox+g,machines:[0,0,0,0,0],upgrades:[],clickMult:1,autoMult:1};
-  
-  render();
-};
-setInterval(()=>{
-  const gain=sps()/10; state.seconds+=gain;state.total+=gain;
-},100);
-setInterval(()=>{render();localStorage.setItem("zamanTycoonSave",JSON.stringify(state));},1000);
-render();
 </script>
+
 </body>
 </html>
