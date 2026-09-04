@@ -1,198 +1,76 @@
 <!doctype html>
 <html lang="tr">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
-<title>MBK Borsa Tycoon</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#071018">
+<title>Chrono City Mobile</title>
 <style>
-:root{--bg:#090b0e;--panel:#12161b;--panel2:#191f26;--text:#f5f7fa;--muted:#8993a1;--green:#1ecb82;--red:#ff5d6c;--line:#242b34;--accent:#f4c542;--blue:#5c8dff}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}.app{max-width:430px;margin:auto;min-height:100vh;padding-bottom:92px}.topbar{position:sticky;top:0;z-index:5;padding:16px 16px 10px;background:rgba(9,11,14,.95);backdrop-filter:blur(12px);border-bottom:1px solid #11161c}.row{display:flex;align-items:center;justify-content:space-between;gap:10px}.brand{font-size:18px;font-weight:900}.chip{font-size:11px;color:var(--muted);background:var(--panel2);padding:7px 10px;border-radius:999px}.balance{padding:18px 16px 10px}.muted{color:var(--muted)}.balance h1{margin:4px 0 3px;font-size:31px}.gain{color:var(--green)}.loss{color:var(--red)}.toolbar{display:flex;gap:8px;padding:0 16px 14px}.btn{border:0;border-radius:13px;padding:11px 13px;font-weight:850;cursor:pointer}.btn.primary{background:var(--accent);color:#111}.btn.dark{background:var(--panel2);color:var(--text)}.btn.buy{background:var(--green);color:#04140d}.btn.sell{background:var(--red);color:#fff}.btn.blue{background:var(--blue);color:#fff}.section{padding:0 13px 16px}.section h3{font-size:17px;margin:10px 4px 11px}.card{background:var(--panel);border:1px solid #20262e;border-radius:18px;overflow:hidden}.stock{display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;padding:14px;border-bottom:1px solid var(--line);cursor:pointer}.stock:last-child{border-bottom:0}.sym{font-weight:900}.name,.mini{font-size:12px;color:var(--muted)}.price{font-weight:800;text-align:right}.chg{text-align:right;min-width:62px;font-size:13px}.portfolio-row,.news-row,.order-row{padding:13px 14px;border-bottom:1px solid var(--line)}.portfolio-row:last-child,.news-row:last-child,.order-row:last-child{border-bottom:0}.news-title{font-weight:750;font-size:14px}.badge{display:inline-block;font-size:10px;padding:4px 7px;border-radius:999px;background:#222a33;color:#b8c2cf}.badge.good{background:#123326;color:#69e1ad}.badge.bad{background:#391a20;color:#ff8a96}.bottom{position:fixed;left:50%;transform:translateX(-50%);bottom:0;width:min(430px,100%);display:grid;grid-template-columns:repeat(4,1fr);background:#0e1217;border-top:1px solid var(--line);padding:7px 4px 11px;z-index:6}.nav{text-align:center;color:var(--muted);font-size:11px;padding:8px}.nav b{display:block;color:var(--text);font-size:18px;margin-bottom:2px}.modal{position:fixed;inset:0;background:rgba(0,0,0,.65);display:none;align-items:flex-end;justify-content:center;z-index:20}.sheet{width:min(430px,100%);background:#101419;border-radius:24px 24px 0 0;padding:17px;max-height:91vh;overflow:auto}.close{border:0;background:none;color:var(--muted);font-size:25px}.bigprice{font-size:31px;font-weight:900;margin-top:8px}.chartwrap{position:relative;background:#0b0f13;border-radius:15px;margin:13px 0;overflow:hidden}.chartwrap canvas{width:100%;height:230px;display:block}.chartlabel{position:absolute;top:9px;left:10px;font-size:11px;color:var(--muted);pointer-events:none}.tradebox{background:var(--panel);padding:14px;border-radius:16px;margin-top:11px}.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:11px}.tab{border:1px solid var(--line);background:#0e1217;color:var(--muted);padding:9px 6px;border-radius:10px;font-weight:750;font-size:12px}.tab.active{background:#252d37;color:#fff}.field{margin:8px 0}.field label{display:block;font-size:11px;color:var(--muted);margin-bottom:5px}.field input,.field select{width:100%;background:#0b0f13;border:1px solid var(--line);color:white;border-radius:11px;padding:12px;font-size:15px}.tradegrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:11px}.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:98px;display:none;background:#1a2027;border:1px solid #303844;border-radius:12px;padding:10px 14px;z-index:50;font-size:13px}.dangerlink{color:#ff8290;cursor:pointer}.marketstatus{font-size:12px;color:var(--muted);padding:0 16px 12px}.eventbar{margin:0 13px 14px;background:#171d24;border:1px solid #26303a;border-radius:15px;padding:11px 12px}.eventbar strong{font-size:12px}.eventbar span{display:block;font-size:12px;color:#a8b2bf;margin-top:3px}
+:root{--bg:#071018;--panel:#101b25;--line:#243746;--text:#eef8ff;--muted:#8ba4b6;--good:#34d47f;--bad:#ff6579;--warn:#f5c85f;--cyan:#58dcff;--violet:#9b7cff}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{margin:0;min-height:100%;background:linear-gradient(#071018,#0b1620);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;overscroll-behavior-y:none}button,input,textarea{font:inherit}.app{width:min(100%,1180px);margin:auto;padding:calc(10px + env(safe-area-inset-top)) 12px calc(92px + env(safe-area-inset-bottom))}.top{position:sticky;top:0;z-index:30;background:rgba(7,16,24,.93);backdrop-filter:blur(14px);display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 2px;border-bottom:1px solid #172632}.brand{font-weight:900;font-size:20px;letter-spacing:.6px}.brand span{color:var(--cyan)}.small{font-size:12px}.muted{color:var(--muted)}.badge{white-space:nowrap;font-size:11px;padding:6px 8px;border:1px solid var(--line);border-radius:999px;background:#0c151e}.grid{display:grid;grid-template-columns:minmax(0,1.8fr) minmax(280px,1fr);gap:12px;margin-top:12px}.card{min-width:0;background:linear-gradient(180deg,rgba(17,30,41,.98),rgba(11,21,30,.98));border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 16px 40px #0004}.pad{padding:13px}.row{display:flex;justify-content:space-between;align-items:center;gap:8px}.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:10px}.kpi{min-width:0;padding:10px;border-radius:13px;background:#0a141d;border:1px solid #1d2d39}.kpi small{display:block;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.kpi b{display:block;margin-top:3px;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.city{position:relative;aspect-ratio:16/9;min-height:240px;background:radial-gradient(circle at 75% 10%,#58dcff15,transparent 30%),linear-gradient(#102435,#0c1822 60%,#091018);overflow:hidden}.sky{position:absolute;left:0;right:0;bottom:29%;height:50%;display:flex;align-items:end;gap:5px;padding:0 14px}.b{flex:1;min-width:9px;border:1px solid #ffffff12;background:linear-gradient(#1d384a,#102332);border-radius:3px 3px 0 0;position:relative;transition:height .45s,opacity .45s}.b:after{content:'';position:absolute;inset:5px;background:repeating-linear-gradient(90deg,#58dcff33 0 2px,transparent 2px 6px),repeating-linear-gradient(#58dcff22 0 2px,transparent 2px 6px);opacity:.55}.road{position:absolute;left:-8%;right:-8%;bottom:12%;height:16%;transform:skewX(-10deg);background:#091117;border-block:3px solid #263846}.car{position:absolute;width:22px;height:8px;border-radius:5px;background:var(--cyan);box-shadow:0 0 13px #58dcffcc;bottom:18%;animation:drive 9s linear infinite}.car.x{background:var(--violet);animation-duration:13s;animation-delay:-4s;bottom:21%}.car.y{background:var(--warn);animation-duration:16s;animation-delay:-8s;bottom:15%}@keyframes drive{from{left:-8%}to{left:108%}}.weather{position:absolute;right:10px;top:10px;padding:7px 8px;border-radius:11px;background:#071019cc;border:1px solid var(--line);font-size:12px}.controls{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px}.btn,.choice{min-height:44px;border:1px solid var(--line);background:#101c26;color:var(--text);border-radius:12px;padding:9px 10px;font-weight:800;cursor:pointer;touch-action:manipulation}.btn:active,.choice:active,.zone:active{transform:scale(.985)}.btn.primary{background:linear-gradient(135deg,#287d9d,#6f59c7);border:0}.btn.danger{background:#2b151a;border-color:#5a2932}.zones{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.zone{min-width:0;padding:11px;border:1px solid var(--line);background:#0a151e;border-radius:13px;cursor:pointer;touch-action:manipulation}.zone.active{outline:2px solid #58dcff55}.bar{height:6px;border-radius:99px;background:#182633;overflow:hidden;margin-top:8px}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--cyan),var(--violet))}.feed{display:flex;flex-direction:column;gap:8px;max-height:300px;overflow:auto;-webkit-overflow-scrolling:touch}.event,.mission{padding:10px;border:1px solid var(--line);border-radius:12px;background:#0a141d}.event p{margin:4px 0 0;color:#b8c9d6;font-size:12px;line-height:1.35}.good{color:var(--good)}.bad{color:var(--bad)}.warn{color:var(--warn)}.stat{display:grid;grid-template-columns:1fr auto;gap:8px;padding:7px 0;border-bottom:1px solid #ffffff0d;font-size:13px}.timeline{display:flex;gap:3px;height:30px;align-items:end;overflow:hidden}.timeline i{display:block;min-width:6px;flex:1;background:var(--cyan);border-radius:3px 3px 0 0}.nav{position:fixed;left:50%;transform:translateX(-50%);bottom:0;z-index:40;width:min(100%,1180px);background:#071018f4;backdrop-filter:blur(16px);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);padding:7px 7px calc(7px + env(safe-area-inset-bottom))}.nav button{min-width:0;min-height:48px;background:none;border:0;color:var(--muted);font-size:10px;padding:5px}.nav b{display:block;color:var(--text);font-size:18px}.modal{position:fixed;inset:0;z-index:100;background:#000b;display:none;align-items:flex-end;justify-content:center}.modal.open{display:flex}.sheet{width:min(650px,100%);max-height:86dvh;overflow:auto;-webkit-overflow-scrolling:touch;background:#0d1720;border:1px solid var(--line);border-radius:22px 22px 0 0;padding:15px 15px calc(15px + env(safe-area-inset-bottom))}.choice{display:block;width:100%;text-align:left;margin-top:8px}.textinput{width:100%;min-height:110px;margin-top:8px;padding:10px;border-radius:12px;border:1px solid var(--line);background:#08121a;color:var(--text);resize:vertical}.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(82px + env(safe-area-inset-bottom));z-index:120;background:#13212c;border:1px solid #31516a;padding:10px 13px;border-radius:12px;display:none;max-width:calc(100% - 24px);text-align:center}
+@media(max-width:820px){.app{padding-left:10px;padding-right:10px}.grid{grid-template-columns:1fr}.card{border-radius:16px}.top .row{gap:5px}.top .badge:last-child{display:none}.city{min-height:210px}.zones{grid-template-columns:repeat(2,minmax(0,1fr))}.feed{max-height:230px}}
+@media(max-width:430px){.brand{font-size:18px}.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.controls{grid-template-columns:repeat(5,minmax(48px,1fr));overflow-x:auto;padding-bottom:2px}.controls .btn{padding:8px 4px;font-size:12px}.zones{grid-template-columns:1fr}.city{aspect-ratio:4/3;min-height:0}.weather{font-size:11px}.pad{padding:11px}.sheet{border-radius:18px 18px 0 0}.nav button{font-size:9px}}
+@media(prefers-reduced-motion:reduce){.car{animation-duration:24s}.b{transition:none}}
 </style>
 </head>
 <body>
 <div class="app">
-  <div class="topbar"><div class="row"><div class="brand">MBK Borsa</div><div class="chip">OYUN • SİMÜLASYON</div></div></div>
-  <section class="balance"><div class="muted">Toplam Varlık</div><h1 id="total">$10,000.00</h1><div id="pnl" class="gain">+$0.00 (+0.00%)</div></section>
-  <div class="marketstatus" id="marketStatus">Piyasa saati hesaplanıyor…</div>
-  <div class="toolbar"><button class="btn dark" onclick="resetGame()">Oyunu Sıfırla</button></div>
-  <div class="eventbar" id="eventBar"><strong>Haber Akışı</strong><span>Henüz önemli bir gelişme yok.</span></div>
-  <section class="section"><h3>Takip Listesi</h3><div class="card" id="stockList"></div></section>
-  <section class="section"><h3>Portföyüm</h3><div class="card" id="portfolio"></div></section>
-  <section class="section"><h3>Bekleyen Emirler</h3><div class="card" id="orders"></div></section>
-  <section class="section"><h3>Son Haberler</h3><div class="card" id="news"></div></section>
-  <section class="section"><h3>Son İşlemler</h3><div class="card" id="history"></div></section>
-</div>
-<div class="bottom"><div class="nav"><b>⌂</b>Ana Sayfa</div><div class="nav"><b>⌁</b>Piyasalar</div><div class="nav"><b>▣</b>Portföy</div><div class="nav"><b>⚙</b>Ayarlar</div></div>
-<div class="modal" id="modal" onclick="if(event.target===this)closeModal()">
-  <div class="sheet">
-    <div class="row"><div><div class="sym" id="mSym"></div><div class="name" id="mName"></div></div><button class="close" onclick="closeModal()">×</button></div>
-    <div class="bigprice" id="mPrice"></div><div id="mChg"></div>
-    <div class="chartwrap"><div class="chartlabel">Mum + Hacim • canlı akış</div><canvas id="chart" width="760" height="460"></canvas></div>
-    <div class="row mini"><span>Gün içi düşük: <b id="lowText"></b></span><span>Yüksek: <b id="highText"></b></span></div>
-    <div class="tradebox">
-      <div class="tabs"><button class="tab active" id="tabMarket" onclick="setOrderMode('market')">Piyasa</button><button class="tab" id="tabLimit" onclick="setOrderMode('limit')">Limit</button><button class="tab" id="tabStop" onclick="setOrderMode('stop')">Stop</button></div>
-      <div class="field"><label>Adet</label><input id="qty" type="number" min="1" step="1" value="1" oninput="updateEstimate()"/></div>
-      <div class="field" id="triggerField" style="display:none"><label id="triggerLabel">Emir fiyatı</label><input id="triggerPrice" type="number" min="0.01" step="0.01" oninput="updateEstimate()"/></div>
-      <div class="row mini"><span>Tahmini tutar</span><b id="est"></b></div>
-      <div class="tradegrid"><button class="btn buy" onclick="submitOrder('buy')">AL</button><button class="btn sell" onclick="submitOrder('sell')">SAT</button></div>
-      <div class="mini" style="margin-top:10px">Nakit: <span id="cashText"></span> · Pozisyon: <span id="posText"></span></div>
+  <div class="top"><div><div class="brand">CHRONO <span>CITY</span></div><div class="muted small" id="date">Yıl 1 • Gün 1</div></div><div class="row"><div class="badge" id="speed">⏱ x1</div><div class="badge" id="saveState">● Kayıtlı</div></div></div>
+  <div class="grid">
+    <div>
+      <div class="card"><div class="pad"><div class="row"><div><b>Şehir Durumu</b><div class="muted small" id="mood">Dengeli büyüme</div></div><div class="badge" id="era">Çağ: Başlangıç</div></div><div class="kpis"><div class="kpi"><small>Nüfus</small><b id="pop"></b></div><div class="kpi"><small>Hazine</small><b id="money"></b></div><div class="kpi"><small>Mutluluk</small><b id="happy"></b></div><div class="kpi"><small>Chrono Enerji</small><b id="chrono"></b></div></div></div><div class="city"><div class="sky" id="sky"></div><div class="road"></div><div class="car"></div><div class="car x"></div><div class="car y"></div><div class="weather" id="weather"></div></div><div class="pad"><div class="controls"><button class="btn" data-speed="0">⏸</button><button class="btn primary" data-speed="1">▶ x1</button><button class="btn" data-speed="3">⏩ x3</button><button class="btn" data-speed="8">⚡ x8</button><button class="btn danger" id="rewindBtn">↶ Geri</button></div><div class="muted small" style="margin-top:8px">1 gerçek saniye = 1 oyun günü. Telefon kilitliyken geçen süre, geri döndüğünde sınırlı biçimde hesaplanır.</div></div></div>
+      <div class="card" style="margin-top:12px"><div class="pad"><div class="row"><b>Bölgeler</b><span class="muted small">dokun ve geliştir</span></div><div class="zones" id="zones" style="margin-top:10px"></div></div></div>
+      <div class="card" style="margin-top:12px"><div class="pad"><div class="row"><b>Şehir Kararları</b><span class="muted small">AI simülasyonunu etkiler</span></div><div class="zones" style="margin-top:10px"><button class="choice" data-policy="housing"><b>Konut Teşviki</b><div class="muted small">₵8.000 • konut + nüfus</div></button><button class="choice" data-policy="security"><b>Güvenlik Programı</b><div class="muted small">₵7.500 • suç düşer</div></button><button class="choice" data-policy="green"><b>Yeşil Dönüşüm</b><div class="muted small">₵9.000 • enerji + çevre</div></button></div></div></div>
+    </div>
+    <div>
+      <div class="card"><div class="pad"><div class="row"><b>Canlı Şehir AI</b><span class="badge">Aktif</span></div><div id="stats" style="margin-top:8px"></div></div></div>
+      <div class="card" style="margin-top:12px"><div class="pad"><div class="row"><b>Olay Akışı</b><span class="muted small">dinamik</span></div><div class="feed" id="feed" style="margin-top:10px"></div></div></div>
+      <div class="card" style="margin-top:12px"><div class="pad"><div class="row"><b>Görevler</b><span class="muted small" id="mc"></span></div><div id="missions" style="display:flex;flex-direction:column;gap:8px;margin-top:10px"></div></div></div>
+      <div class="card" style="margin-top:12px"><div class="pad"><div class="row"><b>Zaman İzi</b><span class="muted small">şehir sağlığı</span></div><div class="timeline" id="timeline" style="margin-top:8px"></div></div></div>
     </div>
   </div>
 </div>
-<div class="toast" id="toast"></div>
+<div class="nav"><button data-panel="city"><b>⌂</b>Şehir</button><button data-panel="economy"><b>₵</b>Ekonomi</button><button data-panel="research"><b>⌬</b>Araştırma</button><button data-panel="history"><b>↺</b>Tarihçe</button><button data-panel="settings"><b>⚙</b>Sistem</button></div>
+<div class="modal" id="modal"><div class="sheet" id="sheet"></div></div><div class="toast" id="toast"></div>
 <script>
-const STORAGE_KEY='mbkTycoonV2';
-const baseStocks=[
- {s:'AAPL',n:'Apple',p:229.50,vol:.010,drift:.0007,baseVol:3200000},
- {s:'NVDA',n:'NVIDIA',p:132.80,vol:.023,drift:.0011,baseVol:5100000},
- {s:'TSLA',n:'Tesla',p:238.10,vol:.031,drift:.0003,baseVol:4700000},
- {s:'AMD',n:'AMD',p:152.40,vol:.021,drift:.0008,baseVol:3600000},
- {s:'PLTR',n:'Palantir',p:34.90,vol:.034,drift:.0012,baseVol:2900000},
- {s:'SOFI',n:'SoFi',p:8.45,vol:.039,drift:.0004,baseVol:2300000},
- {s:'RKLB',n:'Rocket Lab',p:6.90,vol:.047,drift:.0009,baseVol:1600000},
- {s:'SOUN',n:'SoundHound AI',p:5.75,vol:.058,drift:.0005,baseVol:1400000}
-];
-const positiveNews=[
- ['Bilanço beklentileri aştı',0.06,0.15],['Büyük sözleşme duyuruldu',0.08,0.22],['Analist hedef fiyat yükseltti',0.04,0.10],['Yeni ürün talebi güçlü',0.05,0.13],['Kurumsal alım ilgisi arttı',0.03,0.09]
-];
-const negativeNews=[
- ['Sermaye artırımı / offering baskısı',-0.08,-0.20],['Bilanço beklentileri kaçırdı',-0.06,-0.16],['Dava haberi satış getirdi',-0.05,-0.13],['Analist not düşürdü',-0.03,-0.09],['Likidite endişesi oluştu',-0.07,-0.18]
-];
-function freshState(){return {version:2,cash:10000,start:10000,turn:0,stocks:baseStocks.map(b=>{const c={o:b.p,h:b.p,l:b.p,c:b.p,v:b.baseVol};return {...b,open:b.p,chg:0,candles:Array.from({length:24},()=>({...c}))}}),pos:{},history:[],orders:[],news:[],event:null,nextOrderId:1};}
-function migrate(){
- let v=null;try{v=JSON.parse(localStorage.getItem(STORAGE_KEY)||'null')}catch(e){}
- if(v&&v.version===2)return v;
- let old=null;try{old=JSON.parse(localStorage.getItem('mbkTycoon')||'null')}catch(e){}
- const n=freshState();
- if(old){n.cash=Number.isFinite(old.cash)?old.cash:10000;n.start=Number.isFinite(old.start)?old.start:10000;n.pos=old.pos||{};n.history=Array.isArray(old.history)?old.history:[];if(Array.isArray(old.stocks))n.stocks.forEach(st=>{const o=old.stocks.find(x=>x.s===st.s);if(o&&Number.isFinite(o.p)){st.p=o.p;st.open=Number.isFinite(o.open)?o.open:o.p;st.chg=(st.p-st.open)/st.open*100;st.candles=Array.from({length:24},()=>({o:st.p,h:st.p,l:st.p,c:st.p,v:st.baseVol}))}})}
- return n;
-}
-let state=migrate(),selected=null,orderMode='market';
-function save(){localStorage.setItem(STORAGE_KEY,JSON.stringify(state))}
-function fmt(x){return '$'+Number(x||0).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}
-function pct(x){return (x>=0?'+':'')+x.toFixed(2)+'%'}
-function stock(sym){return state.stocks.find(x=>x.s===sym)}
-function portfolioValue(){return Object.entries(state.pos).reduce((sum,[sym,p])=>{const s=stock(sym);return sum+(s?s.p*p.qty:0)},0)}
-function nyParts(date=new Date()){
-  const f=new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',weekday:'short',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false,year:'numeric',month:'2-digit',day:'2-digit'});
-  const p=Object.fromEntries(f.formatToParts(date).filter(x=>x.type!=='literal').map(x=>[x.type,x.value]));
-  return {weekday:p.weekday,h:Number(p.hour),m:Number(p.minute),s:Number(p.second)};
-}
-function marketSession(date=new Date()){
-  const p=nyParts(date);
-  if(p.weekday==='Sat'||p.weekday==='Sun')return {key:'closed',label:'Piyasa kapalı • Hafta sonu',factor:0};
-  const mins=p.h*60+p.m;
-  if(mins>=240&&mins<570)return {key:'premarket',label:'Premarket',factor:.55};
-  if(mins>=570&&mins<960)return {key:'regular',label:'Piyasa açık',factor:1};
-  if(mins>=960&&mins<1200)return {key:'after',label:'After-hours',factor:.68};
-  return {key:'closed',label:'Piyasa kapalı',factor:0};
-}
-function marketClock(){
-  const p=nyParts();
-  return `${String(p.h).padStart(2,'0')}:${String(p.m).padStart(2,'0')}:${String(p.s).padStart(2,'0')} ET`;
-}
-function canTradeNow(){return marketSession().key!=='closed';}
-
-
-function maybeNews(session){
- if(session.key==='closed'||Math.random()>0.035)return null;
- const st=state.stocks[Math.floor(Math.random()*state.stocks.length)];
- const good=Math.random()>.48,list=good?positiveNews:negativeNews,item=list[Math.floor(Math.random()*list.length)];
- const raw=item[1]+Math.random()*(item[2]-item[1]);
- const impact=raw*(session.key==='regular'?1:.72);
- const n={turn:state.turn,sym:st.s,title:item[0],impact,time:new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'}),type:good?'good':'bad'};
- state.news.push(n);if(state.news.length>20)state.news.shift();state.event=n;return {sym:st.s,impact};
-}
-function advanceOne(){
- const session=marketSession();
- if(session.key==='closed')return false;
- state.turn++;
- const ev=maybeNews(session);
- state.stocks.forEach(st=>{
-   const prev=st.p, sessionVol=st.vol*session.factor;
-   let move=st.drift*.18+(Math.random()-.5)*2*sessionVol*.22;
-   if(Math.random()<.006)move+=(Math.random()<.5?-1:1)*(.012+Math.random()*.035)*session.factor;
-   if(ev&&ev.sym===st.s)move+=ev.impact;
-   const close=Math.max(.15,prev*(1+move));
-   const wick=Math.max(sessionVol*.10,Math.abs(move)*.20);
-   const high=Math.max(prev,close)*(1+Math.random()*wick);
-   const low=Math.max(.05,Math.min(prev,close)*(1-Math.random()*wick));
-   const volume=Math.round(st.baseVol*(.018+Math.random()*.035)*session.factor*(1+Math.min(5,Math.abs(move)*16)));
-   st.p=close;st.candles.push({o:prev,h:high,l:low,c:close,v:volume});
-   if(st.candles.length>60)st.candles.shift();
-   st.chg=(st.p-st.open)/st.open*100;
- });
- processOrders();
- return true;
-}
-function autoMarketTick(){
- const moved=advanceOne();
- if(moved)save();
- render();
- if(selected)openStock(selected.s,false);
-}
-function executeTrade(side,sym,qty,price,origin='PİYASA'){
- const st=stock(sym);if(!st||qty<1||price<=0)return false;const pos=state.pos[sym]||{qty:0,avg:0};const amount=qty*price;
- if(side==='buy'){
-   if(amount>state.cash+1e-9)return false;const nq=pos.qty+qty;pos.avg=((pos.avg*pos.qty)+(price*qty))/nq;pos.qty=nq;state.pos[sym]=pos;state.cash-=amount;
- }else{
-   if(qty>pos.qty)return false;pos.qty-=qty;state.cash+=amount;if(pos.qty<=0)delete state.pos[sym];else state.pos[sym]=pos;
- }
- state.history.push({type:side==='buy'?'AL':'SAT',sym,qty,price,time:new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'}),origin});if(state.history.length>60)state.history.shift();return true;
-}
-function processOrders(){
- const remaining=[];
- for(const o of state.orders){const st=stock(o.sym),last=st.candles[st.candles.length-1];let hit=false;
-   if(o.kind==='limit'){hit=o.side==='buy'?last.l<=o.trigger:last.h>=o.trigger}
-   else if(o.kind==='stop'){hit=o.side==='buy'?last.h>=o.trigger:last.l<=o.trigger}
-   if(hit){const ok=executeTrade(o.side,o.sym,o.qty,o.trigger,o.kind.toUpperCase());if(!ok)remaining.push(o)}else remaining.push(o)
- }
- state.orders=remaining;
-}
-function submitOrder(side){
- if(!selected)return;
- if(!canTradeNow())return toast('Piyasa kapalı. İşlem açık seansta yapılabilir.');const qty=Math.floor(Number(document.getElementById('qty').value));if(!Number.isFinite(qty)||qty<1)return toast('Geçerli adet gir.');
- if(orderMode==='market'){
-   if(!executeTrade(side,selected.s,qty,selected.p,'PİYASA'))return toast(side==='buy'?'Yetersiz nakit.':'Yetersiz pozisyon.');toast(side==='buy'?'Alış gerçekleşti.':'Satış gerçekleşti.');
- }else{
-   const trigger=Number(document.getElementById('triggerPrice').value);if(!Number.isFinite(trigger)||trigger<=0)return toast('Geçerli emir fiyatı gir.');
-   if(side==='buy'&&qty*trigger>state.cash+1e-9)return toast('Bu emir için yeterli nakit yok.');
-   if(side==='sell'&&qty>(state.pos[selected.s]?.qty||0))return toast('Bu emir için yeterli pozisyon yok.');
-   if(orderMode==='limit'&&side==='buy'&&trigger>=selected.p)return toast('Alış limit fiyatı mevcut fiyatın altında olmalı.');
-   if(orderMode==='limit'&&side==='sell'&&trigger<=selected.p)return toast('Satış limit fiyatı mevcut fiyatın üstünde olmalı.');
-   if(orderMode==='stop'&&side==='buy'&&trigger<=selected.p)return toast('Alış stop fiyatı mevcut fiyatın üstünde olmalı.');
-   if(orderMode==='stop'&&side==='sell'&&trigger>=selected.p)return toast('Satış stop fiyatı mevcut fiyatın altında olmalı.');
-   state.orders.push({id:state.nextOrderId++,side,sym:selected.s,qty,kind:orderMode,trigger});toast('Emir beklemeye alındı.');
- }
- save();render();openStock(selected.s,false);
-}
-function cancelOrder(id){state.orders=state.orders.filter(x=>x.id!==id);save();render();toast('Emir iptal edildi.');}
-function setOrderMode(m){orderMode=m;['Market','Limit','Stop'].forEach(x=>document.getElementById('tab'+x).classList.toggle('active',x.toLowerCase()===m));const f=document.getElementById('triggerField');f.style.display=m==='market'?'none':'block';document.getElementById('triggerLabel').textContent=m==='limit'?'Limit fiyatı':'Stop tetik fiyatı';if(selected&&m!=='market'){document.getElementById('triggerPrice').value=selected.p.toFixed(2)}updateEstimate();}
-function updateEstimate(){if(!selected)return;const q=Math.max(0,Math.floor(Number(document.getElementById('qty').value)||0));let px=selected.p;if(orderMode!=='market'){const t=Number(document.getElementById('triggerPrice').value);if(Number.isFinite(t)&&t>0)px=t}document.getElementById('est').textContent=fmt(q*px)}
-function openStock(sym,show=true){selected=stock(sym);if(!selected)return;document.getElementById('mSym').textContent=selected.s;document.getElementById('mName').textContent=selected.n;document.getElementById('mPrice').textContent=fmt(selected.p);const c=document.getElementById('mChg');c.textContent=pct(selected.chg)+' bugün';c.className=selected.chg>=0?'gain':'loss';const day=selected.candles.slice(-40);document.getElementById('lowText').textContent=fmt(Math.min(...day.map(x=>x.l)));document.getElementById('highText').textContent=fmt(Math.max(...day.map(x=>x.h)));document.getElementById('cashText').textContent=fmt(state.cash);document.getElementById('posText').textContent=(state.pos[sym]?.qty||0)+' adet';updateEstimate();drawChart();if(show)document.getElementById('modal').style.display='flex'}
-function closeModal(){document.getElementById('modal').style.display='none'}
-function drawChart(){
- const cv=document.getElementById('chart'),ctx=cv.getContext('2d'),arr=selected.candles.slice(-40),w=cv.width,h=cv.height,priceH=330,volTop=350,volH=90,pad=20;
- ctx.clearRect(0,0,w,h);ctx.fillStyle='#0b0f13';ctx.fillRect(0,0,w,h);
- const min=Math.min(...arr.map(x=>x.l)),max=Math.max(...arr.map(x=>x.h)),range=max-min||1,maxV=Math.max(...arr.map(x=>x.v),1);
- ctx.strokeStyle='#202832';ctx.lineWidth=1;for(let i=1;i<4;i++){const y=pad+i*(priceH-pad*2)/4;ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke()}
- const step=w/arr.length,bodyW=Math.max(3,step*.58);
- arr.forEach((c,i)=>{const x=i*step+step/2,yo=pad+(max-c.o)/range*(priceH-pad*2),yc=pad+(max-c.c)/range*(priceH-pad*2),yh=pad+(max-c.h)/range*(priceH-pad*2),yl=pad+(max-c.l)/range*(priceH-pad*2),up=c.c>=c.o,col=up?'#1ecb82':'#ff5d6c';ctx.strokeStyle=col;ctx.fillStyle=col;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x,yh);ctx.lineTo(x,yl);ctx.stroke();const top=Math.min(yo,yc),bh=Math.max(3,Math.abs(yc-yo));ctx.fillRect(x-bodyW/2,top,bodyW,bh);const vh=(c.v/maxV)*volH;ctx.globalAlpha=.45;ctx.fillRect(x-bodyW/2,volTop+volH-vh,bodyW,vh);ctx.globalAlpha=1});
- ctx.fillStyle='#8993a1';ctx.font='20px system-ui';ctx.fillText(fmt(max),8,18);ctx.fillText(fmt(min),8,priceH-5);
-}
-function render(){
- const total=state.cash+portfolioValue(),p=total-state.start,pp=p/state.start*100;document.getElementById('total').textContent=fmt(total);const pnl=document.getElementById('pnl');pnl.textContent=(p>=0?'+':'')+fmt(p)+' ('+(pp>=0?'+':'')+pp.toFixed(2)+'%)';pnl.className=p>=0?'gain':'loss';const sess=marketSession();document.getElementById('marketStatus').textContent=sess.label+' • '+marketClock();
- const eb=document.getElementById('eventBar');eb.innerHTML=state.event?`<strong>${state.event.sym} • ${state.event.type==='good'?'Pozitif':'Negatif'} haber</strong><span>${state.event.title}</span>`:'<strong>Haber Akışı</strong><span>Henüz önemli bir gelişme yok.</span>';
- document.getElementById('stockList').innerHTML=state.stocks.map(st=>`<div class="stock" onclick="openStock('${st.s}',true)"><div><div class="sym">${st.s}</div><div class="name">${st.n}</div></div><div class="price">${fmt(st.p)}</div><div class="chg ${st.chg>=0?'gain':'loss'}">${pct(st.chg)}</div></div>`).join('');
- const keys=Object.keys(state.pos);document.getElementById('portfolio').innerHTML=keys.length?keys.map(sym=>{const q=state.pos[sym],st=stock(sym),pl=(st.p-q.avg)*q.qty;return `<div class="portfolio-row"><div class="row"><b>${sym}</b><span>${q.qty} adet</span></div><div class="row mini"><span>Ort. ${fmt(q.avg)}</span><span class="${pl>=0?'gain':'loss'}">${pl>=0?'+':''}${fmt(pl)}</span></div></div>`}).join(''):'<div class="portfolio-row muted">Henüz pozisyon yok.</div>';
- document.getElementById('orders').innerHTML=state.orders.length?state.orders.map(o=>`<div class="order-row"><div class="row"><b>${o.side==='buy'?'AL':'SAT'} ${o.sym}</b><span class="badge">${o.kind.toUpperCase()}</span></div><div class="row mini"><span>${o.qty} adet • ${fmt(o.trigger)}</span><span class="dangerlink" onclick="cancelOrder(${o.id})">İptal</span></div></div>`).join(''):'<div class="order-row muted">Bekleyen emir yok.</div>';
- document.getElementById('news').innerHTML=state.news.length?state.news.slice(-6).reverse().map(n=>`<div class="news-row"><div class="row"><div class="news-title">${n.sym} • ${n.title}</div><span class="badge ${n.type}">${n.type==='good'?'POZİTİF':'NEGATİF'}</span></div><div class="mini" style="margin-top:5px">${n.time}</div></div>`).join(''):'<div class="news-row muted">Henüz haber yok.</div>';
- document.getElementById('history').innerHTML=state.history.length?state.history.slice(-7).reverse().map(x=>`<div class="portfolio-row"><div class="row"><b>${x.type} ${x.sym}</b><span>${x.qty} adet</span></div><div class="row mini"><span>${fmt(x.price)} • ${x.origin||'PİYASA'}</span><span>${x.time}</span></div></div>`).join(''):'<div class="portfolio-row muted">İşlem geçmişi boş.</div>';
-}
-function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.display='block';clearTimeout(window.__toastTimer);window.__toastTimer=setTimeout(()=>t.style.display='none',1600)}
-function resetGame(){if(confirm('Tüm oyun verisi sıfırlansın mı?')){state=freshState();save();selected=null;render();toast('Oyun sıfırlandı.')}}
-save();render();
-setInterval(autoMarketTick,3000);
-setInterval(()=>{const el=document.getElementById('marketStatus');if(el){const s=marketSession();el.textContent=s.label+' • '+marketClock();}},1000);
+(()=>{'use strict';
+const KEY='chronoCityV2',VERSION=2;
+const $=id=>document.getElementById(id);
+const els={date:$('date'),speed:$('speed'),saveState:$('saveState'),era:$('era'),pop:$('pop'),money:$('money'),happy:$('happy'),chrono:$('chrono'),weather:$('weather'),mood:$('mood'),sky:$('sky'),zones:$('zones'),stats:$('stats'),feed:$('feed'),mc:$('mc'),missions:$('missions'),timeline:$('timeline'),modal:$('modal'),sheet:$('sheet'),toast:$('toast')};
+const defaults=()=>({v:VERSION,day:1,year:1,speed:1,money:65000,population:8400,happiness:68,chrono:100,crime:18,energy:74,jobs:65,pollution:24,health:72,education:61,housing:64,traffic:31,weather:'☀ Açık',era:'Başlangıç',selected:'Merkez',events:[],history:[],snaps:[],research:{grid:0,ai:0,chrono:0},lastReal:Date.now(),zones:[{name:'Merkez',lvl:2,pop:2400,value:72,crime:17,energy:76,type:'Ticaret'},{name:'Kuzey',lvl:1,pop:1500,value:49,crime:22,energy:69,type:'Konut'},{name:'Doğu',lvl:1,pop:1300,value:46,crime:19,energy:73,type:'Sanayi'},{name:'Güney',lvl:1,pop:1700,value:55,crime:15,energy:78,type:'Konut'},{name:'Batı',lvl:1,pop:1100,value:43,crime:26,energy:65,type:'Lojistik'},{name:'Liman',lvl:0,pop:400,value:35,crime:28,energy:58,type:'Ticaret'}],missions:[{text:'Nüfusu 10.000’e çıkar',key:'population',target:10000,reward:12000,done:false},{text:'Mutluluğu %75’e çıkar',key:'happiness',target:75,reward:8000,done:false},{text:'Suçu %12 altına indir',key:'crimeLow',target:12,reward:10000,done:false}]});
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,Number.isFinite(v)?v:a)),fmt=n=>Math.round(Number.isFinite(n)?n:0).toLocaleString('tr-TR'),rand=(a,b)=>a+Math.random()*(b-a),chance=p=>Math.random()<p;
+function sanitize(raw){const d=defaults();if(!raw||typeof raw!=='object')return d;const s={...d,...raw};s.research={...d.research,...(raw.research||{})};s.zones=Array.isArray(raw.zones)&&raw.zones.length?raw.zones:d.zones;s.missions=Array.isArray(raw.missions)&&raw.missions.length?raw.missions:d.missions;s.events=Array.isArray(raw.events)?raw.events.slice(0,25):[];s.history=Array.isArray(raw.history)?raw.history.slice(-120):[];s.snaps=Array.isArray(raw.snaps)?raw.snaps.slice(-30):[];['money','population','happiness','chrono','crime','energy','jobs','pollution','health','education','housing','traffic'].forEach(k=>{if(!Number.isFinite(s[k]))s[k]=d[k]});s.v=VERSION;return s}
+function load(){try{return sanitize(JSON.parse(localStorage.getItem(KEY)||'null'))}catch(_){return defaults()}}
+let s=load(),dirty=true,modalType=null;
+function markDirty(){dirty=true}
+function save(){try{s.lastReal=Date.now();localStorage.setItem(KEY,JSON.stringify(s));els.saveState.textContent='● Kayıtlı'}catch(_){els.saveState.textContent='Kayıt hatası'}}
+function health(){return clamp((s.happiness+s.health+s.education+s.energy+s.jobs+100-s.crime+100-s.pollution)/7,0,100)}
+function add(title,desc,type='good'){s.events.unshift({title,desc,type,when:`Y${s.year} G${s.day}`});s.events=s.events.slice(0,25)}
+function toast(msg){els.toast.textContent=msg;els.toast.style.display='block';clearTimeout(window.__ct);window.__ct=setTimeout(()=>els.toast.style.display='none',1800)}
+function snapshot(){s.snaps.push({day:s.day,year:s.year,money:s.money,population:s.population,happiness:s.happiness,chrono:s.chrono,crime:s.crime,energy:s.energy,jobs:s.jobs,pollution:s.pollution,health:s.health,education:s.education,housing:s.housing,traffic:s.traffic,weather:s.weather,era:s.era,zones:JSON.parse(JSON.stringify(s.zones))});if(s.snaps.length>30)s.snaps.shift()}
+const eventMap=[['Teknoloji girişimi yatırım aldı',()=>{s.jobs+=2;s.money+=3500;s.education+=.5},'Yeni şirketler istihdam ve vergi gelirini artırıyor.','good'],['Elektrik şebekesinde arıza',()=>{s.energy-=5;s.happiness-=1.5},'Bazı bölgelerde üretim ve yaşam kalitesi düştü.','bad'],['Yeni konut projesi başladı',()=>{s.housing+=4;s.money-=2500},'Konut arzı arttı, göç baskısı hafifledi.','good'],['Toplu taşıma grevi',()=>{s.traffic+=6;s.happiness-=2},'Yollar yoğunlaştı ve memnuniyet düştü.','bad'],['Şehir festivali başladı',()=>{s.happiness+=4;s.money-=1800},'Turizm ve sosyal yaşam canlandı.','good'],['Sanayi sızıntısı tespit edildi',()=>{s.pollution+=7;s.health-=2},'Çevre ve sağlık göstergeleri baskı altında.','bad'],['Genç yetenek programı başarı sağladı',()=>{s.education+=3;s.jobs+=1},'Eğitim seviyesi ve iş gücü kalitesi yükseliyor.','good'],['Organize suç operasyonu',()=>{s.crime-=4;s.money-=1200},'Suç ağları zayıflatıldı.','good']];
+function simDay(offline=false){if(!offline)snapshot();s.day++;if(s.day>365){s.day=1;s.year++}const pg=(s.happiness/100)*(s.housing/100)*(s.jobs/100)*rand(4,16),mp=Math.max(0,s.crime-35)*.3+Math.max(0,s.pollution-50)*.15;s.population=Math.max(1000,s.population+pg-mp);s.money+=s.population*(.22+s.jobs/500)*rand(.7,1.25)-(s.population*(.08+s.energy/2000)+s.zones.reduce((a,z)=>a+z.lvl*60,0));s.jobs=clamp(s.jobs+rand(-1.2,1.3)+(s.education-55)*.004,0,100);s.housing=clamp(s.housing+rand(-.9,.8)-s.population/700000,0,100);s.traffic=clamp(s.traffic+rand(-.7,1)+s.population/70000,0,100);s.pollution=clamp(s.pollution+rand(-.6,.7)+(s.traffic-40)*.01-s.research.grid*.06,0,100);s.crime=clamp(s.crime+rand(-.8,.8)+(50-s.jobs)*.01+(50-s.education)*.005,0,100);s.health=clamp(s.health+rand(-.5,.5)-(s.pollution-30)*.006,0,100);s.happiness=clamp(s.happiness+rand(-.6,.6)+(s.jobs-50)*.006+(s.health-50)*.005-(s.crime-20)*.007-(s.traffic-35)*.004,0,100);s.energy=clamp(s.energy+rand(-.7,.7)+s.research.grid*.06-s.population/500000,0,100);s.education=clamp(s.education+rand(-.35,.45)+s.research.ai*.04,0,100);s.chrono=clamp(s.chrono+.35+s.research.chrono*.08,0,100);s.zones.forEach(z=>{z.pop=Math.max(100,z.pop*(1+rand(-.002,.004)+(s.happiness-50)/100000));z.value=clamp(z.value+rand(-.5,.65)+(s.jobs-50)*.002,5,100);z.crime=clamp(z.crime+rand(-.5,.5)+(s.crime-z.crime)*.02,0,100);z.energy=clamp(z.energy+rand(-.4,.4)+(s.energy-z.energy)*.02,0,100)});if(!offline&&chance(.12)){const e=eventMap[Math.floor(Math.random()*eventMap.length)];e[1]();add(e[0],e[2],e[3])}if(!offline&&chance(.06)){const w=['☀ Açık','🌧 Yağmurlu','⛈ Fırtına','🌫 Sisli','❄ Soğuk Cephe'];s.weather=w[Math.floor(Math.random()*w.length)]}s.missions.forEach(m=>{if(m.done)return;const ok=m.key==='crimeLow'?s.crime<=m.target:s[m.key]>=m.target;if(ok){m.done=true;s.money+=m.reward;add('Görev Tamamlandı',`${m.text} • Ödül ₵${fmt(m.reward)}`,'good')}});s.era=s.population>100000?'Chrono Başkent':s.population>60000?'Megaşehir':s.population>30000?'Metropol':s.population>15000?'Yükseliş':'Başlangıç';s.history.push({h:health(),m:s.money,p:s.population});if(s.history.length>120)s.history.shift();markDirty()}
+function applyOfflineProgress(){const last=Number(s.lastReal)||Date.now(),elapsed=Math.max(0,Date.now()-last),days=Math.min(120,Math.floor(elapsed/1000));if(days>=2){for(let i=0;i<days;i++)simDay(true);add('Şehir sen yokken de yaşadı',`${days} oyun günü simüle edildi.`,'good');toast(`${days} günlük ilerleme uygulandı.`)}s.lastReal=Date.now();save();markDirty()}
+function setSpeed(x){s.speed=x;save();markDirty();renderIfNeeded()}
+function rewind(){if(s.chrono<25)return toast('Chrono Enerji yetersiz.');if(!s.snaps.length)return toast('Zaman izi oluşmadı.');const idx=Math.max(0,s.snaps.length-8),x=s.snaps[idx],oldChrono=s.chrono;Object.assign(s,JSON.parse(JSON.stringify(x)));s.chrono=clamp(oldChrono-25,0,100);s.snaps=s.snaps.slice(0,idx+1);add('ZAMAN KIRILMASI','Şehir geçmişteki güvenli zaman izine döndürüldü.','warn');save();markDirty();renderIfNeeded()}
+function policy(t){const c={housing:[8000,()=>{s.housing=clamp(s.housing+8,0,100);s.happiness=clamp(s.happiness+1,0,100);s.population+=220},'Konut Teşviki'],security:[7500,()=>{s.crime=clamp(s.crime-7,0,100);s.happiness=clamp(s.happiness+1,0,100)},'Güvenlik Programı'],green:[9000,()=>{s.pollution=clamp(s.pollution-7,0,100);s.energy=clamp(s.energy+5,0,100);s.happiness=clamp(s.happiness+2,0,100)},'Yeşil Dönüşüm']}[t];if(!c)return;if(s.money<c[0])return toast('Hazine yetersiz.');s.money-=c[0];c[1]();add(c[2],'Belediye politikası yürürlüğe girdi.','good');save();markDirty();renderIfNeeded()}
+function upgrade(n){const z=s.zones.find(a=>a.name===n);if(!z)return;const cost=5000+z.lvl*4500;if(s.money<cost)return toast('Hazine yetersiz.');s.money-=cost;z.lvl++;z.value=clamp(z.value+8,0,100);z.energy=clamp(z.energy+4,0,100);z.pop*=1.06;s.jobs=clamp(s.jobs+1.5,0,100);add(`${n} geliştirildi`,`Bölge seviye ${z.lvl} oldu.`,'good');save();markDirty();renderIfNeeded();zonePanel(n)}
+function research(k){if(!(k in s.research))return;const lv=s.research[k],cost=12000+lv*9000;if(s.money<cost)return toast('Araştırma bütçesi yetersiz.');s.money-=cost;s.research[k]++;add('Araştırma tamamlandı',`${k.toUpperCase()} seviyesi ${s.research[k]} oldu.`,'good');save();markDirty();renderIfNeeded();openPanel('research')}
+function renderSky(){const frag=document.createDocumentFragment();for(let i=0;i<18;i++){const d=document.createElement('div'),z=s.zones[i%s.zones.length];d.className='b';d.style.height=(18+z.lvl*10+(i*17)%42)+'%';d.style.opacity=.65+Math.min(.3,z.value/300);frag.appendChild(d)}els.sky.replaceChildren(frag)}
+function render(){els.date.textContent=`Yıl ${s.year} • Gün ${s.day}`;els.era.textContent='Çağ: '+s.era;els.pop.textContent=fmt(s.population);els.money.textContent='₵'+fmt(s.money);els.happy.textContent=Math.round(s.happiness)+'%';els.chrono.textContent=Math.round(s.chrono);els.weather.textContent=s.weather;els.speed.textContent=s.speed===0?'⏸ Duraklatıldı':'⏱ x'+s.speed;const h=health();els.mood.textContent=h>75?'Şehir güçlü büyüyor':h>55?'Dengeli büyüme':h>35?'Baskı altında':'Kriz bölgesi';renderSky();els.zones.innerHTML=s.zones.map(z=>`<div class="zone ${s.selected===z.name?'active':''}" data-zone="${z.name}"><div class="row"><b>${z.name}</b><span class="badge">Lv.${z.lvl}</span></div><div class="muted small">${z.type} • ${fmt(z.pop)} kişi</div><div class="bar"><i style="width:${clamp(z.value,0,100)}%"></i></div><div class="row small" style="margin-top:7px"><span>Değer ${Math.round(z.value)}</span><span>Suç ${Math.round(z.crime)}%</span></div></div>`).join('');const ds=[['İstihdam',s.jobs],['Enerji',s.energy],['Sağlık',s.health],['Eğitim',s.education],['Konut',s.housing],['Trafik',100-s.traffic],['Çevre',100-s.pollution],['Güvenlik',100-s.crime]];els.stats.innerHTML=ds.map(([k,v])=>`<div class="stat"><span>${k}</span><b>${Math.round(clamp(v,0,100))}%</b></div>`).join('');els.feed.innerHTML=s.events.length?s.events.slice(0,8).map(e=>`<div class="event"><div class="row"><b class="${e.type==='bad'?'bad':e.type==='warn'?'warn':'good'}">${e.title}</b><span class="muted small">${e.when}</span></div><p>${e.desc}</p></div>`).join(''):`<div class="event"><b>Şehir çevrimi başladı</b><p>İlk olaylar simülasyon ilerledikçe oluşacak.</p></div>`;els.mc.textContent=s.missions.filter(m=>!m.done).length+' aktif';els.missions.innerHTML=s.missions.map(m=>`<div class="mission"><div class="row"><b>${m.done?'✓ ':''}${m.text}</b><span class="${m.done?'good':'warn'}">${m.done?'Tamam':'₵'+fmt(m.reward)}</span></div></div>`).join('');els.timeline.innerHTML=s.history.slice(-28).map(x=>`<i style="height:${Math.max(4,x.h*.28)}px;opacity:${.35+x.h/150}"></i>`).join('');dirty=false}
+function renderIfNeeded(){if(dirty)render()}
+function zonePanel(n){const z=s.zones.find(a=>a.name===n);if(!z)return;const cost=5000+z.lvl*4500;els.sheet.innerHTML=`<div class="row"><div><h2 style="margin:0">${z.name}</h2><div class="muted">${z.type}</div></div><button class="btn" data-close>Kapat</button></div><div class="kpis" style="margin-top:14px"><div class="kpi"><small>Nüfus</small><b>${fmt(z.pop)}</b></div><div class="kpi"><small>Değer</small><b>${Math.round(z.value)}</b></div><div class="kpi"><small>Suç</small><b>${Math.round(z.crime)}%</b></div><div class="kpi"><small>Enerji</small><b>${Math.round(z.energy)}%</b></div></div><button class="choice" data-upgrade="${z.name}"><b>Bölgeyi Geliştir</b><div class="muted small">₵${fmt(cost)} • kapasite, değer ve enerji artar</div></button>`;modalType='zone';openModal()}
+function rcard(k,t,d){const lv=s.research[k],cost=12000+lv*9000;return `<button class="choice" data-research="${k}"><b>${t} • Lv.${lv}</b><div class="muted small">${d}</div><div class="warn small" style="margin-top:5px">₵${fmt(cost)}</div></button>`}
+function openPanel(t){if(t==='city')return window.scrollTo({top:0,behavior:'smooth'});let c='';if(t==='economy')c=`<div class="row"><h2>Ekonomi</h2><button class="btn" data-close>Kapat</button></div><div class="stat"><span>Günlük brüt gelir</span><b>₵${fmt(s.population*(.22+s.jobs/500))}</b></div><div class="stat"><span>Şehir değer endeksi</span><b>${Math.round(s.zones.reduce((a,z)=>a+z.value,0)/s.zones.length)}</b></div><div class="stat"><span>İstihdam</span><b>${Math.round(s.jobs)}%</b></div>`;if(t==='research')c=`<div class="row"><h2>Araştırma</h2><button class="btn" data-close>Kapat</button></div>${rcard('grid','Akıllı Şebeke','Enerji ve çevre verimliliği')}${rcard('ai','Kentsel AI','Eğitim ve optimizasyon')}${rcard('chrono','Chrono Çekirdeği','Chrono Enerji yenilenmesi')}`;if(t==='history')c=`<div class="row"><h2>Tarihçe</h2><button class="btn" data-close>Kapat</button></div>`+(s.events.slice(0,15).map(e=>`<div class="event" style="margin-top:8px"><b>${e.when} • ${e.title}</b><p>${e.desc}</p></div>`).join('')||'<p class="muted">Henüz kayıt yok.</p>');if(t==='settings')c=`<div class="row"><h2>Sistem</h2><button class="btn" data-close>Kapat</button></div><button class="choice" data-save><b>Oyunu Kaydet</b></button><button class="choice" data-export><b>Kayıt Kodunu Dışa Aktar</b><div class="muted small">Başka telefona taşımak için</div></button><button class="choice" data-import><b>Kayıt Kodunu İçe Aktar</b><div class="muted small">Diğer cihazdaki kaydı yükler</div></button><button class="choice" data-reset><b class="bad">Yeni Şehir Başlat</b><div class="muted small">Mevcut kayıt silinir</div></button>`;if(!c)return;els.sheet.innerHTML=c;modalType=t;openModal()}
+function openModal(){els.modal.classList.add('open');document.body.style.overflow='hidden'}function closeModal(){els.modal.classList.remove('open');document.body.style.overflow='';modalType=null}
+function exportSave(){const text=btoa(unescape(encodeURIComponent(JSON.stringify(s))));els.sheet.innerHTML=`<div class="row"><h2>Kayıt Kodu</h2><button class="btn" data-close>Kapat</button></div><textarea class="textinput" id="saveCode" readonly></textarea><button class="choice" data-copy><b>Kodu Kopyala</b></button>`;$('saveCode').value=text}
+function importSave(){els.sheet.innerHTML=`<div class="row"><h2>Kayıt İçe Aktar</h2><button class="btn" data-close>Kapat</button></div><textarea class="textinput" id="importCode" placeholder="Kayıt kodunu buraya yapıştır"></textarea><button class="choice" data-import-apply><b>Kaydı Yükle</b></button>`}
+function applyImport(){try{const raw=JSON.parse(decodeURIComponent(escape(atob($('importCode').value.trim()))));s=sanitize(raw);save();markDirty();closeModal();renderIfNeeded();toast('Kayıt yüklendi.')}catch(_){toast('Kayıt kodu geçersiz.')}}
+function resetGame(){if(confirm('Mevcut şehir silinsin mi?')){localStorage.removeItem(KEY);s=defaults();save();markDirty();closeModal();renderIfNeeded()}}
+function bind(){document.querySelectorAll('[data-speed]').forEach(b=>b.addEventListener('click',()=>setSpeed(Number(b.dataset.speed))));$('rewindBtn').addEventListener('click',rewind);document.querySelectorAll('[data-policy]').forEach(b=>b.addEventListener('click',()=>policy(b.dataset.policy)));document.querySelectorAll('[data-panel]').forEach(b=>b.addEventListener('click',()=>openPanel(b.dataset.panel)));els.zones.addEventListener('click',e=>{const z=e.target.closest('[data-zone]');if(!z)return;s.selected=z.dataset.zone;markDirty();renderIfNeeded();zonePanel(z.dataset.zone)});els.modal.addEventListener('click',e=>{if(e.target===els.modal)return closeModal();const close=e.target.closest('[data-close]');if(close)return closeModal();const up=e.target.closest('[data-upgrade]');if(up)return upgrade(up.dataset.upgrade);const rs=e.target.closest('[data-research]');if(rs)return research(rs.dataset.research);if(e.target.closest('[data-save]')){save();toast('Oyun kaydedildi.')}if(e.target.closest('[data-export]'))exportSave();if(e.target.closest('[data-import]'))importSave();if(e.target.closest('[data-import-apply]'))applyImport();if(e.target.closest('[data-reset]'))resetGame();if(e.target.closest('[data-copy]')){const ta=$('saveCode');ta.select();ta.setSelectionRange(0,999999);navigator.clipboard?.writeText(ta.value).then(()=>toast('Kayıt kodu kopyalandı.')).catch(()=>toast('Kodu seçip kopyalayabilirsin.'))}});document.addEventListener('visibilitychange',()=>{if(document.hidden)save();else applyOfflineProgress()});window.addEventListener('beforeunload',save)}
+let timer=null;function startClock(){if(timer)clearInterval(timer);timer=setInterval(()=>{if(s.speed>0){for(let i=0;i<s.speed;i++)simDay(false);save();renderIfNeeded()}},1000)}
+applyOfflineProgress();bind();renderIfNeeded();startClock();setInterval(save,15000);
+})();
 </script>
-</body></html>
+</body>
+</html>
