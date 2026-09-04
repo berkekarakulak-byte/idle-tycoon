@@ -13,8 +13,8 @@
 <div class="app">
   <div class="topbar"><div class="row"><div class="brand">MBK Borsa</div><div class="chip">OYUN • SİMÜLASYON</div></div></div>
   <section class="balance"><div class="muted">Toplam Varlık</div><h1 id="total">$10,000.00</h1><div id="pnl" class="gain">+$0.00 (+0.00%)</div></section>
-  <div class="marketstatus" id="marketStatus">Piyasa açık • Tur 0</div>
-  <div class="toolbar"><button class="btn primary" onclick="advanceMarket(5)">5 Tur İlerle</button><button class="btn dark" onclick="advanceMarket(25)">25 Tur</button><button class="btn dark" onclick="resetGame()">Sıfırla</button></div>
+  <div class="marketstatus" id="marketStatus">Piyasa saati hesaplanıyor…</div>
+  <div class="toolbar"><button class="btn dark" onclick="resetGame()">Oyunu Sıfırla</button></div>
   <div class="eventbar" id="eventBar"><strong>Haber Akışı</strong><span>Henüz önemli bir gelişme yok.</span></div>
   <section class="section"><h3>Takip Listesi</h3><div class="card" id="stockList"></div></section>
   <section class="section"><h3>Portföyüm</h3><div class="card" id="portfolio"></div></section>
@@ -27,7 +27,7 @@
   <div class="sheet">
     <div class="row"><div><div class="sym" id="mSym"></div><div class="name" id="mName"></div></div><button class="close" onclick="closeModal()">×</button></div>
     <div class="bigprice" id="mPrice"></div><div id="mChg"></div>
-    <div class="chartwrap"><div class="chartlabel">Mum + Hacim • son 40 tur</div><canvas id="chart" width="760" height="460"></canvas></div>
+    <div class="chartwrap"><div class="chartlabel">Mum + Hacim • canlı akış</div><canvas id="chart" width="760" height="460"></canvas></div>
     <div class="row mini"><span>Gün içi düşük: <b id="lowText"></b></span><span>Yüksek: <b id="highText"></b></span></div>
     <div class="tradebox">
       <div class="tabs"><button class="tab active" id="tabMarket" onclick="setOrderMode('market')">Piyasa</button><button class="tab" id="tabLimit" onclick="setOrderMode('limit')">Limit</button><button class="tab" id="tabStop" onclick="setOrderMode('stop')">Stop</button></div>
@@ -73,32 +73,64 @@ function fmt(x){return '$'+Number(x||0).toLocaleString('en-US',{minimumFractionD
 function pct(x){return (x>=0?'+':'')+x.toFixed(2)+'%'}
 function stock(sym){return state.stocks.find(x=>x.s===sym)}
 function portfolioValue(){return Object.entries(state.pos).reduce((sum,[sym,p])=>{const s=stock(sym);return sum+(s?s.p*p.qty:0)},0)}
-function maybeNews(){
- if(Math.random()>0.13)return null;
+function nyParts(date=new Date()){
+  const f=new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',weekday:'short',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false,year:'numeric',month:'2-digit',day:'2-digit'});
+  const p=Object.fromEntries(f.formatToParts(date).filter(x=>x.type!=='literal').map(x=>[x.type,x.value]));
+  return {weekday:p.weekday,h:Number(p.hour),m:Number(p.minute),s:Number(p.second)};
+}
+function marketSession(date=new Date()){
+  const p=nyParts(date);
+  if(p.weekday==='Sat'||p.weekday==='Sun')return {key:'closed',label:'Piyasa kapalı • Hafta sonu',factor:0};
+  const mins=p.h*60+p.m;
+  if(mins>=240&&mins<570)return {key:'premarket',label:'Premarket',factor:.55};
+  if(mins>=570&&mins<960)return {key:'regular',label:'Piyasa açık',factor:1};
+  if(mins>=960&&mins<1200)return {key:'after',label:'After-hours',factor:.68};
+  return {key:'closed',label:'Piyasa kapalı',factor:0};
+}
+function marketClock(){
+  const p=nyParts();
+  return `${String(p.h).padStart(2,'0')}:${String(p.m).padStart(2,'0')}:${String(p.s).padStart(2,'0')} ET`;
+}
+function canTradeNow(){return marketSession().key!=='closed';}
+
+
+function maybeNews(session){
+ if(session.key==='closed'||Math.random()>0.035)return null;
  const st=state.stocks[Math.floor(Math.random()*state.stocks.length)];
  const good=Math.random()>.48,list=good?positiveNews:negativeNews,item=list[Math.floor(Math.random()*list.length)];
- const impact=item[1]+Math.random()*(item[2]-item[1]);
- const n={turn:state.turn,sym:st.s,title:item[0],impact,time:'Tur '+state.turn,type:good?'good':'bad'};
+ const raw=item[1]+Math.random()*(item[2]-item[1]);
+ const impact=raw*(session.key==='regular'?1:.72);
+ const n={turn:state.turn,sym:st.s,title:item[0],impact,time:new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'}),type:good?'good':'bad'};
  state.news.push(n);if(state.news.length>20)state.news.shift();state.event=n;return {sym:st.s,impact};
 }
 function advanceOne(){
+ const session=marketSession();
+ if(session.key==='closed')return false;
  state.turn++;
- const ev=maybeNews();
+ const ev=maybeNews(session);
  state.stocks.forEach(st=>{
-   const prev=st.p;
-   let move=st.drift+(Math.random()-.5)*2*st.vol;
-   if(Math.random()<.018)move+=(Math.random()<.5?-1:1)*(.035+Math.random()*.085);
+   const prev=st.p, sessionVol=st.vol*session.factor;
+   let move=st.drift*.18+(Math.random()-.5)*2*sessionVol*.22;
+   if(Math.random()<.006)move+=(Math.random()<.5?-1:1)*(.012+Math.random()*.035)*session.factor;
    if(ev&&ev.sym===st.s)move+=ev.impact;
-   let close=Math.max(.15,prev*(1+move));
-   const wick=Math.max(st.vol*.35,Math.abs(move)*.22);
-   let high=Math.max(prev,close)*(1+Math.random()*wick);
-   let low=Math.max(.05,Math.min(prev,close)*(1-Math.random()*wick));
-   const volume=Math.round(st.baseVol*(.55+Math.random()*1.25)*(1+Math.min(5,Math.abs(move)*12)));
-   st.p=close;st.candles.push({o:prev,h:high,l:low,c:close,v:volume});if(st.candles.length>60)st.candles.shift();st.chg=(st.p-st.open)/st.open*100;
+   const close=Math.max(.15,prev*(1+move));
+   const wick=Math.max(sessionVol*.10,Math.abs(move)*.20);
+   const high=Math.max(prev,close)*(1+Math.random()*wick);
+   const low=Math.max(.05,Math.min(prev,close)*(1-Math.random()*wick));
+   const volume=Math.round(st.baseVol*(.018+Math.random()*.035)*session.factor*(1+Math.min(5,Math.abs(move)*16)));
+   st.p=close;st.candles.push({o:prev,h:high,l:low,c:close,v:volume});
+   if(st.candles.length>60)st.candles.shift();
+   st.chg=(st.p-st.open)/st.open*100;
  });
  processOrders();
+ return true;
 }
-function advanceMarket(n){for(let i=0;i<n;i++)advanceOne();save();render();if(selected)openStock(selected.s,false);toast(n+' tur ilerledi.');}
+function autoMarketTick(){
+ const moved=advanceOne();
+ if(moved)save();
+ render();
+ if(selected)openStock(selected.s,false);
+}
 function executeTrade(side,sym,qty,price,origin='PİYASA'){
  const st=stock(sym);if(!st||qty<1||price<=0)return false;const pos=state.pos[sym]||{qty:0,avg:0};const amount=qty*price;
  if(side==='buy'){
@@ -106,7 +138,7 @@ function executeTrade(side,sym,qty,price,origin='PİYASA'){
  }else{
    if(qty>pos.qty)return false;pos.qty-=qty;state.cash+=amount;if(pos.qty<=0)delete state.pos[sym];else state.pos[sym]=pos;
  }
- state.history.push({type:side==='buy'?'AL':'SAT',sym,qty,price,time:'Tur '+state.turn,origin});if(state.history.length>60)state.history.shift();return true;
+ state.history.push({type:side==='buy'?'AL':'SAT',sym,qty,price,time:new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'}),origin});if(state.history.length>60)state.history.shift();return true;
 }
 function processOrders(){
  const remaining=[];
@@ -118,7 +150,8 @@ function processOrders(){
  state.orders=remaining;
 }
 function submitOrder(side){
- if(!selected)return;const qty=Math.floor(Number(document.getElementById('qty').value));if(!Number.isFinite(qty)||qty<1)return toast('Geçerli adet gir.');
+ if(!selected)return;
+ if(!canTradeNow())return toast('Piyasa kapalı. İşlem açık seansta yapılabilir.');const qty=Math.floor(Number(document.getElementById('qty').value));if(!Number.isFinite(qty)||qty<1)return toast('Geçerli adet gir.');
  if(orderMode==='market'){
    if(!executeTrade(side,selected.s,qty,selected.p,'PİYASA'))return toast(side==='buy'?'Yetersiz nakit.':'Yetersiz pozisyon.');toast(side==='buy'?'Alış gerçekleşti.':'Satış gerçekleşti.');
  }else{
@@ -148,7 +181,7 @@ function drawChart(){
  ctx.fillStyle='#8993a1';ctx.font='20px system-ui';ctx.fillText(fmt(max),8,18);ctx.fillText(fmt(min),8,priceH-5);
 }
 function render(){
- const total=state.cash+portfolioValue(),p=total-state.start,pp=p/state.start*100;document.getElementById('total').textContent=fmt(total);const pnl=document.getElementById('pnl');pnl.textContent=(p>=0?'+':'')+fmt(p)+' ('+(pp>=0?'+':'')+pp.toFixed(2)+'%)';pnl.className=p>=0?'gain':'loss';document.getElementById('marketStatus').textContent='Piyasa açık • Tur '+state.turn;
+ const total=state.cash+portfolioValue(),p=total-state.start,pp=p/state.start*100;document.getElementById('total').textContent=fmt(total);const pnl=document.getElementById('pnl');pnl.textContent=(p>=0?'+':'')+fmt(p)+' ('+(pp>=0?'+':'')+pp.toFixed(2)+'%)';pnl.className=p>=0?'gain':'loss';const sess=marketSession();document.getElementById('marketStatus').textContent=sess.label+' • '+marketClock();
  const eb=document.getElementById('eventBar');eb.innerHTML=state.event?`<strong>${state.event.sym} • ${state.event.type==='good'?'Pozitif':'Negatif'} haber</strong><span>${state.event.title}</span>`:'<strong>Haber Akışı</strong><span>Henüz önemli bir gelişme yok.</span>';
  document.getElementById('stockList').innerHTML=state.stocks.map(st=>`<div class="stock" onclick="openStock('${st.s}',true)"><div><div class="sym">${st.s}</div><div class="name">${st.n}</div></div><div class="price">${fmt(st.p)}</div><div class="chg ${st.chg>=0?'gain':'loss'}">${pct(st.chg)}</div></div>`).join('');
  const keys=Object.keys(state.pos);document.getElementById('portfolio').innerHTML=keys.length?keys.map(sym=>{const q=state.pos[sym],st=stock(sym),pl=(st.p-q.avg)*q.qty;return `<div class="portfolio-row"><div class="row"><b>${sym}</b><span>${q.qty} adet</span></div><div class="row mini"><span>Ort. ${fmt(q.avg)}</span><span class="${pl>=0?'gain':'loss'}">${pl>=0?'+':''}${fmt(pl)}</span></div></div>`}).join(''):'<div class="portfolio-row muted">Henüz pozisyon yok.</div>';
@@ -159,5 +192,7 @@ function render(){
 function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.display='block';clearTimeout(window.__toastTimer);window.__toastTimer=setTimeout(()=>t.style.display='none',1600)}
 function resetGame(){if(confirm('Tüm oyun verisi sıfırlansın mı?')){state=freshState();save();selected=null;render();toast('Oyun sıfırlandı.')}}
 save();render();
+setInterval(autoMarketTick,3000);
+setInterval(()=>{const el=document.getElementById('marketStatus');if(el){const s=marketSession();el.textContent=s.label+' • '+marketClock();}},1000);
 </script>
 </body></html>
