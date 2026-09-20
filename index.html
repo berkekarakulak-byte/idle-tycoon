@@ -17,6 +17,13 @@ header{z-index:10;flex:0 0 auto;padding:9px 11px 7px}.top{display:flex;justify-c
 footer{z-index:10;flex:0 0 auto;padding:6px 9px calc(7px + var(--sb));display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;background:linear-gradient(transparent,#07080c 28%)}button.menu{border:1px solid var(--line);background:#101219;color:#b7b8c0;border-radius:10px;padding:7px 2px;font-size:9px;font-weight:800}.menu.main{background:#fff;color:#090a0d}
 .sheet{position:absolute;z-index:30;left:0;right:0;bottom:0;max-height:60dvh;overflow-y:auto;background:#101219;border-radius:19px 19px 0 0;border-top:1px solid #ffffff20;padding:13px 11px calc(13px + var(--sb));transform:translateY(110%);transition:.22s;overscroll-behavior:contain}.sheet.open{transform:none}.head{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px;font-size:13px}.close{border:0;background:#252832;color:#fff;border-radius:8px;padding:7px 9px}.entry{background:#171922;border:1px solid var(--line);border-radius:11px;padding:9px;margin:6px 0;font-size:11px;color:#ddd}.entry.lock{opacity:.3}.entry b{display:block;margin-bottom:3px}.statgrid{display:grid;grid-template-columns:1fr 1fr;gap:6px}.box{background:#171922;border:1px solid var(--line);border-radius:11px;padding:10px;font-size:10px;color:#999}.box b{display:block;color:white;font-size:16px;margin-top:2px}
 #choice{position:absolute;z-index:50;inset:0;background:#05060af2;display:none;place-items:center;padding:16px}.choicebox{width:min(100%,390px);background:#12141b;border:1px solid var(--line);border-radius:17px;padding:14px}.choicebox h3{margin:0 0 6px;font-size:15px}.choicebox p{font-size:12px;color:#aaa;line-height:1.45}.choicebtn{width:100%;margin-top:7px;border:1px solid var(--line);background:#20232c;color:#fff;padding:10px;border-radius:10px;font-weight:800}
+
+button,#touch,#pixel,#pixelWrap,nav,footer{
+  -webkit-user-select:none!important;user-select:none!important;
+  -webkit-touch-callout:none!important;-webkit-user-drag:none!important;
+  touch-action:none!important;
+}
+::selection{background:transparent}
 </style></head><body><div id="app">
 <header><div class="top"><div class="logo">1 PİKSEL</div><div class="count"><span id="clicks">0</span> DOKUNUŞ</div></div><div id="chapter"></div><div class="track"><i id="bar"></i></div></header>
 <main id="world"><div id="space"></div><div id="instruction"></div><div id="discovery"></div><div id="pixelWrap"><button id="pixel" aria-label="Piksele dokun"></button></div><div id="story"><div class="storyTitle">KEŞİF</div><div class="storyText" id="storyText"></div></div></main>
@@ -60,35 +67,50 @@ function pulse(){let q=document.createElement("i");q.className="pulse";$("pixelW
 function tap(){if($("choice").style.display==="grid")return;s.clicks++;$("pixel").classList.remove("tap");void $("pixel").offsetWidth;$("pixel").classList.add("tap");pulse();render()}
 $("pixel").addEventListener("pointerdown",e=>{e.preventDefault();tap()},{passive:false});
 
-/* Dokun butonu: iOS güvenli basılı tutma */
-let holdTimer=null,holdLoop=null,holding=false;
+/* iPhone Safari: native long-press tamamen engellenmiş hold sistemi */
+let holdDelay=0,holdRAF=0,holding=false,lastRepeat=0;
+const touchBtn=$("touch");
+
 function stopHold(){
  holding=false;
- clearTimeout(holdTimer); clearInterval(holdLoop);
- holdTimer=null; holdLoop=null;
+ clearTimeout(holdDelay);
+ cancelAnimationFrame(holdRAF);
+ holdDelay=0; holdRAF=0; lastRepeat=0;
 }
-function startHold(e){
- if(e){e.preventDefault();e.stopPropagation();}
- stopHold(); tap(); holding=true;
- holdTimer=setTimeout(()=>{
+function repeatHold(ts){
+ if(!holding)return;
+ if(!lastRepeat || ts-lastRepeat>=85){tap();lastRepeat=ts}
+ holdRAF=requestAnimationFrame(repeatHold);
+}
+function beginHold(e){
+ if(e.cancelable)e.preventDefault();
+ e.stopPropagation();
+ stopHold();
+ tap();
+ holding=true;
+ holdDelay=setTimeout(()=>{
    if(!holding)return;
-   holdLoop=setInterval(()=>{if(holding)tap()},90);
- },260);
+   lastRepeat=performance.now();
+   holdRAF=requestAnimationFrame(repeatHold);
+ },220);
 }
-const touchBtn=$("touch");
-touchBtn.style.webkitUserSelect="none";
-touchBtn.style.userSelect="none";
-touchBtn.style.webkitTouchCallout="none";
-touchBtn.style.touchAction="none";
-touchBtn.addEventListener("touchstart",startHold,{passive:false});
-touchBtn.addEventListener("touchend",e=>{e.preventDefault();stopHold()},{passive:false});
-touchBtn.addEventListener("touchcancel",stopHold,{passive:false});
+touchBtn.addEventListener("pointerdown",beginHold,{passive:false});
+document.addEventListener("pointerup",stopHold,{passive:false,capture:true});
+document.addEventListener("pointercancel",stopHold,{passive:false,capture:true});
 touchBtn.addEventListener("contextmenu",e=>e.preventDefault());
+touchBtn.addEventListener("dragstart",e=>e.preventDefault());
 touchBtn.addEventListener("selectstart",e=>e.preventDefault());
-touchBtn.addEventListener("pointerdown",e=>{if(e.pointerType!=="touch")startHold(e)});
-touchBtn.addEventListener("pointerup",stopHold);
-touchBtn.addEventListener("pointercancel",stopHold);
-touchBtn.addEventListener("pointerleave",stopHold);
+
+/* Safari'nin büyüteç/metin seçimini oyun alanında iptal et */
+document.addEventListener("touchstart",e=>{
+ if(e.target.closest("#touch,#pixel,#pixelWrap,nav")) e.preventDefault();
+},{passive:false,capture:true});
+document.addEventListener("touchmove",e=>{
+ if(holding || e.target.closest("#touch,#pixel,#pixelWrap,nav")) e.preventDefault();
+},{passive:false,capture:true});
+document.addEventListener("contextmenu",e=>{
+ if(e.target.closest("#app"))e.preventDefault();
+},{capture:true});
 window.addEventListener("blur",stopHold);
 document.addEventListener("visibilitychange",()=>{if(document.hidden)stopHold()});
 document.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>$(b.dataset.open).classList.add("open"));document.querySelectorAll(".close").forEach(b=>b.onclick=()=>b.closest(".sheet").classList.remove("open"));
