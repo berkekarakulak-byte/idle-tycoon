@@ -1,74 +1,65 @@
-<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><meta name="theme-color" content="#090a0d"><title>Yeraltına Doğru: Kayıp Maden</title>
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><meta name="theme-color" content="#05060a"><title>1 Piksel</title>
 <style>
-:root{--p:#15171d;--l:#ffffff14;--g:#efb44b;--t:#aaa;--sb:env(safe-area-inset-bottom,0px);--st:env(safe-area-inset-top,0px)}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{margin:0;width:100%;height:100%;height:100dvh;overflow:hidden;position:fixed;inset:0;background:#090a0d;color:#fff;font-family:system-ui,-apple-system,sans-serif;touch-action:manipulation}body{overscroll-behavior:none}
-#app{position:fixed;inset:0;width:100%;height:100dvh;max-height:100dvh;display:flex;flex-direction:column;padding-top:var(--st);background:#0d0e12;overflow:hidden}header{padding:6px 9px;background:#101116;border-bottom:1px solid var(--l);flex:0 0 auto}.top{display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:900}.chapter{font-size:10px;color:#bbb}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-top:5px}.stat{background:#191b21;border:1px solid var(--l);border-radius:10px;padding:4px;text-align:center;font-size:9px}.stat b{display:block;font-size:14px;margin-top:0}
-#mine{position:relative;flex:1;min-height:0;overflow:hidden;display:grid;place-items:center;background:#493326;transition:.5s}.texture{position:absolute;inset:0;opacity:.23;background-image:radial-gradient(#fff3 1px,transparent 1px);background-size:20px 20px}
-#objective{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:min(86%,390px);background:#0b0c0fdd;border:1px solid var(--l);border-radius:12px;padding:7px 10px;text-align:center;font-size:10px;z-index:2}#objective b{display:block;font-size:11px}
-#rock{position:relative;width:min(60vw,280px,34dvh);aspect-ratio:1;border:0;border-radius:45% 55% 50% 50%;background:linear-gradient(145deg,#756a63,#302b28);box-shadow:inset -25px -25px 45px #0009,0 18px 42px #0009;color:#fff;font-size:68px;display:grid;place-items:center}.hit{animation:h .09s}@keyframes h{50%{transform:scale(.93) rotate(-2deg)}}#hp{position:absolute;bottom:-34px;width:88%;font-size:10px;font-weight:800;text-align:center}.bar{height:9px;background:#0009;border-radius:99px;overflow:hidden;margin-top:4px}.fill{height:100%;background:var(--g);transition:.08s}
-#progress{position:absolute;bottom:12px;left:10px;right:10px;font-size:9px;color:#ccc}.pbar{height:5px;background:#0008;border-radius:99px;overflow:hidden;margin-top:4px}.pfill{height:100%;background:#fff8}
-.float{position:fixed;z-index:50;font-weight:900;font-size:19px;pointer-events:none;animation:f .55s forwards}@keyframes f{to{transform:translateY(-60px);opacity:0}}
-nav{flex:0 0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:5px;background:#101116;border-top:1px solid var(--l);padding:6px 8px calc(6px + var(--sb))}.nav{border:0;background:#1b1d23;color:#ccc;border-radius:10px;padding:6px 2px;font-size:9px;font-weight:800;min-height:42px}.nav.main{background:#30333b;color:white}
-.sheet{position:absolute;z-index:30;left:0;right:0;bottom:0;max-height:62dvh;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;background:#111319;border-radius:20px 20px 0 0;border-top:1px solid #ffffff22;padding:14px 12px calc(14px + var(--sb));transform:translateY(110%);transition:.22s}.sheet.open{transform:none}.head{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px}.close,.buy,.storybtn{border:0;border-radius:9px;background:#30333b;color:#fff;padding:8px;font-weight:800}.card{display:flex;justify-content:space-between;align-items:center;gap:8px;background:#1a1c22;border:1px solid var(--l);border-radius:12px;padding:10px;margin:7px 0;font-size:12px}.card small{display:block;color:#999;margin-top:2px}.buy:disabled{opacity:.4}.log{background:#1a1c22;border-left:3px solid #777;padding:9px;margin:7px 0;border-radius:6px;font-size:11px;color:#ddd}.log.lock{opacity:.35}
-#story{position:absolute;z-index:60;inset:0;background:#08090cf2;display:none;align-items:flex-end;padding:14px 12px calc(14px + var(--sb))}.dialog{width:100%;background:#15171d;border:1px solid #ffffff20;border-radius:16px;padding:14px}.speaker{font-size:11px;color:var(--g);font-weight:900;margin-bottom:6px}.text{font-size:14px;line-height:1.45;min-height:60px}.storybtn{width:100%;margin-top:10px;background:#333741}
-#toast{position:absolute;z-index:70;top:75px;left:50%;transform:translateX(-50%);background:#101116ee;border:1px solid var(--l);padding:8px 11px;border-radius:10px;font-size:11px;font-weight:800;display:none;white-space:nowrap}
-@media (max-height:760px){
-#objective{top:6px;padding:5px 8px}
-#rock{width:min(55vw,245px,31dvh);font-size:58px}
-#hp{bottom:-28px}
-#progress{bottom:7px}
-}
-@media (min-width:420px) and (min-height:850px){
-#rock{width:min(62vw,290px,35dvh)}
-}
+:root{--st:env(safe-area-inset-top,0px);--sb:env(safe-area-inset-bottom,0px);--glass:#11131acc;--line:#ffffff16}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{position:fixed;inset:0;margin:0;width:100%;height:100%;height:100dvh;overflow:hidden;background:#05060a;color:#fff;font-family:system-ui,-apple-system,sans-serif;touch-action:manipulation;overscroll-behavior:none}
+#app{position:fixed;inset:0;display:flex;flex-direction:column;padding-top:var(--st);padding-bottom:var(--sb);overflow:hidden;background:radial-gradient(circle at 50% 46%,#10131d,#05060a 68%)}
+header{z-index:10;flex:0 0 auto;padding:9px 11px 7px}.top{display:flex;justify-content:space-between;align-items:center}.logo{font-size:13px;font-weight:950;letter-spacing:2px}.count{font-size:10px;color:#a8a9b1;background:#ffffff0c;border:1px solid var(--line);padding:5px 8px;border-radius:99px}
+#chapter{margin-top:7px;font-size:9px;color:#7f818b;letter-spacing:.7px}.track{height:3px;background:#ffffff0c;border-radius:9px;overflow:hidden;margin-top:5px}.track i{display:block;height:100%;width:0;background:#fff;transition:.2s}
+#world{position:relative;flex:1;min-height:0;overflow:hidden;display:grid;place-items:center}
+#space{position:absolute;inset:0;pointer-events:none}.star{position:absolute;width:2px;height:2px;border-radius:50%;background:white;animation:twinkle 2.5s infinite alternate}@keyframes twinkle{to{opacity:.18;transform:scale(.65)}}
+.orbit{position:absolute;left:50%;top:50%;border:1px solid #ffffff10;border-radius:50%;transform:translate(-50%,-50%);pointer-events:none}.planet{position:absolute;border-radius:50%;pointer-events:none;box-shadow:inset -8px -7px 14px #0008,0 0 25px #4a8ab622}
+#instruction{position:absolute;top:5%;width:82%;text-align:center;color:#a4a5ad;font-size:11px;line-height:1.4;transition:.4s}
+#pixelWrap{position:relative;z-index:5;display:grid;place-items:center;width:150px;height:150px}
+#pixel{border:0;padding:0;width:5px;height:5px;background:#fff;box-shadow:0 0 13px #fff;border-radius:0;transition:width .35s,height .35s,border-radius .35s,box-shadow .35s;touch-action:manipulation}
+#pixel.tap{animation:tap .11s}@keyframes tap{50%{transform:scale(.78)}}.pulse{position:absolute;border:1px solid #ffffff2c;border-radius:50%;pointer-events:none;animation:pulse 1s forwards}@keyframes pulse{from{width:6px;height:6px;opacity:1}to{width:150px;height:150px;opacity:0}}
+#story{position:absolute;left:50%;bottom:9%;transform:translateX(-50%) translateY(12px);width:min(88%,390px);z-index:8;background:var(--glass);border:1px solid var(--line);backdrop-filter:blur(12px);border-radius:15px;padding:11px 13px;opacity:0;pointer-events:none;transition:.3s}.storyTitle{font-size:9px;color:#858793;margin-bottom:4px;letter-spacing:1px}.storyText{font-size:13px;font-weight:750;line-height:1.4}
+#discovery{position:absolute;right:9px;top:10px;z-index:6;display:flex;flex-direction:column;gap:5px}.badge{font-size:9px;background:#0b0c11cc;border:1px solid var(--line);padding:5px 7px;border-radius:8px;color:#bbb}
+footer{z-index:10;flex:0 0 auto;padding:6px 9px calc(7px + var(--sb));display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;background:linear-gradient(transparent,#07080c 28%)}button.menu{border:1px solid var(--line);background:#101219;color:#b7b8c0;border-radius:10px;padding:7px 2px;font-size:9px;font-weight:800}.menu.main{background:#fff;color:#090a0d}
+.sheet{position:absolute;z-index:30;left:0;right:0;bottom:0;max-height:60dvh;overflow-y:auto;background:#101219;border-radius:19px 19px 0 0;border-top:1px solid #ffffff20;padding:13px 11px calc(13px + var(--sb));transform:translateY(110%);transition:.22s;overscroll-behavior:contain}.sheet.open{transform:none}.head{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px;font-size:13px}.close{border:0;background:#252832;color:#fff;border-radius:8px;padding:7px 9px}.entry{background:#171922;border:1px solid var(--line);border-radius:11px;padding:9px;margin:6px 0;font-size:11px;color:#ddd}.entry.lock{opacity:.3}.entry b{display:block;margin-bottom:3px}.statgrid{display:grid;grid-template-columns:1fr 1fr;gap:6px}.box{background:#171922;border:1px solid var(--line);border-radius:11px;padding:10px;font-size:10px;color:#999}.box b{display:block;color:white;font-size:16px;margin-top:2px}
+#choice{position:absolute;z-index:50;inset:0;background:#05060af2;display:none;place-items:center;padding:16px}.choicebox{width:min(100%,390px);background:#12141b;border:1px solid var(--line);border-radius:17px;padding:14px}.choicebox h3{margin:0 0 6px;font-size:15px}.choicebox p{font-size:12px;color:#aaa;line-height:1.45}.choicebtn{width:100%;margin-top:7px;border:1px solid var(--line);background:#20232c;color:#fff;padding:10px;border-radius:10px;font-weight:800}
 </style></head><body><div id="app">
-<header><div class="top"><span>⛏️ KAYIP MADEN</span><span class="chapter" id="chapter"></span></div><div class="stats"><div class="stat">💎 Maden<b id="coins">0</b></div><div class="stat">⬇️ Derinlik<b><span id="depth">0</span> m</b></div><div class="stat">⚡ Güç<b id="power">1</b></div></div></header>
-<main id="mine"><div class="texture"></div><div id="toast"></div><div id="objective"></div><button id="rock">🪨<div id="hp"><span id="hptext"></span><div class="bar"><div class="fill" id="hpbar"></div></div></div></button><div id="progress"><span id="next"></span><div class="pbar"><div class="pfill" id="pfill"></div></div></div></main>
-<nav><button class="nav" data-open="upgrades">🔧<br>Geliştir</button><button class="nav main" id="dig">⛏️<br>Kaz</button><button class="nav" data-open="journal">📖<br>Günlük</button><button class="nav" data-open="bag">🎒<br>Çanta</button></nav>
-<section class="sheet" id="upgrades"><div class="head"><b>🔧 Ekipman</b><button class="close">Kapat</button></div><div class="card"><div><b>⛏️ Kazma</b><small>Dokunma hasarı +1</small></div><button class="buy" id="bp"></button></div><div class="card"><div><b>⚙️ Otomatik Matkap</b><small>Saniyede otomatik hasar</small></div><button class="buy" id="ba"></button></div><div class="card"><div><b>🎯 Kritik</b><small>+2% kritik şansı</small></div><button class="buy" id="bc"></button></div></section>
-<section class="sheet" id="journal"><div class="head"><b>📖 Bulunan Kayıtlar</b><button class="close">Kapat</button></div><div id="logs"></div></section>
-<section class="sheet" id="bag"><div class="head"><b>🎒 Çanta</b><button class="close">Kapat</button></div><div id="items"></div></section>
-<div id="story"><div class="dialog"><div class="speaker" id="speaker"></div><div class="text" id="storytext"></div><button class="storybtn" id="continue">Devam</button></div></div>
+<header><div class="top"><div class="logo">1 PİKSEL</div><div class="count"><span id="clicks">0</span> DOKUNUŞ</div></div><div id="chapter"></div><div class="track"><i id="bar"></i></div></header>
+<main id="world"><div id="space"></div><div id="instruction"></div><div id="discovery"></div><div id="pixelWrap"><button id="pixel" aria-label="Piksele dokun"></button></div><div id="story"><div class="storyTitle">KEŞİF</div><div class="storyText" id="storyText"></div></div></main>
+<footer><button class="menu" data-open="archive">◌<br>Arşiv</button><button class="menu main" id="touch">●<br>Dokun</button><button class="menu" data-open="stats">⌁<br>Evren</button></footer>
+<section class="sheet" id="archive"><div class="head"><b>KEŞİF ARŞİVİ</b><button class="close">Kapat</button></div><div id="entries"></div></section>
+<section class="sheet" id="stats"><div class="head"><b>EVREN</b><button class="close">Kapat</button></div><div class="statgrid"><div class="box">Dokunuş<b id="sClicks">0</b></div><div class="box">Keşif<b id="sFound">0/0</b></div><div class="box">Aşama<b id="sStage">0</b></div><div class="box">Durum<b id="sState">Hiçlik</b></div></div></section>
+<div id="choice"><div class="choicebox"><h3>Sinyal sana cevap verdi.</h3><p>İlk kez oyun senden dokunmanı istemiyor. Bir karar vermeni istiyor.</p><button class="choicebtn" data-choice="answer">Sinyale cevap ver</button><button class="choicebtn" data-choice="ignore">Sinyali görmezden gel</button></div></div>
 </div><script>
-"use strict";const $=x=>document.getElementById(x),KEY="kayip_maden_v4";
-const DEF={coins:0,depth:0,power:1,auto:0,crit:5,pc:15,ac:50,cc:75,hp:12,max:12,copper:0,silver:0,gold:0,crystal:0,story:0,last:Date.now()};
-let s;try{s=Object.assign({},DEF,JSON.parse(localStorage.getItem(KEY)||"{}"))}catch{s={...DEF}};for(const k in DEF)if(typeof DEF[k]=="number"&&!Number.isFinite(+s[k]))s[k]=DEF[k];
-const chapters=[
-{at:0,end:100,name:"Bölüm I — İlk Kazı",goal:"Eski maden girişine ulaş: 100 m",bg:"#493326"},
-{at:100,end:350,name:"Bölüm II — Terk Edilmiş Maden",goal:"Kayıp asansörü bul: 350 m",bg:"#292a2c"},
-{at:350,end:800,name:"Bölüm III — Sessiz Tüneller",goal:"Madenci kayıtlarının kaynağını bul: 800 m",bg:"#25242c"},
-{at:800,end:1500,name:"Bölüm IV — Unutulmuş Şehir",goal:"Mühürlü kapıya ulaş: 1.500 m",bg:"#30261e"},
-{at:1500,end:2500,name:"Bölüm V — Canlı Mağara",goal:"Nabzın kaynağına ulaş: 2.500 m",bg:"#301b20"},
-{at:2500,end:5000,name:"Bölüm VI — Magma Denizi",goal:"Çekirdek geçidine ulaş: 5.000 m",bg:"#481b14"},
-{at:5000,end:10000,name:"Bölüm VII — Çekirdek",goal:"Sinyalin kaynağını bul: 10.000 m",bg:"#430d09"},
-{at:10000,end:12000,name:"Bölüm VIII — Aşağısı",goal:"Haritanın bittiği yerin ötesine geç.",bg:"#08070b"}];
-const events=[
-{d:0,sp:"Berke",t:"Yıllardır kapalı duran maden bugün yeniden açıldı. Resmî kayıtlara göre sebep bir göçük. Ama girişteki çelik kapı, içeridekini dışarıda tutmak için yapılmış gibi."},
-{d:100,sp:"Eski Telsiz",t:"...duyan varsa aşağı inmeyin. Göçük değildi. Kapıyı biz kapattık."},
-{d:350,sp:"Madenci Günlüğü #17",t:"Asansör aşağıdan kendi kendine geri geliyor. Kimse çağırmıyor. Dün kabinin içinde ıslak ayak izleri vardı."},
-{d:800,sp:"Berke",t:"Taş duvar bitti. Karşımda insan eliyle yapılmış dev sütunlar var. Bu derinlikte bir şehir olmaması gerekiyor."},
-{d:1500,sp:"Madenci Günlüğü #31",t:"Duvarın titreştiğini söyledim, kimse inanmadı. Sonra hepimiz aynı anda kalp atışını duyduk."},
-{d:2500,sp:"Bilinmeyen Sinyal",t:"AŞAĞI GEL."},
-{d:5000,sp:"Berke",t:"Pusula dönüyor. Sıcaklık olması gerekenden düşük. Aşağıdan düzenli bir metal sesi geliyor."},
-{d:10000,sp:"???",t:"Sonunda geldin. Burası Dünya'nın çekirdeği değil."}];
-function chap(){let c=chapters[0];for(const x of chapters)if(s.depth>=x.at)c=x;return c}
-function save(){s.last=Date.now();try{localStorage.setItem(KEY,JSON.stringify(s))}catch{}}let sv;function qs(){clearTimeout(sv);sv=setTimeout(save,180)}
-function ui(){let c=chap();$("chapter").textContent=c.name;$("objective").innerHTML="<b>HEDEF</b>"+c.goal;$("mine").style.background=c.bg;$("coins").textContent=Math.floor(s.coins).toLocaleString("tr-TR");$("depth").textContent=s.depth.toLocaleString("tr-TR");$("power").textContent=s.power;$("hptext").textContent=Math.ceil(s.hp)+" / "+Math.ceil(s.max);$("hpbar").style.width=Math.max(0,100*s.hp/s.max)+"%";let pct=Math.max(0,Math.min(100,(s.depth-c.at)/(c.end-c.at)*100));$("pfill").style.width=pct+"%";$("next").textContent=s.depth<c.end?(c.end-s.depth)+" m kaldı":"Bölüm tamamlandı";$("bp").textContent=s.pc+" 💎";$("ba").textContent=s.ac+" 💎";$("bc").textContent=s.cc+" 💎";$("bp").disabled=s.coins<s.pc;$("ba").disabled=s.coins<s.ac;$("bc").disabled=s.coins<s.cc;renderBag();renderLogs();qs()}
-function renderBag(){$("items").innerHTML=[["🟤 Bakır",s.copper],["⚪ Gümüş",s.silver],["🟡 Altın",s.gold],["💠 Kristal",s.crystal]].map(x=>`<div class="card"><b>${x[0]}</b><b>${x[1]}</b></div>`).join("")}
-function renderLogs(){$("logs").innerHTML=events.map((e,i)=>`<div class="log ${i<s.story?"":"lock"}"><b>${i<s.story?e.sp:"🔒 Kilitli Kayıt"}</b><br>${i<s.story?e.t:"Daha derine in."}</div>`).join("")}
-function toast(t){$("toast").textContent=t;$("toast").style.display="block";clearTimeout(toast.x);toast.x=setTimeout(()=>$("toast").style.display="none",1600)}
-let storyQueue=[];function checkStory(){while(s.story<events.length&&s.depth>=events[s.story].d){storyQueue.push(events[s.story]);s.story++}if(storyQueue.length&&$("story").style.display!="flex")showStory()}
-function showStory(){let e=storyQueue[0];if(!e)return;$("speaker").textContent=e.sp;$("storytext").textContent=e.t;$("story").style.display="flex";ui()}
-$("continue").onclick=()=>{storyQueue.shift();if(storyQueue.length)showStory();else $("story").style.display="none"};
-function loot(){let r=Math.random();if(r<.12){s.copper++;s.coins+=2}if(s.depth>300&&r>.93){s.silver++;s.coins+=5;toast("⚪ Gümüş buldun")}if(s.depth>1000&&r>.975){s.gold++;s.coins+=12;toast("🟡 Altın buldun")}if(s.depth>2500&&r>.995){s.crystal++;s.coins+=40;toast("💠 Nadir kristal!")}}
-function broken(){s.depth++;s.coins+=Math.max(1,Math.floor(s.max/7))+Math.floor(Math.random()*3);loot();s.max=12+Math.floor(s.depth*1.25);s.hp=s.max;if(s.depth%100===0){s.coins+=35;toast("🎁 Derinlik bonusu +35 💎")}checkStory()}
-function damage(n){s.hp-=n;let guard=0;while(s.hp<=0&&guard++<10000){let carry=-s.hp;broken();s.hp-=carry}ui()}
-function fl(x,y,t){let p=document.createElement("div");p.className="float";p.textContent=t;p.style.left=x+"px";p.style.top=y+"px";document.body.appendChild(p);setTimeout(()=>p.remove(),600)}
-let lt=0;$("rock").addEventListener("pointerdown",e=>{e.preventDefault();if($("story").style.display=="flex")return;let n=performance.now();if(n-lt<55)return;lt=n;let cr=Math.random()*100<s.crit,d=s.power*(cr?3:1);$("rock").classList.remove("hit");void $("rock").offsetWidth;$("rock").classList.add("hit");fl(e.clientX-10,e.clientY-15,cr?"💥 "+d:"-"+d);damage(d)},{passive:false});
-$("bp").onclick=()=>{if(s.coins>=s.pc){s.coins-=s.pc;s.power++;s.pc=Math.ceil(s.pc*1.5);ui()}};$("ba").onclick=()=>{if(s.coins>=s.ac){s.coins-=s.ac;s.auto++;s.ac=Math.ceil(s.ac*1.7);ui()}};$("bc").onclick=()=>{if(s.coins>=s.cc&&s.crit<45){s.coins-=s.cc;s.crit+=2;s.cc=Math.ceil(s.cc*1.6);ui()}};
-document.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>{$(b.dataset.open).classList.add("open")});document.querySelectorAll(".close").forEach(b=>b.onclick=()=>b.closest(".sheet").classList.remove("open"));$("dig").onclick=()=>document.querySelectorAll(".sheet").forEach(x=>x.classList.remove("open"));
-let acc=0,last=performance.now();function loop(t){let dt=Math.min(1000,t-last);last=t;if(s.auto&&$("story").style.display!="flex"){acc+=dt;if(acc>=1000){let k=Math.floor(acc/1000);acc-=k*1000;damage(s.auto*k)}}requestAnimationFrame(loop)}
-function offline(){let sec=Math.min(14400,Math.max(0,(Date.now()-(+s.last||Date.now()))/1000));if(s.auto&&sec>15){let gain=Math.floor(sec*s.auto/10);s.coins+=gain;toast("⚙️ Çevrimdışı +"+gain+" 💎")}}
-document.addEventListener("visibilitychange",()=>{if(document.hidden)save();else last=performance.now()});window.addEventListener("pagehide",save);
-offline();checkStory();ui();requestAnimationFrame(loop);
+"use strict";const $=x=>document.getElementById(x),KEY="one_pixel_v2";
+const stages=[
+{n:0,name:"AŞAMA 0 · HİÇLİK",state:"Hiçlik",hint:"Yalnızca bir piksel var.<br>Ona dokun.",story:"Önce hiçbir şey yoktu."},
+{n:5,name:"AŞAMA 1 · IŞIK",state:"Işık",hint:"Piksel seni fark etti.",story:"Bir nokta, karanlığın içinde kalmayı reddetti."},
+{n:15,name:"AŞAMA 2 · UZAY",state:"Uzay",hint:"Etrafında bir şey oluşuyor.",story:"Işığın çevresinde ilk kez mesafe vardı."},
+{n:35,name:"AŞAMA 3 · YILDIZLAR",state:"Yıldızlar",hint:"Her dokunuş boşluğu dolduruyor.",story:"Bir ışık, binlercesini uyandırdı."},
+{n:70,name:"AŞAMA 4 · GEZEGEN",state:"Gezegen",hint:"Yeni bir dünya oluşuyor.",story:"Boşluğun içinde mavi bir küre belirdi."},
+{n:120,name:"AŞAMA 5 · YAŞAM",state:"Yaşam",hint:"Artık yalnız değilsin.",story:"Dünya ilk kez kendi başına hareket etti."},
+{n:200,name:"AŞAMA 6 · MEDENİYET",state:"Medeniyet",hint:"Aşağıdaki ışıklar çoğalıyor.",story:"Onlar gökyüzündeki beyaz noktayı kutsal sandılar."},
+{n:320,name:"AŞAMA 7 · SİNYAL",state:"Sinyal",hint:"Birileri sana bakıyor.",story:"Gönderilen mesaj yalnızca iki kelimeydi: SEN KİMSİN?"},
+{n:500,name:"AŞAMA 8 · KAPI",state:"Kapı",hint:"Piksel artık bir düğme.",story:"Sen bir evren yaratmadın. Bir kapının kilidini açtın."},
+{n:750,name:"AŞAMA 9 · ÖTEKİ TARAF",state:"Bilinmiyor",hint:"Dokunmak artık geri dönüşsüz.",story:"Kapının öteki tarafında da bir piksel vardı. Ve o da sana dokundu."}
+];
+let s={clicks:0,seen:-1,choice:null,choiceShown:false};try{s=Object.assign(s,JSON.parse(localStorage.getItem(KEY)||"{}"))}catch{}
+if(!Number.isFinite(+s.clicks)||s.clicks<0)s.clicks=0;s.clicks=Math.floor(s.clicks);if(!Number.isFinite(+s.seen))s.seen=-1;
+function si(){let i=0;for(let x=0;x<stages.length;x++)if(s.clicks>=stages[x].n)i=x;return i}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(s))}catch{}}
+let seed=-1;function makeScene(i){if(seed===i)return;seed=i;const sp=$("space");sp.innerHTML="";
+ if(i>=2){let num=Math.min(95,8+i*10);for(let k=0;k<num;k++){let a=document.createElement("i");a.className="star";let x=(k*37+i*13)%101,y=(k*61+i*17)%97;a.style.left=x+"%";a.style.top=y+"%";a.style.opacity=.25+((k*17)%60)/100;a.style.animationDelay=((k%9)*.17)+"s";sp.appendChild(a)}}
+ if(i>=4){let orb=document.createElement("i");orb.className="orbit";orb.style.width=(180+i*13)+"px";orb.style.height=(180+i*13)+"px";sp.appendChild(orb);let pl=document.createElement("i");pl.className="planet";let size=Math.min(68,30+i*5);pl.style.width=size+"px";pl.style.height=size+"px";pl.style.left="calc(50% + 88px)";pl.style.top="calc(50% - 30px)";pl.style.background=i>=5?"radial-gradient(circle at 35% 30%,#7aa6b8,#31526c 55%,#162735)":"radial-gradient(circle at 35% 30%,#7792a8,#293d50)";sp.appendChild(pl)}
+}
+let storyTimer;function showStory(text){clearTimeout(storyTimer);$("storyText").textContent=text;$("story").style.opacity=1;storyTimer=setTimeout(()=>$("story").style.opacity=0,2600)}
+function render(){let i=si(),st=stages[i],nx=stages[i+1];$("clicks").textContent=s.clicks;$("chapter").textContent=st.name;$("instruction").innerHTML=st.hint;let pct=nx?100*(s.clicks-st.n)/(nx.n-st.n):100;$("bar").style.width=Math.max(0,Math.min(100,pct))+"%";
+ let size=Math.min(60,5+i*5.5);$("pixel").style.width=size+"px";$("pixel").style.height=size+"px";$("pixel").style.borderRadius=i>=4?"50%":i>=2?"20%":"0";$("pixel").style.boxShadow=i>=7?"0 0 30px #fff,0 0 80px #839cff55":"0 0 "+(13+i*3)+"px #fff";
+ makeScene(i);$("sClicks").textContent=s.clicks;$("sFound").textContent=Math.max(0,s.seen+1)+"/"+stages.length;$("sStage").textContent=i;$("sState").textContent=st.state;
+ $("entries").innerHTML=stages.map((x,k)=>`<div class="entry ${k<=s.seen?"":"lock"}"><b>${k<=s.seen?x.name:"🔒 BİLİNMİYOR"}</b>${k<=s.seen?x.story:"Henüz keşfedilmedi."}</div>`).join("");
+ $("discovery").innerHTML=(i>=5?'<span class="badge">◉ YAŞAM</span>':'')+(i>=6?'<span class="badge">⌂ MEDENİYET</span>':'')+(i>=7?'<span class="badge">⌁ SİNYAL</span>':'');
+ if(i>s.seen){s.seen=i;showStory(st.story)}
+ if(i>=7&&!s.choiceShown&&!s.choice){s.choiceShown=true;setTimeout(()=>$("choice").style.display="grid",700)}
+ save()
+}
+function pulse(){let q=document.createElement("i");q.className="pulse";$("pixelWrap").appendChild(q);setTimeout(()=>q.remove(),1050)}
+function tap(){if($("choice").style.display==="grid")return;s.clicks++;$("pixel").classList.remove("tap");void $("pixel").offsetWidth;$("pixel").classList.add("tap");pulse();render()}
+$("pixel").addEventListener("pointerdown",e=>{e.preventDefault();tap()},{passive:false});$("touch").onclick=tap;
+document.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>$(b.dataset.open).classList.add("open"));document.querySelectorAll(".close").forEach(b=>b.onclick=()=>b.closest(".sheet").classList.remove("open"));
+document.querySelectorAll("[data-choice]").forEach(b=>b.onclick=()=>{s.choice=b.dataset.choice;$("choice").style.display="none";showStory(s.choice==="answer"?"Sinyal cevabını aldı. Bir şey değişti.":"Sinyal sustu. Ama seni izlemeyi bırakmadı.");save()});
+render();
 </script></body></html>
