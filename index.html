@@ -24,13 +24,26 @@ button,#touch,#pixel,#pixelWrap,nav,footer{
   touch-action:none!important;
 }
 ::selection{background:transparent}
+#event{position:absolute;z-index:55;inset:0;background:#05060af2;display:none;place-items:center;padding:16px}
+.eventbox{width:min(100%,390px);background:#12141b;border:1px solid var(--line);border-radius:17px;padding:14px}
+.eventbox h3{margin:0 0 6px;font-size:15px}.eventbox p{font-size:12px;color:#aaa;line-height:1.45}
+.eventbtn{width:100%;margin-top:7px;border:1px solid var(--line);background:#20232c;color:#fff;padding:10px;border-radius:10px;font-weight:800}
+#resources{position:absolute;left:9px;top:10px;z-index:6;display:flex;gap:5px;flex-wrap:wrap;max-width:58%}
+.res{font-size:9px;background:#0b0c11cc;border:1px solid var(--line);padding:5px 7px;border-radius:8px;color:#bbb}
+#meteorLayer{position:absolute;inset:0;z-index:7;pointer-events:none}.meteor{position:absolute;width:14px;height:14px;border-radius:50%;background:#fff;box-shadow:0 0 16px #fff;pointer-events:auto;animation:fall 2.4s linear forwards}
+@keyframes fall{from{transform:translateY(-30px)}to{transform:translateY(75dvh)}}
+.city{position:absolute;width:3px;height:3px;background:#ffdca8;border-radius:50%;box-shadow:0 0 6px #ffdca8}
+.satellite{position:absolute;width:7px;height:3px;background:#ddd;border-radius:3px;animation:sat 7s linear infinite}
+@keyframes sat{from{transform:rotate(0deg) translateX(105px) rotate(0deg)}to{transform:rotate(360deg) translateX(105px) rotate(-360deg)}}
+#action{position:absolute;z-index:9;bottom:18%;left:50%;transform:translateX(-50%);display:none;border:1px solid var(--line);background:#151821dd;color:#fff;border-radius:99px;padding:7px 11px;font-size:9px;font-weight:900}
 </style></head><body><div id="app">
 <header><div class="top"><div class="logo">1 PİKSEL</div><div class="count"><span id="clicks">0</span> DOKUNUŞ</div></div><div id="chapter"></div><div class="track"><i id="bar"></i></div></header>
-<main id="world"><div id="space"></div><div id="instruction"></div><div id="discovery"></div><div id="pixelWrap"><button id="pixel" aria-label="Piksele dokun"></button></div><div id="story"><div class="storyTitle">KEŞİF</div><div class="storyText" id="storyText"></div></div></main>
+<main id="world"><div id="space"></div><div id="meteorLayer"></div><div id="resources"></div><div id="instruction"></div><div id="discovery"></div><div id="pixelWrap"><button id="pixel" aria-label="Piksele dokun"></button></div><button id="action"></button><div id="story"><div class="storyTitle">KEŞİF</div><div class="storyText" id="storyText"></div></div></main>
 <footer><button class="menu" data-open="archive">◌<br>Arşiv</button><button class="menu main" id="touch">●<br>Dokun</button><button class="menu" data-open="stats">⌁<br>Evren</button></footer>
 <section class="sheet" id="archive"><div class="head"><b>KEŞİF ARŞİVİ</b><button class="close">Kapat</button></div><div id="entries"></div></section>
-<section class="sheet" id="stats"><div class="head"><b>EVREN</b><button class="close">Kapat</button></div><div class="statgrid"><div class="box">Dokunuş<b id="sClicks">0</b></div><div class="box">Keşif<b id="sFound">0/0</b></div><div class="box">Aşama<b id="sStage">0</b></div><div class="box">Durum<b id="sState">Hiçlik</b></div></div></section>
+<section class="sheet" id="stats"><div class="head"><b>EVREN</b><button class="close">Kapat</button></div><div class="statgrid"><div class="box">Dokunuş<b id="sClicks">0</b></div><div class="box">Keşif<b id="sFound">0/0</b></div><div class="box">Aşama<b id="sStage">0</b></div><div class="box">Durum<b id="sState">Hiçlik</b></div><div class="box">Hasar<b id="sDamage">0</b></div><div class="box">Prestij<b id="sPrestige">0</b></div><div class="box">Başarım<b id="sAch">0</b></div><div class="box">Evren<b id="sUniverse">1</b></div></div></section>
 <div id="choice"><div class="choicebox"><h3>Sinyal sana cevap verdi.</h3><p>İlk kez oyun senden dokunmanı istemiyor. Bir karar vermeni istiyor.</p><button class="choicebtn" data-choice="answer">Sinyale cevap ver</button><button class="choicebtn" data-choice="ignore">Sinyali görmezden gel</button></div></div>
+<div id="event"><div class="eventbox"><h3 id="eventTitle"></h3><p id="eventText"></p><div id="eventButtons"></div></div></div>
 </div><script>
 "use strict";const $=x=>document.getElementById(x),KEY="one_pixel_v2";
 const stages=[
@@ -43,28 +56,107 @@ const stages=[
 {n:200,name:"AŞAMA 6 · MEDENİYET",state:"Medeniyet",hint:"Aşağıdaki ışıklar çoğalıyor.",story:"Onlar gökyüzündeki beyaz noktayı kutsal sandılar."},
 {n:320,name:"AŞAMA 7 · SİNYAL",state:"Sinyal",hint:"Birileri sana bakıyor.",story:"Gönderilen mesaj yalnızca iki kelimeydi: SEN KİMSİN?"},
 {n:500,name:"AŞAMA 8 · KAPI",state:"Kapı",hint:"Piksel artık bir düğme.",story:"Sen bir evren yaratmadın. Bir kapının kilidini açtın."},
-{n:750,name:"AŞAMA 9 · ÖTEKİ TARAF",state:"Bilinmiyor",hint:"Dokunmak artık geri dönüşsüz.",story:"Kapının öteki tarafında da bir piksel vardı. Ve o da sana dokundu."}
+{n:750,name:"AŞAMA 9 · ÖTEKİ TARAF",state:"Bilinmiyor",hint:"Dokunmak artık geri dönüşsüz.",story:"Kapının öteki tarafında da bir piksel vardı. Ve o da sana dokundu."},
+{n:900,name:"AŞAMA 10 · METEOR",state:"Tehdit",hint:"Gökyüzü artık güvenli değil.",story:"İlk meteor yağmuru başladı."},
+{n:1200,name:"AŞAMA 11 · UYDU",state:"Keşif",hint:"Medeniyet yörüngeye ulaştı.",story:"İlk uydu sessizce gezegenin çevresine yerleşti."},
+{n:1600,name:"AŞAMA 12 · KARA DELİK",state:"Anomali",hint:"Uzay bükülüyor.",story:"Işık bile kaçamıyor."},
+{n:2100,name:"AŞAMA 13 · SAVAŞ",state:"Çatışma",hint:"Medeniyet kendi içinde bölündü.",story:"İlk kez tehdit gökyüzünden gelmedi."},
+{n:2700,name:"AŞAMA 14 · ZAMAN",state:"Çağlar",hint:"Bin yıllar artık saniyeler.",story:"Zamanı izlemek yerine ona dokunmaya başladın."},
+{n:3400,name:"AŞAMA 15 · ÇOKLU EVREN",state:"Geçit",hint:"Başka evrenler seni bekliyor.",story:"Bu evren tek seçenek değildi."},
+{n:4300,name:"AŞAMA 16 · ANOMALİ",state:"Kararsız",hint:"Kurallar bozuluyor.",story:"Piksel artık kurallara uymuyor."},
+{n:5200,name:"AŞAMA 17 · SON",state:"Sonsuzluk",hint:"Evren tamamlandı.",story:"Başlangıçta bir piksel vardı. Şimdi her şey var."}
 ];
-let s={clicks:0,seen:-1,choice:null,choiceShown:false};try{s=Object.assign(s,JSON.parse(localStorage.getItem(KEY)||"{}"))}catch{}
+let s={clicks:0,seen:-1,choice:null,choiceShown:false,elements:0,satellites:0,meteorWins:0,damage:0,
+blackHole:null,war:null,universe:1,prestige:0,achievements:[],events:{},timeBoost:false};try{s=Object.assign(s,JSON.parse(localStorage.getItem(KEY)||"{}"))}catch{}
 if(!Number.isFinite(+s.clicks)||s.clicks<0)s.clicks=0;s.clicks=Math.floor(s.clicks);if(!Number.isFinite(+s.seen))s.seen=-1;
 function si(){let i=0;for(let x=0;x<stages.length;x++)if(s.clicks>=stages[x].n)i=x;return i}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(s))}catch{}}
 let seed=-1;function makeScene(i){if(seed===i)return;seed=i;const sp=$("space");sp.innerHTML="";
  if(i>=2){let num=Math.min(95,8+i*10);for(let k=0;k<num;k++){let a=document.createElement("i");a.className="star";let x=(k*37+i*13)%101,y=(k*61+i*17)%97;a.style.left=x+"%";a.style.top=y+"%";a.style.opacity=.25+((k*17)%60)/100;a.style.animationDelay=((k%9)*.17)+"s";sp.appendChild(a)}}
  if(i>=4){let orb=document.createElement("i");orb.className="orbit";orb.style.width=(180+i*13)+"px";orb.style.height=(180+i*13)+"px";sp.appendChild(orb);let pl=document.createElement("i");pl.className="planet";let size=Math.min(68,30+i*5);pl.style.width=size+"px";pl.style.height=size+"px";pl.style.left="calc(50% + 88px)";pl.style.top="calc(50% - 30px)";pl.style.background=i>=5?"radial-gradient(circle at 35% 30%,#7aa6b8,#31526c 55%,#162735)":"radial-gradient(circle at 35% 30%,#7792a8,#293d50)";sp.appendChild(pl)}
+ if(i>=6){for(let k=0;k<Math.min(18,i*2);k++){let c=document.createElement("i");c.className="city";c.style.left=(18+(k*29)%65)+"%";c.style.top=(58+(k*17)%18)+"%";sp.appendChild(c)}}
+ if(i>=11){for(let k=0;k<Math.min(3,1+s.satellites);k++){let sat=document.createElement("i");sat.className="satellite";sat.style.left="50%";sat.style.top="50%";sat.style.animationDelay=(-k*2.2)+"s";sp.appendChild(sat)}}
 }
 let storyTimer;function showStory(text){clearTimeout(storyTimer);$("storyText").textContent=text;$("story").style.opacity=1;storyTimer=setTimeout(()=>$("story").style.opacity=0,2600)}
+
+function award(id,text){
+ if(!s.achievements.includes(id)){s.achievements.push(id);showStory("BAŞARIM · "+text);save()}
+}
+function openEvent(title,text,buttons){
+ stopHold();$("eventTitle").textContent=title;$("eventText").textContent=text;
+ $("eventButtons").innerHTML="";
+ buttons.forEach(b=>{let x=document.createElement("button");x.className="eventbtn";x.textContent=b.label;
+ x.onclick=()=>{b.run();$("event").style.display="none";render()};$("eventButtons").appendChild(x)});
+ $("event").style.display="grid";
+}
+function meteorEvent(){
+ if(s.events.meteor)return;s.events.meteor=true;
+ openEvent("☄ METEOR YAĞMURU","Meteorları yok et. Kaçanlar gezegene hasar verir.",[
+ {label:"Savunmayı başlat",run:()=>startMeteors()}
+ ]);
+}
+function startMeteors(){
+ let left=6,hit=0,layer=$("meteorLayer");
+ function spawn(){
+  if(left--<=0){setTimeout(()=>{layer.innerHTML="";s.meteorWins+=hit;s.damage+=6-hit;if(hit>=5)award("meteor","Gökyüzü Muhafızı");showStory(hit+"/6 meteor durduruldu.");save();render()},2500);return}
+  let m=document.createElement("button");m.className="meteor";m.style.left=(8+Math.random()*84)+"%";m.style.top="-20px";m.setAttribute("aria-label","Meteor");
+  m.onpointerdown=e=>{e.preventDefault();hit++;m.remove()};layer.appendChild(m);setTimeout(()=>m.remove(),2350);setTimeout(spawn,330)
+ }spawn()
+}
+function blackHoleEvent(){
+ if(s.events.blackHole)return;s.events.blackHole=true;
+ openEvent("🕳 KARA DELİK","Uzay-zaman açıldı.",[
+ {label:"İçine gir",run:()=>{s.blackHole="enter";s.elements+=3;award("void","Boşluğa Dokunan")}},
+ {label:"Kapat",run:()=>{s.blackHole="close";s.damage=Math.max(0,s.damage-2)}}
+ ]);
+}
+function warEvent(){
+ if(s.events.war)return;s.events.war=true;
+ openEvent("⚔ MEDENİYET SAVAŞI","Dünya ikiye bölündü.",[
+ {label:"Barışı zorla",run:()=>{s.war="peace";award("peace","Barışçı")}},
+ {label:"Müdahale etme",run:()=>{s.war="observe";s.elements+=2}}
+ ]);
+}
+function anomalyEvent(){
+ if(s.events.anomaly)return;s.events.anomaly=true;
+ openEvent("🧩 ANOMALİ","Başka bir evrenden madde sızıyor.",[
+ {label:"Topla",run:()=>{s.elements+=5;award("anomaly","Anomali Avcısı")}},
+ {label:"Dokunma",run:()=>{s.damage=Math.max(0,s.damage-3)}}
+ ]);
+}
+function updateSystems(i){
+ $("resources").innerHTML='<span class="res">💎 '+s.elements+'</span><span class="res">🛰 '+s.satellites+'</span><span class="res">🌌 '+s.universe+'</span>';
+ let a=$("action");a.style.display="none";
+ if(i>=11&&s.satellites<3){a.style.display="block";a.textContent="🛰 UYDU FIRLAT · 2 💎";a.onclick=()=>{if(s.elements>=2){s.elements-=2;s.satellites++;seed=-1;showStory("Yeni uydu yörüngede.");render()}else showStory("2 nadir element gerekli.")}}
+ if(i>=14){a.style.display="block";a.textContent=s.timeBoost?"⏳ ZAMAN ×2 AÇIK":"⏳ ZAMANI HIZLANDIR";a.onclick=()=>{s.timeBoost=!s.timeBoost;render()}}
+ if(i>=15){a.style.display="block";a.textContent="🌌 EVREN DEĞİŞTİR";a.onclick=()=>{s.universe=s.universe%3+1;seed=-1;showStory("EVREN "+s.universe+" aktif.");render()}}
+ if(i>=17){a.style.display="block";a.textContent="🌀 YENİDEN DOĞ";a.onclick=()=>openEvent("🌀 YENİDEN DOĞUŞ","Evren sıfırlanır; prestij ve başarımlar kalır.",[
+  {label:"Evreni yeniden başlat",run:()=>{let pr=s.prestige+1,ach=s.achievements;s={clicks:0,seen:-1,choice:null,choiceShown:false,elements:0,satellites:0,meteorWins:0,damage:0,blackHole:null,war:null,universe:1,prestige:pr,achievements:ach,events:{},timeBoost:false};seed=-1;award("rebirth","Yeniden Doğuş")}},
+  {label:"Vazgeç",run:()=>{}}
+ ])}
+ if(i>=10&&!s.events.meteor)setTimeout(meteorEvent,500);
+ if(i>=12&&!s.events.blackHole)setTimeout(blackHoleEvent,500);
+ if(i>=13&&!s.events.war)setTimeout(warEvent,500);
+ if(i>=16&&!s.events.anomaly)setTimeout(anomalyEvent,500);
+}
 function render(){let i=si(),st=stages[i],nx=stages[i+1];$("clicks").textContent=s.clicks;$("chapter").textContent=st.name;$("instruction").innerHTML=st.hint;let pct=nx?100*(s.clicks-st.n)/(nx.n-st.n):100;$("bar").style.width=Math.max(0,Math.min(100,pct))+"%";
  let size=Math.min(60,5+i*5.5);$("pixel").style.width=size+"px";$("pixel").style.height=size+"px";$("pixel").style.borderRadius=i>=4?"50%":i>=2?"20%":"0";$("pixel").style.boxShadow=i>=7?"0 0 30px #fff,0 0 80px #839cff55":"0 0 "+(13+i*3)+"px #fff";
- makeScene(i);$("sClicks").textContent=s.clicks;$("sFound").textContent=Math.max(0,s.seen+1)+"/"+stages.length;$("sStage").textContent=i;$("sState").textContent=st.state;
+ makeScene(i);$("sClicks").textContent=s.clicks;$("sFound").textContent=Math.max(0,s.seen+1)+"/"+stages.length;$("sStage").textContent=i;$("sState").textContent=st.state;$("sDamage").textContent=s.damage;$("sPrestige").textContent=s.prestige;$("sAch").textContent=s.achievements.length;$("sUniverse").textContent=s.universe;
  $("entries").innerHTML=stages.map((x,k)=>`<div class="entry ${k<=s.seen?"":"lock"}"><b>${k<=s.seen?x.name:"🔒 BİLİNMİYOR"}</b>${k<=s.seen?x.story:"Henüz keşfedilmedi."}</div>`).join("");
- $("discovery").innerHTML=(i>=5?'<span class="badge">◉ YAŞAM</span>':'')+(i>=6?'<span class="badge">⌂ MEDENİYET</span>':'')+(i>=7?'<span class="badge">⌁ SİNYAL</span>':'');
+ $("discovery").innerHTML=(i>=5?'<span class="badge">◉ YAŞAM</span>':'')+(i>=6?'<span class="badge">⌂ MEDENİYET</span>':'')+(i>=7?'<span class="badge">⌁ SİNYAL</span>':'')+(i>=12?'<span class="badge">◉ ANOMALİ</span>':'');
+ updateSystems(i);
  if(i>s.seen){s.seen=i;showStory(st.story)}
  if(i>=7&&!s.choiceShown&&!s.choice){s.choiceShown=true;setTimeout(()=>$("choice").style.display="grid",700)}
+ if(s.clicks>=100)award("hundred","İlk 100");
+ if(s.clicks>=1000)award("thousand","Bin Dokunuş");
+ if(s.elements>=10)award("collector","Element Koleksiyoncusu");
  save()
 }
 function pulse(){let q=document.createElement("i");q.className="pulse";$("pixelWrap").appendChild(q);setTimeout(()=>q.remove(),1050)}
-function tap(){if($("choice").style.display==="grid")return;s.clicks++;$("pixel").classList.remove("tap");void $("pixel").offsetWidth;$("pixel").classList.add("tap");pulse();render()}
+function tap(){if($("choice").style.display==="grid"||$("event").style.display==="grid")return;
+ let gain=s.timeBoost?2:1;s.clicks+=gain;
+ if(s.clicks>=600 && s.clicks%173<gain){s.elements++;showStory("💎 Nadir element keşfedildi.")}
+ $("pixel").classList.remove("tap");void $("pixel").offsetWidth;$("pixel").classList.add("tap");pulse();render()}
 $("pixel").addEventListener("pointerdown",e=>{e.preventDefault();tap()},{passive:false});
 
 /* iPhone Safari: native long-press tamamen engellenmiş hold sistemi */
