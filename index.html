@@ -1,81 +1,95 @@
 <!doctype html><html lang="tr"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-<title>MAHALLE</title><style>
-:root{--bg:#080a09;--p:#111512;--line:#303731;--txt:#f2f3ef;--muted:#8f9891;--green:#8ec49b;--red:#d47c7c;--gold:#d6bb77}
+<title>MAHALLE</title>
+<style>
+:root{--bg:#060806;--panel:#0d110e;--line:#29312b;--text:#f1f3ef;--muted:#909991;--good:#9dc6a2;--gold:#d5bc7a}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
-html,body{margin:0;height:100%;overflow:hidden;background:#050605;color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",Arial}
-button{font:inherit;color:inherit;-webkit-appearance:none}#app{height:100dvh;max-width:480px;margin:auto;background:linear-gradient(#101511,#060806);display:flex;flex-direction:column;overflow:hidden}
-header{padding:calc(env(safe-area-inset-top) + 8px) 12px 8px;border-bottom:1px solid #222923;display:flex;justify-content:space-between;align-items:center;height:10%}
-.logo{font-weight:950;letter-spacing:3px;font-size:14px}.day{text-align:right;font:900 16px monospace}.day small{display:block;font:700 8px -apple-system;color:var(--muted)}
-#world{height:54%;position:relative;overflow:hidden;background:linear-gradient(#8fa6ad 0 33%,#606e62 34% 35%,#252a25 36% 100%)}
-.skyline{position:absolute;left:0;right:0;top:13%;height:28%;display:flex;align-items:flex-end;gap:4px;padding:0 8px}.b{flex:1;background:#2e3431;border-top:2px solid #4a514d;position:relative}.b:after{content:"";position:absolute;inset:9px;background:repeating-linear-gradient(90deg,#b7a66e 0 4px,transparent 5px 13px),repeating-linear-gradient(0deg,transparent 0 9px,#9c9068 10px 13px);opacity:.55}
-.road{position:absolute;left:-10%;right:-10%;bottom:0;height:55%;background:#242724;transform:perspective(280px) rotateX(9deg);border-top:5px solid #4b5049}.road:after{content:"";position:absolute;left:49%;top:0;bottom:0;border-left:3px dashed #a9a47d}
-#car{position:absolute;z-index:3;left:50%;bottom:11%;transform:translateX(-50%);width:94px;height:48px;background:#161918;border:2px solid #5c625e;border-radius:25px 25px 8px 8px;box-shadow:0 8px 20px #000}.carwin{position:absolute;left:18px;right:18px;top:5px;height:18px;background:#29363a;border-radius:18px 18px 3px 3px}.wheel{position:absolute;bottom:-6px;width:17px;height:14px;background:#050505;border-radius:50%}.wl{left:10px}.wr{right:10px}
-#place{position:absolute;z-index:4;top:12px;left:12px;background:#090c0ad9;border:1px solid #333b35;border-radius:9px;padding:7px 9px;font-size:9px;font-weight:900;letter-spacing:1px}
-#msg{position:absolute;z-index:5;left:10px;right:10px;bottom:9px;padding:9px 11px;background:#080b09e8;border:1px solid #333b35;border-radius:10px;font-size:10px;line-height:1.4}
-#stats{height:9%;display:grid;grid-template-columns:repeat(4,1fr);gap:5px;padding:6px 8px;background:#090b09;border-top:1px solid #222823;border-bottom:1px solid #222823}.stat{text-align:center;border:1px solid #292f2b;border-radius:8px;padding:5px 2px;font-size:8px;color:var(--muted)}.stat b{display:block;color:#e7eae6;font-size:11px;margin-top:2px}
-#panel{height:27%;padding:8px 10px calc(env(safe-area-inset-bottom) + 8px);background:#080a08}.grid{height:100%;display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.btn{border:1px solid #303731;background:linear-gradient(#171b18,#101310);border-radius:11px;font-size:9px;font-weight:850;min-height:44px;padding:5px}.btn:active{transform:scale(.98)}.primary{background:#e8ebe6;color:#080a08;border-color:#fff}.gold{color:#e1c984}.red{color:#df8b8b}
-#modal,#start{position:absolute;inset:0;z-index:20;background:#050705f5;display:none;align-items:center;padding:20px}.card{width:100%;background:#0e120f;border:1px solid #313a33;border-radius:16px;padding:17px;max-height:82%;overflow:auto}.card h2{margin:0 0 8px;font-size:18px;letter-spacing:2px}.card p{font-size:10px;line-height:1.55;color:#a1aaa3}.choices{display:grid;gap:7px}.choices button{min-height:46px;border:1px solid #333c35;background:#171b18;border-radius:10px;text-align:left;padding:9px;font-size:10px}.choices b{display:block;font-size:11px;margin-bottom:3px}.x{width:100%;margin-top:9px;border:0;background:#e9ece7;color:#080a08;border-radius:10px;padding:12px;font-weight:900}
-#start{display:flex;z-index:30}.startTitle{font-size:27px;font-weight:1000;letter-spacing:5px;margin:0}.startBtn{width:100%;padding:13px;border:0;border-radius:11px;background:#e9ece7;color:#080a08;font-weight:950}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#030403;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",Arial,sans-serif}
+button{font:inherit;color:inherit;-webkit-appearance:none}
+#app{height:100dvh;max-width:480px;margin:auto;display:flex;flex-direction:column;background:linear-gradient(#111713,#050705);overflow:hidden}
+header{height:10%;padding:calc(env(safe-area-inset-top) + 8px) 13px 7px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #202721}
+.logo{font-size:14px;font-weight:1000;letter-spacing:4px}.date{text-align:right;font:900 15px monospace}.date small{display:block;color:var(--muted);font:700 8px -apple-system}
+#scene{height:58%;position:relative;overflow:hidden;background:linear-gradient(#879da3 0 34%,#66736a 35%,#242824 36% 100%)}
+.sky{position:absolute;inset:8% 0 auto;height:36%;display:flex;align-items:flex-end;gap:4px;padding:0 7px}.building{flex:1;background:#303632;border-top:2px solid #515953;position:relative}.building:after{content:"";position:absolute;inset:9px;background:repeating-linear-gradient(90deg,#b4a56d 0 4px,transparent 5px 13px),repeating-linear-gradient(0deg,transparent 0 9px,#9b906b 10px 12px);opacity:.45}
+.road{position:absolute;left:-10%;right:-10%;bottom:0;height:56%;background:#242724;border-top:4px solid #50564f}.road:after{content:"";position:absolute;left:50%;top:0;bottom:0;border-left:3px dashed #aaa27b}
+#avatar{position:absolute;left:50%;bottom:13%;transform:translateX(-50%);z-index:3;transition:.25s}.head{width:32px;height:35px;border-radius:50%;background:#ad9985;margin:auto}.body{width:57px;height:69px;border-radius:18px 18px 5px 5px;background:#171b18}
+#place{position:absolute;top:10px;left:10px;z-index:5;padding:6px 8px;border:1px solid #303831;border-radius:8px;background:#080b09d9;font-size:8px;font-weight:900;letter-spacing:1px}
+#story{position:absolute;z-index:6;left:10px;right:10px;bottom:9px;min-height:59px;padding:10px 11px;border:1px solid #313a33;border-radius:11px;background:#070a08e8;font-size:11px;line-height:1.45}
+#stats{height:9%;display:grid;grid-template-columns:repeat(4,1fr);gap:4px;padding:5px 7px;background:#090b09;border-top:1px solid #202620;border-bottom:1px solid #202620}.stat{text-align:center;border:1px solid #282f29;border-radius:7px;padding:4px 1px;font-size:7px;color:var(--muted)}.stat b{display:block;margin-top:2px;color:var(--text);font-size:10px}
+#control{height:23%;padding:10px 14px calc(env(safe-area-inset-bottom) + 10px);display:flex;flex-direction:column;justify-content:center;background:linear-gradient(#0b0e0c,#050605)}
+#progress{height:5px;background:#1d231e;border-radius:5px;overflow:hidden;margin-bottom:9px}#bar{height:100%;width:0;background:#dce3dc;transition:width .08s linear}
+#hold{width:100%;height:76px;border:1px solid #4a544c;border-radius:17px;background:linear-gradient(#202620,#111512);font-weight:1000;letter-spacing:1.5px;font-size:13px;touch-action:none;box-shadow:inset 0 1px #ffffff10,0 7px 20px #0007}
+#hold.active{background:linear-gradient(#e7ebe5,#cbd2cb);color:#080a08;transform:scale(.985)}
+.hint{text-align:center;color:#778078;font-size:8px;margin-top:7px;letter-spacing:.5px}
+#start{position:absolute;inset:0;z-index:20;background:#040604f7;display:flex;align-items:center;padding:22px}.card{width:100%;padding:18px;border:1px solid #303932;border-radius:16px;background:#0c100d}.card h1{margin:0 0 8px;font-size:27px;letter-spacing:5px}.card p{font-size:10px;line-height:1.55;color:#9ca49e}.startBtn{width:100%;padding:13px;border:0;border-radius:11px;background:#e8ebe6;color:#080a08;font-weight:950;margin-top:8px}
+.pulse{animation:pulse .25s}@keyframes pulse{50%{filter:brightness(1.45)}}.shake{animation:shake .28s}@keyframes shake{25%{transform:translateX(-3px)}50%{transform:translateX(4px)}75%{transform:translateX(-2px)}}
 </style></head><body><div id="app">
-<header><div class="logo">MAHALLE</div><div class="day"><span id="day">GÜN 1</span><small id="clock">08:00</small></div></header>
-<main id="world"><div class="skyline"><div class="b" style="height:65%"></div><div class="b" style="height:95%"></div><div class="b" style="height:55%"></div><div class="b" style="height:78%"></div><div class="b" style="height:60%"></div></div><div class="road"></div><div id="place">MAHALLE</div><div id="car"><div class="carwin"></div><i class="wheel wl"></i><i class="wheel wr"></i></div><div id="msg">Cebinde az para var. Mahallede yeni bir hayat başlıyor.</div></main>
-<section id="stats"><div class="stat">PARA<b id="money">₺500</b></div><div class="stat">ENERJİ<b id="energy">%100</b></div><div class="stat">İTİBAR<b id="rep">0</b></div><div class="stat">SEVİYE<b id="level">1</b></div></section>
-<section id="panel"><div class="grid" id="actions"></div></section>
-<div id="modal"><div class="card"><h2 id="mt"></h2><p id="md"></p><div class="choices" id="mc"></div><button class="x" id="close">GERİ DÖN</button></div></div>
-<div id="start"><div class="card"><h1 class="startTitle">MAHALLE</h1><p>Sıfırdan başla. Çalış, para kazan, araba ve ev al, ticarete gir. Her gün farklı fırsatlar ve olaylarla kendi hikâyeni kur.</p><button class="startBtn" id="play">HAYATA BAŞLA</button></div></div>
+<header><div class="logo">MAHALLE</div><div class="date"><span id="day">GÜN 1</span><small id="clock">08:00</small></div></header>
+<main id="scene"><div class="sky"><div class="building" style="height:60%"></div><div class="building" style="height:90%"></div><div class="building" style="height:53%"></div><div class="building" style="height:76%"></div><div class="building" style="height:64%"></div></div><div class="road"></div><div id="place">MAHALLE</div><div id="avatar"><div class="head"></div><div class="body"></div></div><div id="story">Cebinde ₺500 var. Nereden başlayacağını bilmiyorsun.</div></main>
+<section id="stats"><div class="stat">PARA<b id="money">₺500</b></div><div class="stat">ENERJİ<b id="energy">%100</b></div><div class="stat">İTİBAR<b id="rep">0</b></div><div class="stat">HAYAT<b id="life">BAŞLANGIÇ</b></div></section>
+<section id="control"><div id="progress"><div id="bar"></div></div><button id="hold">BASILI TUT · HAYATI YAŞA</button><div class="hint">Bıraktığında oyun durur · Basılı tuttukça hikâye ilerler</div></section>
+<div id="start"><div class="card"><h1>MAHALLE</h1><p>Bu kez menü yok. Tek bir buton var. Basılı tuttukça Berke'nin hayatı kendi kararlarını vererek ilerleyecek; iş, para, ev, araba, ilişkiler, fırsatlar ve beklenmedik olaylar hikâyeye göre gelişecek.</p><button class="startBtn" id="begin">HİKÂYEYİ BAŞLAT</button></div></div>
 </div><script>
-"use strict";const $=x=>document.getElementById(x),KEY="mahalle_v1";
-const DEF={day:1,hour:8,money:500,energy:100,rep:0,xp:0,job:null,car:"Eski Hatchback",home:"Aile Evi",business:null,inventory:[],used:[],ended:false};
-let s={...DEF};try{const q=JSON.parse(localStorage.getItem(KEY)||"null");if(q&&typeof q==="object")s={...DEF,...q}}catch{}if(!Array.isArray(s.inventory))s.inventory=[];if(!Array.isArray(s.used))s.used=[];
+"use strict";
+const $=id=>document.getElementById(id),KEY="mahalle_hold_v1";
+const DEF={day:1,hour:8,money:500,energy:100,rep:0,stage:0,job:"",car:"Yok",home:"Aile Evi",business:"",step:0,used:[],ended:false};
+let s={...DEF};try{let q=JSON.parse(localStorage.getItem(KEY)||"null");if(q&&typeof q==="object")s={...DEF,...q}}catch{}if(!Array.isArray(s.used))s.used=[];
+let holding=false,raf=0,last=0,acc=0;
+const chapters=[
+ ["BAŞLANGIÇ","İş arıyorsun. Mahalledeki küçük kafede eleman arandığını gördün."],
+ ["İLK İŞ","Kafede işe girdin. İlk maaşını kazanmak için uzun vardiyalar başladı."],
+ ["DÜZEN","Artık cebinde biraz para var. Hayatın yavaş yavaş düzene giriyor."],
+ ["ARABA","İkinci el bir araba için para biriktirmeye başladın."],
+ ["YENİ HAYAT","Kendi evine çıkma fikri artık hayal değil."],
+ ["TİCARET","Bir arkadaşın boşalan küçük dükkânı sana önerdi."],
+ ["YÜKSELİŞ","Mahallede seni tanımayan kalmadı. İş büyümeye başladı."],
+ ["KENDİ YOLUN","Artık ne maaşa ne de eski hayatına bağlısın."]
+];
 const events=[
- ["Yerde bir cüzdan buldun.","Sahibine ulaştırırsan itibar kazanırsın.",[["TESLİM ET",0,8],["PARAYI AL",650,-5]]],
- ["Eski arkadaşın seni halı saha maçına çağırdı.","Akşamını burada geçirebilirsin.",[["MAÇA GİT",-120,5],["PAS GEÇ",0,0]]],
- ["Bir komşunun arabası çalışmıyor.","Yardım istiyor.",[["YARDIM ET",0,6],["ACELEM VAR",0,-2]]],
- ["Sokak pazarında ucuz telefon gördün.","Satıcı bugün son gün diyor.",[["AL",-900,0],["ALMA",0,0]]],
- ["Mahallede küçük bir turnuva var.","Giriş ₺200, ödül ₺1.000.",[["KATIL",-200,3],["İZLE",0,1]]],
- ["Bir dükkân sahibi akşam için yardım arıyor.","2 saatlik iş teklif etti.",[["ÇALIŞ",450,2],["REDDET",0,0]]],
- ["Aracının sileceğinde isimsiz bir not var.","'Bu sokağı gece kullanma.'",[["NOTU SAKLA",0,1],["ÇÖPE AT",0,0]]],
- ["Mahallede elektrikler kesildi.","Bakkal jeneratörü taşımak için yardım istiyor.",[["YARDIM ET",0,7],["EVE GİT",0,-1]]],
- ["İkinci el pazarı kuruldu.","Eski eşyalarını satabilirsin.",[["SATIŞ YAP",380,2],["GEZ",0,1]]],
- ["Bir sokak müzisyeni kalabalık toplamış.","Bir süre dinlemek enerjini toparlayabilir.",[["DİNLE",-50,2],["DEVAM ET",0,0]]]
+ "Otobüsü kaçırdın; işe yürüyerek gittin.",
+ "Eski bir arkadaşınla karşılaştın. Sana yeni bir iş bağlantısı verdi.",
+ "Yolda bulduğun cüzdanı sahibine teslim ettin.",
+ "Arabaya küçük bir masraf çıktı.",
+ "Mahallede düzenlenen turnuvaya katıldın.",
+ "Bir müşterinin unuttuğu telefonu geri verdin.",
+ "Yağmur bastırdı; dükkân beklenenden kalabalık oldu.",
+ "Komşunun taşınmasına yardım ettin.",
+ "Bir gün hiç planladığın gibi gitmedi.",
+ "Eski patronun sana daha yüksek maaş teklif etti.",
+ "Sokakta yapılan küçük festival işlerini hareketlendirdi.",
+ "Bir müşteri seni sosyal medyada önerdi."
 ];
 function save(){try{localStorage.setItem(KEY,JSON.stringify(s))}catch{}}
-function lvl(){return 1+Math.floor(s.xp/100)}
-function status(){$("day").textContent="GÜN "+s.day;$("clock").textContent=String(s.hour).padStart(2,"0")+":00";$("money").textContent="₺"+Math.round(s.money).toLocaleString("tr-TR");$("energy").textContent="%"+Math.max(0,s.energy);$("rep").textContent=s.rep;$("level").textContent=lvl();save()}
-function msg(t){$("msg").textContent=t}
-function buttons(){let a=[
- ["💼 İŞ","job",work],["🗺️ GEZ","",explore],["🏠 EV","",home],["🚗 GARAJ","",garage],["🏪 TİCARET","gold",business],["📱 TELEFON","",phone],["🛒 MAĞAZA","",shop],["😴 UYU","primary",sleep],["💾 DURUM","",profile]
-],b=$("actions");b.innerHTML="";a.forEach(x=>{let q=document.createElement("button");q.className="btn "+x[1];q.textContent=x[0];q.onclick=x[2];b.appendChild(q)})}
-function modal(title,desc,choices=[]){$("mt").textContent=title;$("md").textContent=desc;let c=$("mc");c.innerHTML="";choices.forEach(x=>{let b=document.createElement("button");b.innerHTML="<b>"+x[0]+"</b>"+(x[1]||"");b.onclick=x[2];c.appendChild(b)});$("modal").style.display="flex"}
-function close(){$("modal").style.display="none";status()}$("close").onclick=close;
-function tick(h,e=0){s.hour+=h;s.energy=Math.max(0,Math.min(100,s.energy+e));s.xp+=Math.max(2,h*2);while(s.hour>=24){s.hour-=24;s.day++}status();if(s.energy<=0){msg("Enerjin bitti. Eve dönmen gerekiyor.");s.energy=10}}
-function work(){
- if(!s.job)return modal("İŞ BUL","Şimdilik düzenli işin yok. Birini seç.",[
- ["KURYE","Günlük ₺900 · enerji -30",()=>{s.job="Kurye";close();msg("Kurye olarak işe başladın.")}],
- ["OTO YIKAMA","Günlük ₺750 · enerji -24",()=>{s.job="Oto Yıkama";close();msg("Oto yıkamada işe başladın.")}],
- ["KAFE","Günlük ₺800 · enerji -22",()=>{s.job="Kafe";close();msg("Kafede işe başladın.")}]]);
- let pay=s.job==="Kurye"?900:s.job==="Kafe"?800:750;if(s.energy<20)return msg("Çalışacak enerjin yok.");
- s.money+=pay;s.rep+=1;tick(8,-(s.job==="Kurye"?30:24));msg(s.job+" vardiyası bitti. +₺"+pay);randomEvent(.35)
+function money(){return "₺"+Math.max(0,Math.round(s.money)).toLocaleString("tr-TR")}
+function status(){$("day").textContent="GÜN "+s.day;$("clock").textContent=String(s.hour).padStart(2,"0")+":00";$("money").textContent=money();$("energy").textContent="%"+Math.round(s.energy);$("rep").textContent=s.rep;$("life").textContent=chapters[Math.min(s.stage,chapters.length-1)][0];save()}
+function tell(t){$("story").textContent=t}
+function bump(){let a=$("scene");a.classList.remove("pulse");void a.offsetWidth;a.classList.add("pulse")}
+function randomEvent(){
+ let ids=events.map((_,i)=>i).filter(i=>!s.used.includes(i));if(!ids.length){s.used=[];ids=events.map((_,i)=>i)}
+ let id=ids[Math.floor(Math.random()*ids.length)];s.used.push(id);s.rep+=Math.random()<.6?1:0;tell(events[id])
 }
-function explore(){if(s.energy<8)return msg("Gezmek için enerjin az.");tick(2,-8);$("place").textContent=["SANAYİ","ÇARŞI","SAHİL YOLU","ARA SOKAK","PARK"][Math.floor(Math.random()*5)];randomEvent(.82)}
-function randomEvent(chance){if(Math.random()>chance)return msg("Bugün mahallede kayda değer bir şey olmadı.");
- let ids=events.map((_,i)=>i).filter(i=>!s.used.includes(i));if(!ids.length)s.used=[];
- ids=events.map((_,i)=>i).filter(i=>!s.used.includes(i));let id=ids[Math.floor(Math.random()*ids.length)];s.used.push(id);let e=events[id];
- modal("RASTGELE OLAY",e[0]+" "+e[1],e[2].map(o=>[o[0],(o[1]?((o[1]>0?"+":"")+"₺"+Math.abs(o[1])):""),()=>{s.money+=o[1];s.rep+=o[2];if(o[0]==="DİNLE")s.energy=Math.min(100,s.energy+18);close();msg("Kararını verdin: "+o[0]);status()}]))
+function advance(){
+ if(s.ended)return;
+ s.step++;s.hour+=2;s.energy=Math.max(5,s.energy-7);
+ if(s.hour>=24){s.day++;s.hour=8;s.energy=Math.min(100,s.energy+72);if(s.business)s.money+=900+s.rep*18;tell("Yeni bir sabah. "+(s.business?"Dükkân gece boyunca da para kazandırdı.":"Mahalle yeniden hareketleniyor."))}
+ if(s.stage===0&&s.step>=2){s.stage=1;s.job="Kafe";s.money+=800;s.rep+=2;tell("Kafede işe kabul edildin. İlk vardiyanın sonunda ₺800 kazandın.");bump()}
+ else if(s.stage===1){s.money+=650;if(s.step>=7){s.stage=2;tell("Birkaç haftadır çalışıyorsun. Artık herkes seni tanıyor.");s.rep+=4}}
+ else if(s.stage===2){s.money+=780;if(s.money>=6500){s.stage=3;tell("Biriktirdiğin parayla ikinci el araba bakmaya başladın.")}}
+ else if(s.stage===3){s.money+=850;if(s.money>=12000&&s.car==="Yok"){s.money-=8500;s.car="Eski Sedan";s.stage=4;s.rep+=5;$("place").textContent="YENİ ARABA";tell("₺8.500'e eski bir sedan aldın. İlk kez kendi arabanla mahalleye döndün.");bump()}}
+ else if(s.stage===4){s.money+=950;if(s.money>=22000){s.money-=14000;s.home="Kiralık Daire";s.stage=5;s.rep+=7;$("place").textContent="YENİ EV";tell("Aile evinden ayrılıp küçük bir daireye çıktın. İlk gece ev bomboş ama tamamen senin.");bump()}}
+ else if(s.stage===5){s.money+=1050;if(s.money>=28000){s.money-=20000;s.business="Mahalle Büfesi";s.stage=6;s.rep+=12;$("place").textContent="KENDİ DÜKKÂNIN";tell("Boş dükkânı tuttun. Tabelayı astığın gün hayatının yönü değişti.");bump()}}
+ else if(s.stage===6){s.money+=1450+s.rep*12;if(s.money>=70000){s.stage=7;s.rep+=20;$("place").textContent="MERKEZ";tell("Küçük büfe artık ciddi bir işe dönüştü. Mahallede başladığın hayat bambaşka bir yere geldi.");bump()}}
+ else{s.money+=1900+s.rep*20;if(s.money>=180000){s.ended=true;tell("Yıllar sonra aynı sokağa baktın. Cebinde ₺500 ile başladığın hikâye artık sana ait bir hayat olmuştu. SON.");$("hold").textContent="HİKÂYE TAMAMLANDI"}}
+ if(!s.ended&&s.step%4===0)randomEvent();
+ if(s.energy<=12){s.day++;s.hour=8;s.energy=100;tell("Yorgunluktan eve döndün ve sabaha kadar uyudun.")}
+ status()
 }
-function home(){modal("EV",s.home,s.home==="Aile Evi"?[["KİRALIK DAİRE","₺18.000",()=>buyHome("Kiralık Daire",18000)],["STÜDYO DAİRE","₺42.000",()=>buyHome("Stüdyo Daire",42000)]]:[["EVDE DİNLEN","Enerji +25",()=>{s.energy=Math.min(100,s.energy+25);tick(3);close()}]])}
-function buyHome(n,p){if(s.money<p)return msg("Bu ev için paran yetmiyor.");s.money-=p;s.home=n;s.rep+=10;close();msg(n+" artık senin.");status()}
-function garage(){modal("GARAJ","Aracın: "+s.car,[["SEDAN","₺25.000",()=>buyCar("Sedan",25000)],["SPOR COUPE","₺80.000",()=>buyCar("Spor Coupe",80000)],["SUV","₺120.000",()=>buyCar("SUV",120000)]])}
-function buyCar(n,p){if(s.money<p)return msg("Bu araç için paran yetmiyor.");s.money-=p;s.car=n;s.rep+=Math.floor(p/5000);close();msg(n+" satın aldın.");status()}
-function business(){if(s.business)return modal("İŞLETME",s.business+" bugün açık.",[["GÜNÜN KASASINI TOPLA","₺"+(900+lvl()*120),()=>{let v=900+lvl()*120;s.money+=v;tick(2,-5);close();msg("İşletmeden +₺"+v)}]]);
- modal("TİCARETE GİR","Yeterli sermayen varsa kendi işini aç.",[["KÜÇÜK BÜFE","₺30.000",()=>buyBiz("Küçük Büfe",30000)],["OTO YIKAMA","₺65.000",()=>buyBiz("Oto Yıkama",65000)],["KAFE","₺100.000",()=>buyBiz("Kafe",100000)]])}
-function buyBiz(n,p){if(s.money<p)return msg("Sermayen yetmiyor.");s.money-=p;s.business=n;s.rep+=20;close();msg(n+" açıldı.");status()}
-function shop(){modal("MAĞAZA","Günlük ihtiyaçlar ve yükseltmeler.",[["ENERJİ İÇECEĞİ","₺150 · enerji +25",()=>{if(s.money>=150){s.money-=150;s.energy=Math.min(100,s.energy+25);close();status()}}],["ŞIK KIYAFET","₺1.500 · itibar +4",()=>{if(s.money>=1500){s.money-=1500;s.rep+=4;close();status()}}]])}
-function phone(){modal("TELEFON","Mesajlar: "+(s.rep>20?"Mahallede adın duyulmaya başladı.":"Henüz önemli bir mesaj yok."),[["İLANLARA BAK","Yeni iş ve fırsatları kontrol et.",()=>{close();randomEvent(1)}]])}
-function sleep(){s.day++;s.hour=8;s.energy=100;if(s.business)s.money+=450+lvl()*60;$("place").textContent="MAHALLE";status();msg("Yeni bir gün başladı.");randomEvent(.22)}
-function profile(){modal("DURUM","İş: "+(s.job||"Yok")+" · Ev: "+s.home+" · Araç: "+s.car+" · İşletme: "+(s.business||"Yok")+" · XP: "+s.xp,[])}
-$("play").onclick=()=>{$("start").style.display="none";status();buttons()};document.addEventListener("contextmenu",e=>e.preventDefault());
-document.addEventListener("touchstart",e=>{if(e.target.closest("button"))e.preventDefault()},{passive:false,capture:true});document.addEventListener("touchend",e=>{let b=e.target.closest("button");if(b){e.preventDefault();b.click()}},{passive:false,capture:true});
-status();buttons();
+function loop(t){if(!holding)return;if(!last)last=t;acc+=t-last;last=t;let pct=Math.min(100,acc/850*100);$("bar").style.width=pct+"%";if(acc>=850){acc=0;advance()}raf=requestAnimationFrame(loop)}
+function startHold(e){if(s.ended)return;e.preventDefault();holding=true;last=0;$("hold").classList.add("active");if(!raf)raf=requestAnimationFrame(loop)}
+function stopHold(e){if(e)e.preventDefault();holding=false;last=0;acc=0;$("bar").style.width="0";$("hold").classList.remove("active");if(raf){cancelAnimationFrame(raf);raf=0}}
+const hold=$("hold");hold.addEventListener("pointerdown",startHold);hold.addEventListener("pointerup",stopHold);hold.addEventListener("pointercancel",stopHold);hold.addEventListener("pointerleave",stopHold);
+hold.addEventListener("touchstart",e=>e.preventDefault(),{passive:false});hold.addEventListener("contextmenu",e=>e.preventDefault());
+$("begin").onclick=()=>{$("start").style.display="none";status();tell(chapters[Math.min(s.stage,chapters.length-1)][1])};
+document.addEventListener("visibilitychange",()=>{if(document.hidden)stopHold()});
+document.addEventListener("contextmenu",e=>e.preventDefault());status();
 </script></body></html>
