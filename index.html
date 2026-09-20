@@ -1,185 +1,106 @@
-<!doctype html>
-<html lang="tr">
-<head>
-<meta charset="utf-8">
+<!doctype html><html lang="tr"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-<title>KAT 0</title>
-<style>
-:root{--bg:#050607;--panel:#101215;--line:#292d31;--text:#f1f1ee;--muted:#858b90;--red:#b84444}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
-html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",Arial,sans-serif}
-button{font:inherit;color:inherit;-webkit-appearance:none}
-#app{height:100dvh;max-width:480px;margin:auto;background:linear-gradient(#08090a,#030404);position:relative;overflow:hidden}
-header{height:11%;padding:calc(env(safe-area-inset-top) + 12px) 17px 8px;display:flex;justify-content:space-between;align-items:flex-start}
-.logo{font-size:13px;font-weight:900;letter-spacing:5px}.floor{font-size:11px;color:#8e9498;text-align:right}.floor b{display:block;color:#fff;font-size:24px;line-height:25px}
-#scene{height:67%;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.wall{position:absolute;inset:0;background:radial-gradient(circle at 50% 42%,#24272a 0,#101214 42%,#050606 76%)}
-.light{position:absolute;top:-10%;left:25%;width:50%;height:40%;background:radial-gradient(ellipse,#d8d0ae28,transparent 65%);filter:blur(7px)}
-.elevator{position:relative;width:76%;height:78%;border:8px solid #26292b;background:#111;box-shadow:0 0 0 1px #3c4042,0 20px 50px #000;overflow:hidden}
-.door{position:absolute;top:0;width:50.2%;height:100%;background:linear-gradient(90deg,#17191b,#303336 50%,#17191b);border:1px solid #3b3e40;transition:transform .8s cubic-bezier(.7,0,.3,1);z-index:3}
-.left{left:0}.right{right:0}.open .left{transform:translateX(-96%)}.open .right{transform:translateX(96%)}
-.behind{position:absolute;inset:0;background:linear-gradient(#080909,#121517);display:flex;align-items:center;justify-content:center;text-align:center;padding:24px}
-.behind .thing{font-size:13px;line-height:1.55;color:#b5b8b8;opacity:.95}
-.display{position:absolute;top:12px;left:50%;transform:translateX(-50%);z-index:5;background:#030303;border:1px solid #3a3a3a;padding:5px 14px;color:#d95c54;font:700 15px monospace;box-shadow:inset 0 0 10px #b22a2a22}
-#message{position:absolute;bottom:16px;left:18px;right:18px;text-align:center;font-size:11px;color:#999;line-height:1.45;min-height:34px;z-index:7}
-#panel{height:22%;border-top:1px solid #1c1f21;background:linear-gradient(180deg,#0b0c0d,#050606);padding:10px 15px calc(env(safe-area-inset-bottom) + 10px);box-shadow:0 -12px 30px #0008}
-#choices{display:grid;grid-template-columns:1fr 1fr;gap:8px;height:100%}
-.btn{border:1px solid #34383c;background:linear-gradient(#17191c,#101214);border-radius:13px;font-size:11px;font-weight:850;letter-spacing:.55px;min-height:46px;box-shadow:inset 0 1px #ffffff08,0 4px 14px #0005}.btn:disabled{opacity:.42}
-.btn:active{transform:scale(.98);background:#1d2023}.btn.primary{background:#e8e8e4;color:#090909;border-color:#fff}.btn.danger{color:#e17878}
-#status{position:absolute;left:12px;top:12px;z-index:8;display:flex;gap:5px}.tag{font-size:9px;padding:5px 7px;border:1px solid #292c2f;background:#08090acc;border-radius:7px;color:#aaa}
-#overlay{position:absolute;inset:0;background:#030405f7;z-index:20;display:flex;align-items:center;justify-content:center;padding:25px}
-.card{width:100%;border:1px solid #292d31;background:#0d0f11;border-radius:17px;padding:20px}.card h1{font-size:24px;letter-spacing:7px;margin:0 0 9px}.card p{font-size:12px;color:#8d9296;line-height:1.6}.start{width:100%;padding:13px;border:0;border-radius:11px;background:#eee;color:#080808;font-weight:900;margin-top:10px}
-.flash{animation:flash .25s}@keyframes flash{50%{filter:brightness(2.5)}}.shake{animation:shake .3s}@keyframes shake{25%{transform:translateX(-4px)}50%{transform:translateX(5px)}75%{transform:translateX(-2px)}}
-
-.utility{position:absolute;z-index:10;bottom:13px;width:36px;height:36px;border:1px solid #34383b;background:#0b0d0ecc;border-radius:10px;font-size:16px}
-#flashBtn{right:58px}#bagBtn{right:15px}
-#inventory{position:absolute;z-index:25;inset:auto 12px calc(env(safe-area-inset-bottom) + 12px);background:#0d0f11f7;border:1px solid #303438;border-radius:15px;padding:12px;display:none}
-#inventory b{font-size:11px}.items{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}.item{font-size:10px;border:1px solid #303438;border-radius:8px;padding:7px;background:#151719}
-.flashlight .wall{background:radial-gradient(circle at 50% 48%,#77735d 0,#292a27 19%,#0d0f10 47%,#020303 76%)}
-.entity{position:absolute;z-index:6;top:34%;left:50%;transform:translateX(-50%);font-size:52px;filter:blur(1px);opacity:0;transition:opacity .25s}
-.entity.show{opacity:.62}.camera{font:700 10px monospace;color:#8ea39a;background:#07100b;border:1px solid #284237;padding:9px;border-radius:8px;margin-top:8px}
-
-#message{background:#05060799;border:1px solid #202326;border-radius:10px;padding:8px 10px;backdrop-filter:blur(8px)}
-.elevator::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:6;background:linear-gradient(100deg,transparent 35%,#ffffff08 50%,transparent 65%)}
-#inventory{box-shadow:0 12px 45px #000;backdrop-filter:blur(18px)}
-#inventory:after{content:"Dokunarak kapat";display:block;margin-top:9px;font-size:9px;color:#60666a;text-align:right}
-</style>
-</head>
-<body>
-<div id="app">
-<header><div class="logo">KAT 0</div><div class="floor">BULUNDUĞUN KAT<b id="floorNo">?</b></div></header>
-<main id="scene">
-<div class="wall"></div><div class="light"></div>
-<div id="status"><span class="tag" id="hp">♥ 3</span><span class="tag" id="keys">ANAHTAR 0/3</span><span class="tag" id="battery">🔋 100%</span></div>
-<div class="elevator" id="elevator">
-<div class="behind"><div class="thing" id="thing">Kapıların ardında sessizlik var.</div></div>
-<div class="display" id="display">--</div><div class="door left"></div><div class="door right"></div>
-</div>
-<div id="message">Asansör hareket etmiyor.</div>
-<button id="flashBtn" class="utility">🔦</button><button id="bagBtn" class="utility">🎒</button>
-</main>
-<section id="panel"><div id="choices"></div></section>
-<div id="inventory"><b>ENVANTER</b><div class="items" id="items"></div></div>
-<div class="entity" id="entity">●</div><div id="overlay"><div class="card"><h1>KAT 0</h1><p>Gece 03:17. Asansöre bindin. Panelde olmayan bir düğme yanıyor: <b>0</b>.<br><br>Burada her kapı açılmamalı.</p><button class="start" id="start">ASANSÖRE BİN</button></div></div>
-</div>
-<script>
-"use strict";
-const $=id=>document.getElementById(id), KEY="kat0_v1";
-const events=[
- {f:7,text:"Koridor bomboş. Uzakta bir telefon çalıyor.",inside:"Telefonun ekranında kendi numaran yazıyor.",risk:0},
- {f:5,text:"Kapının önünde sırtı dönük bir kadın bekliyor.",inside:"Kadın dönmeden '0'a basma' diyor.",risk:1},
- {f:3,text:"Işıklar yanıp sönüyor. Yerde küçük bir anahtar var.",inside:"Anahtarı aldın.",key:1,risk:0},
- {f:9,text:"Bu katın koridoru asansörün aynısı.",inside:"Karşındaki asansörde sen varsın. Ama hareketlerin aynı değil.",risk:1},
- {f:2,text:"Bir çocuk kapının dışında sana bakıyor.",inside:"Çocuk eline üzerinde 0 yazan metal bir parça bırakıyor.",key:1,risk:0},
- {f:6,text:"Duvarlarda yüzlerce kat numarası kazınmış.",inside:"Hepsinin üzeri çizilmiş. Sadece 0 kalmış.",risk:0},
- {f:4,text:"Kapı açılır açılmaz içeriden soğuk hava geliyor.",inside:"Karanlığın içinden bir şey koşuyor.",risk:2},
- {f:8,text:"Koridorda eski bir güvenlik masası var.",inside:"Monitörde asansörün 30 yıldır Kat 0'da olduğu yazıyor.",risk:0},
- {f:1,text:"Kapının arkasında evinin girişini görüyorsun.",inside:"Kapıyı açıyorsun. Burası evin değil.",risk:1},
- {f:0,text:"Ekranda ilk kez 0 göründü.",inside:"Kapılar açılıyor. Karşında başka bir asansör ve üçüncü anahtar var.",key:1,risk:0}
+<title>GECE VARDİYASI</title><style>
+:root{--bg:#050706;--panel:#0d110f;--line:#29312d;--txt:#eef1ed;--muted:#87908a;--warn:#d7b66b;--bad:#c86b6b}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#020302;color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",Arial,sans-serif}
+button{font:inherit;color:inherit;-webkit-appearance:none}#app{height:100dvh;max-width:480px;margin:auto;position:relative;overflow:hidden;background:linear-gradient(#09100c,#030504)}
+header{height:11%;padding:calc(env(safe-area-inset-top) + 10px) 15px 7px;display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1px solid #17201b}
+.logo{font-size:12px;font-weight:950;letter-spacing:3px}.clock{text-align:right;font:800 20px monospace}.clock small{display:block;color:var(--muted);font:700 8px -apple-system;letter-spacing:1px}
+#store{height:58%;position:relative;overflow:hidden;background:radial-gradient(circle at 50% 20%,#263229,#101612 46%,#050806 80%)}
+.ceiling{position:absolute;top:10%;left:15%;right:15%;height:5px;background:#b7c6b4;box-shadow:0 0 22px #dfffd68c}
+.shelves{position:absolute;left:5%;right:5%;bottom:13%;height:40%;display:flex;gap:8px;opacity:.72}.shelf{flex:1;border:5px solid #252c28;background:repeating-linear-gradient(#171d19 0 19%,#343c37 20% 22%)}
+.counter{position:absolute;left:0;right:0;bottom:0;height:19%;background:linear-gradient(#272d29,#111512);border-top:3px solid #444d47;z-index:5}
+#person{position:absolute;left:50%;bottom:17%;transform:translateX(-50%);z-index:4;text-align:center;transition:.35s}.head{width:42px;height:49px;border-radius:50% 50% 44% 44%;background:#b3a28d;margin:auto}.body{width:92px;height:108px;border-radius:35px 35px 5px 5px;background:#202622;margin-top:-2px}.face{font-size:9px;color:#171717;padding-top:20px;font-weight:900}
+#speech{position:absolute;z-index:7;left:12px;right:12px;bottom:8px;background:#080b09e8;border:1px solid var(--line);border-radius:11px;padding:9px 11px;font-size:11px;line-height:1.4;min-height:43px}
+#hud{position:absolute;z-index:8;top:10px;left:10px;display:flex;gap:5px;flex-wrap:wrap}.tag{font-size:8px;border:1px solid #303933;background:#080b09cc;border-radius:7px;padding:5px 7px;color:#b1b8b3}
+#controls{height:31%;padding:9px 12px calc(env(safe-area-inset-bottom) + 9px);background:linear-gradient(#0b0e0c,#050605);border-top:1px solid #1c231f}
+#actions{height:100%;display:grid;grid-template-columns:1fr 1fr;gap:7px}.btn{border:1px solid #303833;background:linear-gradient(#171c18,#101411);border-radius:12px;font-size:10px;font-weight:850;letter-spacing:.35px;min-height:45px}.btn:active{transform:scale(.98)}.primary{background:#e6e9e4;color:#090b09;border-color:#fff}.danger{color:#e58c8c}.warn{color:#e4c985}
+#camera{position:absolute;inset:11% 0 31%;z-index:15;background:#050806;display:none;padding:12px}.camgrid{height:100%;display:grid;grid-template-columns:1fr 1fr;gap:7px}.cam{position:relative;border:1px solid #334039;background:repeating-linear-gradient(0deg,#101712 0 2px,#0b100d 3px 5px);padding:7px;font:700 8px monospace;color:#9ba69f;overflow:hidden}.cam i{position:absolute;width:12px;height:34px;border-radius:8px;background:#151515;bottom:18%;left:55%}.rec{color:#d87676}
+#overlay{position:absolute;inset:0;z-index:30;background:#030504f5;display:flex;align-items:center;padding:24px}.card{width:100%;padding:19px;border:1px solid #29332d;background:#0b0f0c;border-radius:17px}.card h1{font-size:23px;letter-spacing:4px;margin:0 0 8px}.card p{font-size:11px;line-height:1.55;color:#939b96}.start{width:100%;border:0;border-radius:11px;background:#e8ebe6;color:#080a08;padding:13px;font-weight:950;margin-top:9px}
+#eventFlash{position:absolute;inset:0;z-index:25;background:#fff;opacity:0;pointer-events:none}.flash{animation:fl .22s}@keyframes fl{50%{opacity:.7}}.shake{animation:sh .3s}@keyframes sh{25%{transform:translateX(-4px)}50%{transform:translateX(5px)}75%{transform:translateX(-2px)}}
+</style></head><body><div id="app">
+<header><div class="logo">GECE VARDİYASI</div><div class="clock"><span id="time">23:00</span><small id="shift">VARDİYA BAŞLADI</small></div></header>
+<main id="store"><div class="ceiling"></div><div id="hud"><span class="tag" id="sanity">SİNİR %100</span><span class="tag" id="money">KASA ₺0</span><span class="tag" id="power">ELEKTRİK %100</span></div>
+<div class="shelves"><div class="shelf"></div><div class="shelf"></div><div class="shelf"></div></div>
+<div id="person"><div class="head"><div class="face" id="face">•‿•</div></div><div class="body"></div></div><div class="counter"></div>
+<div id="speech">Market sessiz.</div></main>
+<section id="controls"><div id="actions"></div></section>
+<div id="camera"><div class="camgrid"><div class="cam">CAM 01 · GİRİŞ<i id="c1"></i></div><div class="cam">CAM 02 · DEPO<i id="c2"></i></div><div class="cam">CAM 03 · OTOPARK<i id="c3"></i></div><div class="cam"><span class="rec">● REC</span> · KASA<i id="c4"></i></div></div></div>
+<div id="eventFlash"></div>
+<div id="overlay"><div class="card"><h1>GECE VARDİYASI</h1><p>23:00–07:00. Tek başına küçük bir markettesin.<br><br>Müşterilere hizmet et, kameraları kontrol et ve sabaha kadar hayatta kal. <b>Her müşteri içeri alınmamalı.</b></p><button class="start" id="start">VARDİYAYI BAŞLAT</button></div></div>
+</div><script>
+"use strict";const $=x=>document.getElementById(x),KEY="gece_vardiyasi_v1";
+const DEF={minute:0,money:0,sanity:100,power:100,step:0,locked:false,ended:false,strikes:0,seen:[],clues:0};
+let s={...DEF};try{let q=JSON.parse(localStorage.getItem(KEY)||"null");if(q&&typeof q==="object")s={...DEF,...q}}catch{}
+s.minute=Math.max(0,Math.min(480,+s.minute||0));s.sanity=Math.max(0,Math.min(100,+s.sanity||100));s.power=Math.max(0,Math.min(100,+s.power||100));
+let busy=false,timers=[];function later(fn,ms){let id=setTimeout(()=>{timers=timers.filter(x=>x!==id);fn()},ms);timers.push(id)}function clearTimers(){timers.forEach(clearTimeout);timers=[]}
+const normal=[
+ {name:"Öğrenci",face:"•‿•",line:"Bir su alabilir miyim?",price:25},
+ {name:"Taksi Şoförü",face:"•ᴗ•",line:"Kahve var mı? Uzun gece.",price:65},
+ {name:"Hemşire",face:"•‿•",line:"Sandviç ve su lütfen.",price:95},
+ {name:"Kurye",face:"•ᴗ•",line:"Enerji içeceği alacağım.",price:70}
 ];
-const DEFAULT_STATE={hp:3,keys:0,step:0,current:null,visited:[],ended:false,battery:100,flash:false,inventory:[],entity:0,codes:[],cameraSeen:false};
-let s={...DEFAULT_STATE};
-try{
- const old=JSON.parse(localStorage.getItem(KEY)||"null");
- if(old&&typeof old==="object")s={...DEFAULT_STATE,...old};
-}catch{}
-if(!Array.isArray(s.visited))s.visited=[];
-if(!Array.isArray(s.inventory))s.inventory=[];
-if(!Array.isArray(s.codes))s.codes=[];
-s.hp=Math.max(0,Math.min(3,Number(s.hp)||3));
-s.keys=Math.max(0,Math.min(3,Number(s.keys)||0));
-s.battery=Math.max(0,Math.min(100,Number(s.battery)??100));
-let busy=false, timers=[];
-function later(fn,ms){let id=setTimeout(()=>{timers=timers.filter(x=>x!==id);fn()},ms);timers.push(id);return id}
-function clearTimers(){timers.forEach(clearTimeout);timers=[]}
+const odd=[
+ {name:"Islak Adam",face:"•_•",line:"Dışarıda yağmur yağmıyor, değil mi?",danger:1,clue:"Ayakkabıları sırılsıklam."},
+ {name:"Aynı Müşteri",face:"•_•",line:"Beni biraz önce görmedin.",danger:1,clue:"Aynı ürünü üçüncü kez taşıyor."},
+ {name:"Gülümseyen",face:"•◡•",line:"Saat kaç olursa olsun kapıyı aç.",danger:2,clue:"Kamerada yüzü görünmüyor."},
+ {name:"Sessiz Kadın",face:"•_•",line:"...",danger:2,clue:"Gölgesi ters yöne düşüyor."}
+];
 function save(){try{localStorage.setItem(KEY,JSON.stringify(s))}catch{}}
-function buttons(list){let c=$("choices");c.innerHTML="";list.forEach(x=>{let b=document.createElement("button");b.className="btn "+(x.cls||"");b.textContent=x.t;b.onclick=()=>{if(busy)return;x.fn()};c.appendChild(b)})}
-function status(){
- $("hp").textContent="♥ "+s.hp;$("keys").textContent="ANAHTAR "+s.keys+"/3";$("battery").textContent="🔋 "+Math.max(0,s.battery)+"%";
- $("app").classList.toggle("flashlight",!!s.flash&&s.battery>0);
- $("items").innerHTML=(s.inventory.length?s.inventory:["Boş"]).map(x=>'<span class="item">'+x+'</span>').join("");
- save()
-}
-function addItem(x){if(!s.inventory.includes(x)){s.inventory.push(x);msg(x+" envantere eklendi.");status()}}
-function drain(n){if(s.flash){s.battery=Math.max(0,s.battery-n);if(!s.battery){s.flash=false;msg("El fenerinin pili bitti.")}}}
-function entityCheck(){
- if(s.step<3||s.ended)return;
- let chance=Math.min(.12+s.entity*.04,.38);
- if(Math.random()<chance){
-  s.entity++;$("entity").classList.add("show");shake();
-  setTimeout(()=>$("entity").classList.remove("show"),650);
-  if(!s.flash&&Math.random()<.45){s.hp--;msg("Karanlıkta bir şey sana dokundu.");status();if(s.hp<=0)ending(false,"Seni takip eden şey sonunda asansöre girdi.")}
-  else msg("Koridorun sonunda bir siluet gördün.");
- }
-}
-function doors(open){$("elevator").classList.toggle("open",open)}
-function msg(t){$("message").textContent=t}
+function timeText(){let total=23*60+s.minute,h=Math.floor(total/60)%24,m=total%60;return String(h).padStart(2,"0")+":"+String(m).padStart(2,"0")}
+function status(){$("time").textContent=timeText();$("money").textContent="KASA ₺"+s.money;$("sanity").textContent="SİNİR %"+s.sanity;$("power").textContent="ELEKTRİK %"+s.power;save()}
+function say(t){$("speech").textContent=t}
+function buttons(a){let box=$("actions");box.innerHTML="";a.forEach(x=>{let b=document.createElement("button");b.className="btn "+(x.c||"");b.textContent=x.t;b.onclick=()=>{if(!busy)x.f()};box.appendChild(b)})}
 function shake(){let a=$("app");a.classList.remove("shake");void a.offsetWidth;a.classList.add("shake")}
-function arrive(){
- if(s.ended)return;
- busy=true;doors(false); let available=events.filter(e=>!s.visited.includes(e.f)&&e.f!==0);
- let e;
- if(s.keys>=2 && s.step>=7)e=events.find(x=>x.f===0);
- else e=available[Math.floor(Math.random()*available.length)]||events.find(x=>x.f===0);
- s.current=e;s.step++;$("display").textContent=e.f;$("floorNo").textContent=e.f;
- msg("Kapılar açılmak üzere.");buttons([]);
- later(()=>{if(s.ended)return;doors(true);$("thing").textContent=e.text;msg(e.text);busy=false;
- buttons([{t:"DIŞARI ÇIK",cls:"primary",fn:explore},{t:"KAPIYI KAPAT",fn:skip}])},700)
+function flash(){let f=$("eventFlash");f.classList.remove("flash");void f.offsetWidth;f.classList.add("flash")}
+function advance(n=20){s.minute=Math.min(480,s.minute+n);s.power=Math.max(0,s.power-(s.locked?1:2));status();if(s.minute>=480)return end(true,"07:00. Güneş doğdu. Vardiyan bitti.");if(s.sanity<=0)return end(false,"Ne gördüğünü artık ayırt edemiyorsun.");later(next,550)}
+function next(){
+ if(s.ended)return;busy=false;$("camera").style.display="none";s.step++;
+ let late=s.minute>=180, anomaly=Math.min(.18+(late?.18:0)+s.step*.012,.58);
+ if(s.power<=0)anomaly+=.18;
+ if(Math.random()<.12&&s.step>3)return storeEvent();
+ let bad=Math.random()<anomaly,obj=bad?odd[Math.floor(Math.random()*odd.length)]:normal[Math.floor(Math.random()*normal.length)];
+ $("person").style.opacity=1;$("face").textContent=obj.face;s.current={bad,name:obj.name,line:obj.line,price:obj.price||0,danger:obj.danger||0,clue:obj.clue||""};
+ say(obj.name+": “"+obj.line+"”");status();
+ buttons([{t:"SATIŞ YAP",c:"primary",f:serve},{t:"KAMERALAR",f:cameras},{t:s.locked?"KAPIYI AÇ":"KAPIYI KİLİTLE",c:"warn",f:toggleLock},{t:"MÜŞTERİYİ GÖNDER",c:"danger",f:reject}])
 }
-function next(){if(busy||s.ended)return;busy=true;doors(false);$("inventory").style.display="none";drain(4);status();msg("Asansör hareket ediyor...");buttons([]);later(()=>{busy=false;arrive();later(entityCheck,1200)},900)}
-function skip(){
- let e=s.current;if(!s.visited.includes(e.f))s.visited.push(e.f);
- busy=true;doors(false);msg("Kapılar kapandı.");status();later(()=>{busy=false;next()},650)
+function serve(){
+ let o=s.current;if(o.bad){s.sanity=Math.max(0,s.sanity-12*o.danger);s.strikes++;shake();say("Kasaya yaklaşınca ışıklar titredi. Bu normal bir müşteri değildi.");if(o.danger>1)s.power=Math.max(0,s.power-12)}
+ else{s.money+=o.price;s.sanity=Math.min(100,s.sanity+2);say("Satış tamamlandı. ₺"+o.price)}
+ $("person").style.opacity=.15;advance()
 }
-function explore(){
- let e=s.current;$("thing").textContent=e.inside;msg(e.inside);
- if(e.key && !s.visited.includes(e.f)){s.keys=Math.min(3,s.keys+1);addItem("🔑 Kat "+e.f+" anahtarı");$("app").classList.add("flash");setTimeout(()=>$("app").classList.remove("flash"),250)}
- if(e.f===7&&!s.inventory.includes("🔋 Yedek pil"))addItem("🔋 Yedek pil");
- if(e.f===8&&!s.cameraSeen){s.cameraSeen=true;s.codes.push("0317");addItem("📼 Kamera kaydı");}
- if(e.risk){s.hp-=e.risk;shake()}
- if(!s.visited.includes(e.f))s.visited.push(e.f);
- status();
- if(s.hp<=0)return ending(false,"Asansöre geri dönemeden ışıklar söndü.");
- if(e.f===0){
-   if(s.keys>=3)return ending(true,"Üç anahtar birleşti. Asansörün arka duvarında daha önce olmayan bir kapı açıldı.");
-   msg("Bir şey eksik. Kat 0 seni geri gönderiyor.");
- }
- buttons([{t:"ASANSÖRE DÖN",cls:"primary",fn:next},{t:"ETRAFA BAK",fn:look}])
+function reject(){
+ let o=s.current;if(o.bad){s.clues++;say("Müşteri birkaç saniye sana baktı ve dışarı çıktı.");s.sanity=Math.min(100,s.sanity+3)}
+ else{s.money=Math.max(0,s.money-20);say("Normal müşteriyi geri çevirdin. ₺20 kayıp.");}
+ $("person").style.opacity=.15;advance()
 }
-function look(){
- let e=s.current;drain(7);
- if(e.f===8){
-   msg("Kamera 03:17'de Kat 0 kapısının açıldığını gösteriyor. Şifre: 0317.");
-   addItem("📝 Şifre 0317");
- }else if(e.f===6 && s.inventory.includes("📝 Şifre 0317")){
-   msg("Duvardaki panel 4 hane istiyor.");
-   buttons([{t:"0317 GİR",cls:"primary",fn:()=>{addItem("🧿 Metal göz");msg("Panel açıldı. İçinden metal bir göz çıktı.")}},{t:"GERİ DÖN",fn:next}]);return;
- }else if(e.f===1 && s.inventory.includes("🧿 Metal göz")){
-   msg("Sahte evin kapısındaki boşluğa metal göz tam oturuyor. Gizli bir geçit açıldı.");
-   s.battery=Math.min(100,s.battery+35);addItem("📄 Kat -1 notu");
- }else if(e.risk>0 && Math.random()<.38){
-   s.hp--;shake();msg("Burada fazla kaldın. Bir şey sana yaklaştı.");status();
-   if(s.hp<=0)return ending(false,"Koridorda yalnız olmadığını çok geç fark ettin.");
- }else msg(e.f===0?"Duvara kazınmış cümle: 'ÇIKIŞ YUKARIDA DEĞİL.'":"Duvarın arkasından üç kez vuruldu. Sonra sessizlik.");
- buttons([{t:"ASANSÖRE DÖN",cls:"primary",fn:next},{t:"KAMERAYA BAK",fn:cameraView}])
+function toggleLock(){s.locked=!s.locked;s.power=Math.max(0,s.power-2);say(s.locked?"Giriş kapısını kilitledin.":"Kapının kilidini açtın.");status();buttons([{t:"DEVAM ET",c:"primary",f:()=>advance(10)},{t:"KAMERALAR",f:cameras}])}
+function cameras(){
+ s.power=Math.max(0,s.power-4);status();$("camera").style.display="block";
+ ["c1","c2","c3","c4"].forEach(id=>$(id).style.display=Math.random()<.45?"block":"none");
+ let o=s.current;if(o&&o.bad){say("Kamera ipucu: "+o.clue);s.clues++}else say("Kameralarda olağan dışı bir şey görünmüyor.");
+ buttons([{t:"KAMERAYI KAPAT",c:"primary",f:()=>{$("camera").style.display="none";nextDecision()}},{t:"ELEKTRİĞİ KORU",f:()=>{$("camera").style.display="none";s.power=Math.min(100,s.power+2);nextDecision()}}])
 }
-function cameraView(){
- if(!s.cameraSeen){msg("Kamera sinyali yok.");buttons([{t:"GERİ",fn:look}]);return}
- $("thing").innerHTML='<div class="camera">CAM 03 · 03:17:00<br>KAT 0<br><br>ASANSÖR BOŞ.<br>AMA SEN İÇİNDESİN.</div>';
- msg("Kayıtta zaman ilerlemiyor.");buttons([{t:"KAYDI KAPAT",fn:next}])
+function nextDecision(){
+ let o=s.current;if(!o)return next();
+ buttons([{t:"SATIŞ YAP",c:"primary",f:serve},{t:"MÜŞTERİYİ GÖNDER",c:"danger",f:reject},{t:s.locked?"KAPIYI AÇ":"KAPIYI KİLİTLE",c:"warn",f:toggleLock}])
 }
-function ending(win,text){
- clearTimers();busy=false;s.ended=true;s.flash=false;status();doors(false);$("display").textContent=win?"OUT":"ERR";$("floorNo").textContent="0";
- $("thing").textContent=text;msg(win?"ÇIKIŞI BULDUN.":"OYUN BİTTİ.");
- buttons([{t:"YENİDEN BAŞLA",cls:"primary",fn:reset},{t:"SONU OKU",fn:()=>msg(win?"Kapı dışarı açılmadı. Başka bir asansöre açıldı. Üzerinde tek bir düğme vardı: -1.":"Asansör ertesi sabah boş bulundu.")}])
+function storeEvent(){
+ $("person").style.opacity=0;let r=Math.random();
+ if(r<.34){say("Depodan sert bir ses geldi.");buttons([{t:"DEPOYA BAK",c:"danger",f:()=>{if(Math.random()<.5){s.sanity-=10;shake();say("Rafların arasında birinin nefesini duydun.")}else{say("Yerde düşmüş ürünler var. Başka kimse yok.");s.clues++}advance(25)}},{t:"KAPIYI KİLİTLE",f:()=>{s.locked=true;advance(15)}}])}
+ else if(r<.67){say("Otoparktaki araba üçüncü kez farlarını yaktı.");buttons([{t:"KAMERADAN İZLE",f:()=>{s.power-=6;s.clues++;say("Arabada kimse yok.");advance(15)}},{t:"GÖRMEZDEN GEL",f:()=>{s.sanity-=5;advance(15)}}])}
+ else{say("Marketin bütün ışıkları aynı anda söndü.");s.power=Math.max(0,s.power-18);buttons([{t:"SİGORTAYI AÇ",c:"primary",f:()=>{s.power=Math.min(100,s.power+28);flash();advance(20)}},{t:"KARANLIKTA BEKLE",c:"danger",f:()=>{s.sanity-=14;shake();advance(20)}}])}
+ status()
 }
-function reset(){clearTimers();busy=false;localStorage.removeItem(KEY);s={...DEFAULT_STATE,visited:[],inventory:[],codes:[]};status();$("floorNo").textContent="?";$("display").textContent="--";$("thing").textContent="Kapıların ardında sessizlik var.";next()}
-$("flashBtn").onclick=()=>{if($("overlay").style.display!=="none"||s.ended)return;if(s.battery<=0&&s.inventory.includes("🔋 Yedek pil")){s.inventory=s.inventory.filter(x=>x!=="🔋 Yedek pil");s.battery=70;msg("Yedek pili taktın.")}else if(s.battery<=0){msg("Pil bitti.")}else{s.flash=!s.flash;msg(s.flash?"El feneri açıldı.":"El feneri kapandı.")}status()};
-$("bagBtn").onclick=()=>{if($("overlay").style.display!=="none")return;$("inventory").style.display=$("inventory").style.display==="block"?"none":"block";status()};
-$("inventory").onclick=()=>{$("inventory").style.display="none"};
-$("start").onclick=()=>{$("overlay").style.display="none";status();if(s.ended){reset();return}if(s.current&&s.step>0){$("floorNo").textContent=s.current.f;$("display").textContent=s.current.f;$("thing").textContent=s.current.text;doors(true);msg("Kayıtlı oyun devam ediyor.");busy=false;buttons([{t:"DIŞARI ÇIK",cls:"primary",fn:explore},{t:"KAPIYI KAPAT",fn:skip}])}else next()};
+function end(win,text){clearTimers();s.ended=true;busy=true;status();$("person").style.opacity=0;$("camera").style.display="none";say(text);$("shift").textContent=win?"VARDİYA TAMAMLANDI":"VARDİYA BİTTİ";
+ let ending=win?(s.strikes===0?"KUSURSUZ VARDİYA":s.clues>=5?"GERÇEĞİ GÖRDÜN":"SABAHA ÇIKTIN"):"GECE SENİ ALDI";
+ buttons([{t:ending,c:"primary",f:()=>{}},{t:"YENİDEN BAŞLA",f:reset}])
+}
+function reset(){clearTimers();localStorage.removeItem(KEY);s={...DEF,seen:[]};busy=false;$("shift").textContent="VARDİYA BAŞLADI";$("person").style.opacity=1;status();say("Yeni vardiya başladı.");next()}
+$("start").onclick=()=>{$("overlay").style.display="none";if(s.ended)reset();else{status();next()}};
 document.addEventListener("contextmenu",e=>e.preventDefault());
 document.addEventListener("touchstart",e=>{if(e.target.closest("button"))e.preventDefault()},{passive:false,capture:true});
 document.addEventListener("touchend",e=>{let b=e.target.closest("button");if(b){e.preventDefault();b.click()}},{passive:false,capture:true});
-</script>
-</body></html>
+status();
+</script></body></html>
