@@ -1,142 +1,36 @@
-<!doctype html><html lang="tr"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-<title>MAHALLE</title>
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><title>AI: SIFIRDAN</title>
 <style>
-:root{--bg:#060806;--panel:#0d110e;--line:#29312b;--text:#f1f3ef;--muted:#909991;--good:#9dc6a2;--gold:#d5bc7a}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
-html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#030403;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",Arial,sans-serif}
-button{font:inherit;color:inherit;-webkit-appearance:none}
-#app{height:100dvh;max-width:480px;margin:auto;display:flex;flex-direction:column;background:linear-gradient(#111713,#050705);overflow:hidden}
-header{height:10%;padding:calc(env(safe-area-inset-top) + 8px) 13px 7px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #202721}
-.logo{font-size:14px;font-weight:1000;letter-spacing:4px}.date{text-align:right;font:900 15px monospace}.date small{display:block;color:var(--muted);font:700 8px -apple-system}
-#scene{height:58%;position:relative;overflow:hidden;background:linear-gradient(#879da3 0 34%,#66736a 35%,#242824 36% 100%)}
-.sky{position:absolute;inset:8% 0 auto;height:36%;display:flex;align-items:flex-end;gap:4px;padding:0 7px}.building{flex:1;background:#303632;border-top:2px solid #515953;position:relative}.building:after{content:"";position:absolute;inset:9px;background:repeating-linear-gradient(90deg,#b4a56d 0 4px,transparent 5px 13px),repeating-linear-gradient(0deg,transparent 0 9px,#9b906b 10px 12px);opacity:.45}
-.road{position:absolute;left:-10%;right:-10%;bottom:0;height:56%;background:#242724;border-top:4px solid #50564f}.road:after{content:"";position:absolute;left:50%;top:0;bottom:0;border-left:3px dashed #aaa27b}
-#avatar{position:absolute;left:50%;bottom:13%;transform:translateX(-50%);z-index:3;transition:.25s}.head{width:32px;height:35px;border-radius:50%;background:#ad9985;margin:auto}.body{width:57px;height:69px;border-radius:18px 18px 5px 5px;background:#171b18}
-#place{position:absolute;top:10px;left:10px;z-index:5;padding:6px 8px;border:1px solid #303831;border-radius:8px;background:#080b09d9;font-size:8px;font-weight:900;letter-spacing:1px}
-#story{position:absolute;z-index:6;left:10px;right:10px;bottom:9px;min-height:59px;padding:10px 11px;border:1px solid #313a33;border-radius:11px;background:#070a08e8;font-size:11px;line-height:1.45}
-#stats{height:9%;display:grid;grid-template-columns:repeat(4,1fr);gap:4px;padding:5px 7px;background:#090b09;border-top:1px solid #202620;border-bottom:1px solid #202620}.stat{text-align:center;border:1px solid #282f29;border-radius:7px;padding:4px 1px;font-size:7px;color:var(--muted)}.stat b{display:block;margin-top:2px;color:var(--text);font-size:10px}
-#control{height:23%;padding:10px 14px calc(env(safe-area-inset-bottom) + 10px);display:flex;flex-direction:column;justify-content:center;background:linear-gradient(#0b0e0c,#050605)}
-#progress{height:5px;background:#1d231e;border-radius:5px;overflow:hidden;margin-bottom:9px}#bar{height:100%;width:0;background:#dce3dc;transition:width .08s linear}
-#hold{width:100%;height:76px;border:1px solid #4a544c;border-radius:17px;background:linear-gradient(#202620,#111512);font-weight:1000;letter-spacing:1.5px;font-size:13px;touch-action:none;box-shadow:inset 0 1px #ffffff10,0 7px 20px #0007}
-#hold.active{background:linear-gradient(#e7ebe5,#cbd2cb);color:#080a08;transform:scale(.985)}
-.hint{text-align:center;color:#778078;font-size:8px;margin-top:7px;letter-spacing:.5px}
-#start{position:absolute;inset:0;z-index:20;background:#040604f7;display:flex;align-items:center;padding:22px}.card{width:100%;padding:18px;border:1px solid #303932;border-radius:16px;background:#0c100d}.card h1{margin:0 0 8px;font-size:27px;letter-spacing:5px}.card p{font-size:10px;line-height:1.55;color:#9ca49e}.startBtn{width:100%;padding:13px;border:0;border-radius:11px;background:#e8ebe6;color:#080a08;font-weight:950;margin-top:8px}
-.pulse{animation:pulse .25s}@keyframes pulse{50%{filter:brightness(1.45)}}.shake{animation:shake .28s}@keyframes shake{25%{transform:translateX(-3px)}50%{transform:translateX(4px)}75%{transform:translateX(-2px)}}
-</style></head><body><div id="app">
-<header><div class="logo">MAHALLE</div><div class="date"><span id="day">GÜN 1</span><small id="clock">08:00</small></div></header>
-<main id="scene"><div class="sky"><div class="building" style="height:60%"></div><div class="building" style="height:90%"></div><div class="building" style="height:53%"></div><div class="building" style="height:76%"></div><div class="building" style="height:64%"></div></div><div class="road"></div><div id="place">MAHALLE</div><div id="avatar"><div class="head"></div><div class="body"></div></div><div id="story">Cebinde ₺500 var. Nereden başlayacağını bilmiyorsun.</div></main>
-<section id="stats"><div class="stat">PARA<b id="money">₺500</b></div><div class="stat">ENERJİ<b id="energy">%100</b></div><div class="stat">İTİBAR<b id="rep">0</b></div><div class="stat">HAYAT<b id="life">BAŞLANGIÇ</b></div></section>
-<section id="control"><div id="progress"><div id="bar"></div></div><button id="hold">BASILI TUT · HAYATI YAŞA</button><div class="hint">Bıraktığında oyun durur · Basılı tuttukça hikâye ilerler</div></section>
-<div id="start"><div class="card"><h1>MAHALLE</h1><p>Bu kez menü yok. Tek bir buton var. Basılı tuttukça Berke'nin hayatı kendi kararlarını vererek ilerleyecek; iş, para, ev, araba, ilişkiler, fırsatlar ve beklenmedik olaylar hikâyeye göre gelişecek.</p><button class="startBtn" id="begin">HİKÂYEYİ BAŞLAT</button></div></div>
-</div><script>
-"use strict";
-const $=id=>document.getElementById(id),KEY="mahalle_hold_v1";
-const DEF={day:1,hour:8,money:500,energy:100,rep:0,stage:0,job:"",car:"Yok",home:"Aile Evi",business:"",step:0,used:[],ended:false,age:18,daysAlive:0,debt:0,relationship:"Bekâr",family:0,career:0,achievements:[],rareUsed:[]};
-let s={...DEF};try{let q=JSON.parse(localStorage.getItem(KEY)||"null");if(q&&typeof q==="object")s={...DEF,...q}}catch{}if(!Array.isArray(s.used))s.used=[];if(!Array.isArray(s.achievements))s.achievements=[];if(!Array.isArray(s.rareUsed))s.rareUsed=[];
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}html,body{margin:0;height:100%;overflow:hidden;background:#020504;color:#edf5ef;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",Arial}button{font:inherit}
+#app{height:100dvh;max-width:480px;margin:auto;display:flex;flex-direction:column;background:radial-gradient(circle at 50% 15%,#14251c,#050907 48%,#020403)}header{height:10%;padding:calc(env(safe-area-inset-top) + 8px) 13px 7px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #1d2a22}
+.logo{font-size:13px;font-weight:1000;letter-spacing:3px}.tier{text-align:right;font:900 13px monospace;color:#b7cabe}.tier small{display:block;font:700 8px -apple-system;color:#708078}
+#lab{height:57%;position:relative;overflow:hidden}.grid{position:absolute;inset:0;background-image:linear-gradient(#18251d55 1px,transparent 1px),linear-gradient(90deg,#18251d55 1px,transparent 1px);background-size:25px 25px;opacity:.6}
+#core{position:absolute;left:50%;top:40%;transform:translate(-50%,-50%);width:88px;height:88px;border:1px solid #789582;border-radius:20px;background:#0d1711;box-shadow:0 0 45px #6ea37b38;display:grid;place-items:center;text-align:center;font:900 11px monospace;transition:.35s}
+#rackbox{position:absolute;left:8%;right:8%;bottom:18%;height:25%;display:flex;gap:5px;align-items:flex-end;justify-content:center}.rack{width:24px;border:1px solid #526058;background:repeating-linear-gradient(#101712 0 5px,#6d8875 6px 7px);border-radius:3px 3px 0 0}
+#story{position:absolute;left:10px;right:10px;bottom:8px;z-index:5;padding:9px 10px;min-height:54px;border:1px solid #293a30;border-radius:10px;background:#050a07e8;font-size:10px;line-height:1.45}
+#stats{height:10%;padding:6px 7px;display:grid;grid-template-columns:repeat(4,1fr);gap:4px;border-block:1px solid #1c2820;background:#050806}.s{text-align:center;padding:5px 1px;border:1px solid #233128;border-radius:8px;font-size:7px;color:#73847a}.s b{display:block;color:#e3ece6;font-size:10px;margin-top:2px}
+#control{height:23%;padding:10px 14px calc(env(safe-area-inset-bottom) + 10px);display:flex;flex-direction:column;justify-content:center}#progress{height:6px;background:#172019;border-radius:8px;overflow:hidden;margin-bottom:9px}#bar{height:100%;width:0;background:#dbe9df}
+#hold{height:78px;border:1px solid #506057;border-radius:18px;background:linear-gradient(#1a261e,#0d140f);color:#eef5f0;font-weight:1000;font-size:13px;letter-spacing:1.2px;touch-action:none;box-shadow:inset 0 1px #ffffff12,0 9px 25px #0008}#hold.active{background:linear-gradient(#e3ece5,#bac9be);color:#061008;transform:scale(.985)}.hint{text-align:center;font-size:8px;color:#65736b;margin-top:7px}
+#start{position:absolute;inset:0;z-index:20;background:#020504f8;display:flex;align-items:center;padding:22px}.card{width:100%;border:1px solid #2a3b30;border-radius:17px;background:#09100c;padding:18px}h1{margin:0 0 7px;font-size:26px;letter-spacing:4px}.card p{font-size:10px;line-height:1.55;color:#91a097}#begin{width:100%;border:0;border-radius:11px;padding:13px;background:#e4ece6;color:#061008;font-weight:950}.flash{animation:f .25s}@keyframes f{50%{filter:brightness(1.7)}}
+</style></head><body><div id="app"><header><div class="logo">AI: SIFIRDAN</div><div class="tier"><span id="level">SEVİYE 1</span><small id="milestone">0 / 100</small></div></header>
+<main id="lab"><div class="grid"></div><div id="core">MODEL<br>0.01</div><div id="rackbox"></div><div id="story">Eski bir bilgisayar. Boş bir terminal. İlk satırı yazmaya hazırsın.</div></main>
+<section id="stats"><div class="s">HESAPLAMA<b id="compute">1</b></div><div class="s">VERİ<b id="data">0 GB</b></div><div class="s">ENERJİ<b id="energy">100%</b></div><div class="s">BÜTÇE<b id="cash">₺2.000</b></div></section>
+<section id="control"><div id="progress"><div id="bar"></div></div><button id="hold">BASILI TUT · GELİŞTİR</button><div class="hint">Bırakınca durur · 100 benzersiz gelişim eşiği</div></section>
+<div id="start"><div class="card"><h1>AI: SIFIRDAN</h1><p>Tek bilgisayardan başla. Basılı tuttukça model, GPU altyapısı, veri merkezleri, robotik ve araştırma ağı fiziksel olarak büyüsün. 100 farklı gelişim eşiği ve tekrar etmeyen rastgele olaylar var.</p><button id="begin">SİSTEMİ BAŞLAT</button></div></div></div>
+<script>
+"use strict";const $=x=>document.getElementById(x),KEY="ai_sifirdan_v1",milestones=[["İlk Satır","İlk Satır kuruldu ve ilk testini geçti."],["Veri Toplama","Veri Toplama sisteme bağlandı; kapasite belirgin şekilde arttı."],["Basit Model","Basit Model tamamlandı. Altyapının görünümü değişmeye başladı."],["İlk Eğitim","İlk Eğitim aktif edildi; yeni bir teknoloji katmanı açıldı."],["Model v2","Model v2 başarıyla devreye alındı."],["API","API ile sistem yeni bir ölçeğe geçti."],["İlk Kullanıcılar","İlk Kullanıcılar ilk kez kararlı biçimde çalıştı."],["Optimizasyon","Optimizasyon tamamlanınca ağın sınırları genişledi."],["Yedekleme","Yedekleme projesi sonuç verdi."],["İlk Gelir","İlk Gelir artık ana altyapının bir parçası."],["İlk GPU","İlk GPU kuruldu ve ilk testini geçti."],["İkinci GPU","İkinci GPU sisteme bağlandı; kapasite belirgin şekilde arttı."],["GPU Kümesi","GPU Kümesi tamamlandı. Altyapının görünümü değişmeye başladı."],["Soğutma","Soğutma aktif edildi; yeni bir teknoloji katmanı açıldı."],["Fiber Hat","Fiber Hat başarıyla devreye alındı."],["10 GPU","10 GPU ile sistem yeni bir ölçeğe geçti."],["Sunucu Rafı","Sunucu Rafı ilk kez kararlı biçimde çalıştı."],["UPS","UPS tamamlanınca ağın sınırları genişledi."],["Model v3","Model v3 projesi sonuç verdi."],["Sunucu Odası","Sunucu Odası artık ana altyapının bir parçası."],["Ekip","Ekip kuruldu ve ilk testini geçti."],["Araştırma Labı","Araştırma Labı sisteme bağlandı; kapasite belirgin şekilde arttı."],["Görüntü Modeli","Görüntü Modeli tamamlandı. Altyapının görünümü değişmeye başladı."],["Ses Modeli","Ses Modeli aktif edildi; yeni bir teknoloji katmanı açıldı."],["Çoklu Model","Çoklu Model başarıyla devreye alındı."],["50 GPU","50 GPU ile sistem yeni bir ölçeğe geçti."],["Robot Kol","Robot Kol ilk kez kararlı biçimde çalıştı."],["Simülasyon","Simülasyon tamamlanınca ağın sınırları genişledi."],["Güvenlik Ekibi","Güvenlik Ekibi projesi sonuç verdi."],["Model v4","Model v4 artık ana altyapının bir parçası."],["100 GPU","100 GPU kuruldu ve ilk testini geçti."],["Veri Merkezi A","Veri Merkezi A sisteme bağlandı; kapasite belirgin şekilde arttı."],["Güneş Enerjisi","Güneş Enerjisi tamamlandı. Altyapının görünümü değişmeye başladı."],["Otonom Eğitim","Otonom Eğitim aktif edildi; yeni bir teknoloji katmanı açıldı."],["Özel Çip","Özel Çip başarıyla devreye alındı."],["500 GPU","500 GPU ile sistem yeni bir ölçeğe geçti."],["Veri Merkezi B","Veri Merkezi B ilk kez kararlı biçimde çalıştı."],["Robot Prototipi","Robot Prototipi tamamlanınca ağın sınırları genişledi."],["Küresel API","Küresel API projesi sonuç verdi."],["Model v5","Model v5 artık ana altyapının bir parçası."],["1K GPU","1K GPU kuruldu ve ilk testini geçti."],["Araştırma Kampüsü","Araştırma Kampüsü sisteme bağlandı; kapasite belirgin şekilde arttı."],["Otonom Robot","Otonom Robot tamamlandı. Altyapının görünümü değişmeye başladı."],["Enerji Tesisi","Enerji Tesisi aktif edildi; yeni bir teknoloji katmanı açıldı."],["5K GPU","5K GPU başarıyla devreye alındı."],["Veri Merkezi C","Veri Merkezi C ile sistem yeni bir ölçeğe geçti."],["Uydu Bağlantısı","Uydu Bağlantısı ilk kez kararlı biçimde çalıştı."],["Robot Fabrikası","Robot Fabrikası tamamlanınca ağın sınırları genişledi."],["Küresel Ağ","Küresel Ağ projesi sonuç verdi."],["Model v6","Model v6 artık ana altyapının bir parçası."],["10K GPU","10K GPU kuruldu ve ilk testini geçti."],["Kuantum Labı","Kuantum Labı sisteme bağlandı; kapasite belirgin şekilde arttı."],["Otonom Lojistik","Otonom Lojistik tamamlandı. Altyapının görünümü değişmeye başladı."],["Mega Veri Merkezi","Mega Veri Merkezi aktif edildi; yeni bir teknoloji katmanı açıldı."],["50K GPU","50K GPU başarıyla devreye alındı."],["Robot Şehri","Robot Şehri ile sistem yeni bir ölçeğe geçti."],["Enerji Ağı","Enerji Ağı ilk kez kararlı biçimde çalıştı."],["Yeni Çip Nesli","Yeni Çip Nesli tamamlanınca ağın sınırları genişledi."],["Global Araştırma","Global Araştırma projesi sonuç verdi."],["Model v7","Model v7 artık ana altyapının bir parçası."],["100K GPU","100K GPU kuruldu ve ilk testini geçti."],["Otonom Laboratuvar","Otonom Laboratuvar sisteme bağlandı; kapasite belirgin şekilde arttı."],["Mega Kampüs","Mega Kampüs tamamlandı. Altyapının görünümü değişmeye başladı."],["Otonom Üretim","Otonom Üretim aktif edildi; yeni bir teknoloji katmanı açıldı."],["Yeni Enerji Reaktörü","Yeni Enerji Reaktörü başarıyla devreye alındı."],["1M Kullanıcı","1M Kullanıcı ile sistem yeni bir ölçeğe geçti."],["Gezegen Ağı","Gezegen Ağı ilk kez kararlı biçimde çalıştı."],["Robot Ekosistemi","Robot Ekosistemi tamamlanınca ağın sınırları genişledi."],["Bilim Ağı","Bilim Ağı projesi sonuç verdi."],["Model v8","Model v8 artık ana altyapının bir parçası."],["Yörünge Sunucusu","Yörünge Sunucusu kuruldu ve ilk testini geçti."],["Ay İstasyonu","Ay İstasyonu sisteme bağlandı; kapasite belirgin şekilde arttı."],["Derin Uzay Simülasyonu","Derin Uzay Simülasyonu tamamlandı. Altyapının görünümü değişmeye başladı."],["Uzay Veri Merkezi","Uzay Veri Merkezi aktif edildi; yeni bir teknoloji katmanı açıldı."],["Mars Bağlantısı","Mars Bağlantısı başarıyla devreye alındı."],["Robotik Koloni","Robotik Koloni ile sistem yeni bir ölçeğe geçti."],["Otonom Bilim","Otonom Bilim ilk kez kararlı biçimde çalıştı."],["Gezegen Simülasyonu","Gezegen Simülasyonu tamamlanınca ağın sınırları genişledi."],["Güneş Sistemi Ağı","Güneş Sistemi Ağı projesi sonuç verdi."],["Model v9","Model v9 artık ana altyapının bir parçası."],["Dağıtık Zeka","Dağıtık Zeka kuruldu ve ilk testini geçti."],["Enerji Bolluğu","Enerji Bolluğu sisteme bağlandı; kapasite belirgin şekilde arttı."],["Otonom Mega Ağ","Otonom Mega Ağ tamamlandı. Altyapının görünümü değişmeye başladı."],["Milyon GPU Eşdeğeri","Milyon GPU Eşdeğeri aktif edildi; yeni bir teknoloji katmanı açıldı."],["Araştırma Şehri","Araştırma Şehri başarıyla devreye alındı."],["Gezegen Laboratuvarı","Gezegen Laboratuvarı ile sistem yeni bir ölçeğe geçti."],["Yeni Öğrenme Mimarisi","Yeni Öğrenme Mimarisi ilk kez kararlı biçimde çalıştı."],["Robotik Ekonomi","Robotik Ekonomi tamamlanınca ağın sınırları genişledi."],["Model v10","Model v10 projesi sonuç verdi."],["Büyük Eşik","Büyük Eşik artık ana altyapının bir parçası."],["Yıldızlararası Simülasyon","Yıldızlararası Simülasyon kuruldu ve ilk testini geçti."],["Uzak İstasyonlar","Uzak İstasyonlar sisteme bağlandı; kapasite belirgin şekilde arttı."],["Kendi Bakımını Yapan Ağ","Kendi Bakımını Yapan Ağ tamamlandı. Altyapının görünümü değişmeye başladı."],["Bilimsel Keşif Motoru","Bilimsel Keşif Motoru aktif edildi; yeni bir teknoloji katmanı açıldı."],["Yeni Nesil Robotlar","Yeni Nesil Robotlar başarıyla devreye alındı."],["Dev Simülasyon Ağı","Dev Simülasyon Ağı ile sistem yeni bir ölçeğe geçti."],["Sistem Birleşmesi","Sistem Birleşmesi ilk kez kararlı biçimde çalıştı."],["Son Eğitim","Son Eğitim tamamlanınca ağın sınırları genişledi."],["Son Eşik","Son Eşik projesi sonuç verdi."],["UFUK","UFUK artık ana altyapının bir parçası."]],events=["Bir GPU aşırı ısındı; soğutma otomatik devreye girdi.","Elektrik fiyatları yükseldi; eğitim yavaşladı.","Yeni açık veri seti bulundu.","Bir yatırımcı altyapı bütçesine katkı sağladı.","Gece yapılan optimizasyon verimliliği artırdı.","Disklerden biri arızalandı; yedekten geri dönüldü.","Yeni mühendis performans darboğazını çözdü.","Rakip laboratuvar yeni model duyurdu.","Sunucu odasında sıcaklık alarmı oluştu.","Fiber hattın kapasitesi yükseltildi.","Beklenmedik kullanıcı artışı yaşandı.","Yeni müşteri sözleşmesi gelir getirdi.","Bir eğitim koşusu başarısız oldu.","Model küçülürken kalite korundu.","Enerji tüketimi optimize edildi.","Robot prototipi ilk görevini tamamladı.","Veri temizleme sistemi hatalı örnekleri ayıkladı.","Yeni çip sürücüsü performansı artırdı.","Yedek güç testi başarıyla tamamlandı.","Bir sunucu rafı bakıma alındı.","Araştırma ekibi yeni yöntem keşfetti.","Kullanıcı geri bildirimleri yeni eğitim turunu şekillendirdi.","Veri merkezi kısa süreli ağ sorunu yaşadı.","Yeni soğutma tasarımı devreye girdi.","Donanım tedariki gecikti.","Bir optimizasyon eğitim süresini kısalttı.","Güvenlik testi bir açığı erkenden yakaladı.","Yeni bölge sunucusu açıldı.","Model beklenmedik bir görevde iyi sonuç verdi.","Depolama kapasitesi iki katına çıktı."];
+const DEF={step:0,compute:1,data:0,energy:100,cash:2000,usedEvents:[],ended:false};let s={...DEF};
+try{const q=JSON.parse(localStorage.getItem(KEY)||"null");if(q&&typeof q==="object")s={...DEF,...q}}catch{}
+if(!Array.isArray(s.usedEvents))s.usedEvents=[];s.usedEvents=[...new Set(s.usedEvents.filter(i=>Number.isInteger(i)&&i>=0&&i<events.length))];s.step=Math.max(0,Math.min(100,Number.isFinite(+s.step)?+s.step:0));["compute","data","energy","cash"].forEach(k=>{if(!Number.isFinite(+s[k]))s[k]=DEF[k]});s.energy=Math.max(0,Math.min(100,+s.energy));
 let holding=false,raf=0,last=0,acc=0;
-const chapters=[
- ["BAŞLANGIÇ","İş arıyorsun. Mahalledeki küçük kafede eleman arandığını gördün."],
- ["İLK İŞ","Kafede işe girdin. İlk maaşını kazanmak için uzun vardiyalar başladı."],
- ["DÜZEN","Artık cebinde biraz para var. Hayatın yavaş yavaş düzene giriyor."],
- ["ARABA","İkinci el bir araba için para biriktirmeye başladın."],
- ["YENİ HAYAT","Kendi evine çıkma fikri artık hayal değil."],
- ["TİCARET","Bir arkadaşın boşalan küçük dükkânı sana önerdi."],
- ["YÜKSELİŞ","Mahallede seni tanımayan kalmadı. İş büyümeye başladı."],
- ["KENDİ YOLUN","Artık ne maaşa ne de eski hayatına bağlısın."]
-];
-const events=[
- "Otobüsü kaçırdın; işe yürüyerek gittin.",
- "Eski bir arkadaşınla karşılaştın. Sana yeni bir iş bağlantısı verdi.",
- "Yolda bulduğun cüzdanı sahibine teslim ettin.",
- "Arabaya küçük bir masraf çıktı.",
- "Mahallede düzenlenen turnuvaya katıldın.",
- "Bir müşterinin unuttuğu telefonu geri verdin.",
- "Yağmur bastırdı; dükkân beklenenden kalabalık oldu.",
- "Komşunun taşınmasına yardım ettin.",
- "Bir gün hiç planladığın gibi gitmedi.",
- "Eski patronun sana daha yüksek maaş teklif etti.",
- "Sokakta yapılan küçük festival işlerini hareketlendirdi.",
- "Bir müşteri seni sosyal medyada önerdi."
-];
-function save(){try{localStorage.setItem(KEY,JSON.stringify(s))}catch{}}
-function money(){return "₺"+Math.max(0,Math.round(s.money)).toLocaleString("tr-TR")}
-function status(){$("day").textContent="GÜN "+s.day;$("clock").textContent=String(s.hour).padStart(2,"0")+":00 · "+s.age+" YAŞ";$("money").textContent=money();$("energy").textContent="%"+Math.round(s.energy);$("rep").textContent=s.rep;$("life").textContent=chapters[Math.min(s.stage,chapters.length-1)][0];save()}
-function tell(t){$("story").textContent=t}
-function bump(){let a=$("scene");a.classList.remove("pulse");void a.offsetWidth;a.classList.add("pulse")}
-
-const lifeEvents=[
- ()=>{s.money-=220;tell("Telefon faturası ve günlük masraflar geldi. -₺220")},
- ()=>{s.money-=Math.max(120,Math.round((s.car==="Yok"?0:380)));tell(s.car==="Yok"?"Bugün sakin geçti.":"Aracın küçük bakım istedi. Masraf çıktı.")},
- ()=>{s.energy=Math.min(100,s.energy+18);tell("Uzun zamandır görmediğin arkadaşlarınla oturdun. Biraz nefes aldın.")},
- ()=>{s.rep+=3;tell("Mahallede birine yardım ettin. İnsanlar seni daha çok tanımaya başladı.")},
- ()=>{if(!s.job){s.job="Kafe";tell("Beklemediğin bir iş teklifi aldın: Kafe.")}else{s.career++;s.money+=450;tell("İş yerinde ekstra sorumluluk aldın. Prim kazandın.")}},
- ()=>{if(s.relationship==="Bekâr"&&s.age>=20){s.relationship="İlişkisi Var";tell("Hayatına biri girdi. Hikâyen artık yalnız ilerlemiyor.")}else if(s.relationship==="İlişkisi Var"&&s.age>=23){s.relationship="Evli";s.rep+=5;tell("Uzun ilişkiniz evliliğe dönüştü.")}else{tell("Ailenle sakin bir akşam geçirdin.")}},
- ()=>{if(s.relationship==="Evli"&&s.family===0&&s.age>=25){s.family=1;tell("Ailen büyüdü. Artık kararlarının başka bir ağırlığı var.")}else{tell("Bugün planların dışında küçük ama güzel bir gün yaşadın.")}},
- ()=>{let gain=300+Math.floor(Math.random()*900);s.money+=gain;tell("Beklenmedik küçük bir fırsat çıktı. +₺"+gain)}
-];
-const rareEvents=[
- ()=>{let gain=5000+Math.floor(Math.random()*7000);s.money+=gain;s.rep+=5;tell("NADİR OLAY · Büyük bir iş fırsatı yakaladın. +₺"+gain);bump()},
- ()=>{let loss=Math.min(s.money,2500+Math.floor(Math.random()*3000));s.money-=loss;tell("NADİR OLAY · Kötü bir anlaşma yaptın. -₺"+loss);bump()},
- ()=>{s.career+=3;s.rep+=8;tell("NADİR OLAY · İş hayatında beklenmedik bir sıçrama yaptın.");bump()},
- ()=>{s.money+=15000;tell("NADİR OLAY · Uzun süredir unuttuğun bir yatırım ciddi değer kazandı. +₺15.000");bump()}
-];
-function lifeEvent(){
- if(Math.random()<.09){
-   let ids=rareEvents.map((_,i)=>i).filter(i=>!s.rareUsed.includes(i));
-   if(ids.length){let id=ids[Math.floor(Math.random()*ids.length)];s.rareUsed.push(id);rareEvents[id]();return}
- }
- lifeEvents[Math.floor(Math.random()*lifeEvents.length)]()
-}
-function achievement(name){
- if(!s.achievements.includes(name)){s.achievements.push(name);s.rep+=2;tell("BAŞARIM · "+name);bump()}
-}
-function randomEvent(){
- let ids=events.map((_,i)=>i).filter(i=>!s.used.includes(i));if(!ids.length){s.used=[];ids=events.map((_,i)=>i)}
- let id=ids[Math.floor(Math.random()*ids.length)];s.used.push(id);s.rep+=Math.random()<.6?1:0;tell(events[id])
-}
-function advance(){
- if(s.ended)return;
- s.step++;s.hour+=2;s.energy=Math.max(5,s.energy-7);
- if(s.hour>=24){
-   s.day++;s.daysAlive++;s.hour=8;s.energy=Math.min(100,s.energy+72);
-   if(s.business)s.money+=900+s.rep*18;
-   if(s.home==="Kiralık Daire"&&s.day%30===0)s.money-=4500;
-   if(s.car!=="Yok"&&s.day%7===0)s.money-=450;
-   if(s.day%365===0){s.age++;tell("Bir yıl daha geçti. Artık "+s.age+" yaşındasın.")}
-   else tell("Yeni bir sabah. "+(s.business?"Dükkân gece boyunca da para kazandırdı.":"Mahalle yeniden hareketleniyor."));
-   if(s.day%3===0&&Math.random()<.55)lifeEvent();
- }
- if(s.stage===0&&s.step>=2){s.stage=1;s.job="Kafe";s.money+=800;s.rep+=2;tell("Kafede işe kabul edildin. İlk vardiyanın sonunda ₺800 kazandın.");bump()}
- else if(s.stage===1){s.money+=650;if(s.step>=7){s.stage=2;tell("Birkaç haftadır çalışıyorsun. Artık herkes seni tanıyor.");s.rep+=4}}
- else if(s.stage===2){s.money+=780;if(s.money>=6500){s.stage=3;tell("Biriktirdiğin parayla ikinci el araba bakmaya başladın.")}}
- else if(s.stage===3){s.money+=850;if(s.money>=12000&&s.car==="Yok"){s.money-=8500;s.car="Eski Sedan";s.stage=4;s.rep+=5;$("place").textContent="YENİ ARABA";tell("₺8.500'e eski bir sedan aldın. İlk kez kendi arabanla mahalleye döndün.");bump()}}
- else if(s.stage===4){s.money+=950;if(s.money>=22000){s.money-=14000;s.home="Kiralık Daire";s.stage=5;s.rep+=7;$("place").textContent="YENİ EV";tell("Aile evinden ayrılıp küçük bir daireye çıktın. İlk gece ev bomboş ama tamamen senin.");bump()}}
- else if(s.stage===5){s.money+=1050;if(s.money>=28000){s.money-=20000;s.business="Mahalle Büfesi";s.stage=6;s.rep+=12;$("place").textContent="KENDİ DÜKKÂNIN";tell("Boş dükkânı tuttun. Tabelayı astığın gün hayatının yönü değişti.");bump()}}
- else if(s.stage===6){s.money+=1450+s.rep*12;if(s.money>=70000){s.stage=7;s.rep+=20;$("place").textContent="MERKEZ";tell("Küçük büfe artık ciddi bir işe dönüştü. Mahallede başladığın hayat bambaşka bir yere geldi.");bump()}}
- else{s.money+=1900+s.rep*20;if(s.money>=180000){s.ended=true;tell("Yıllar sonra aynı sokağa baktın. Cebinde ₺500 ile başladığın hikâye artık sana ait bir hayat olmuştu. SON.");$("hold").textContent="HİKÂYE TAMAMLANDI"}}
- if(!s.ended&&s.step%4===0)randomEvent();
- if(s.energy<=12){s.day++;s.daysAlive++;s.hour=8;s.energy=100;tell("Yorgunluktan eve döndün ve sabaha kadar uyudun.")}
- if(s.money<0){s.debt+=Math.abs(s.money);s.money=0;tell("Paran bitti. Borçlanarak günü kapattın. Toplam borç: ₺"+Math.round(s.debt))}
- if(s.money>=10000)achievement("İLK 10 BİN");
- if(s.car!=="Yok")achievement("İLK ARABA");
- if(s.home!=="Aile Evi")achievement("KENDİ EVİN");
- if(s.business)achievement("PATRON");
- status()
-}
-function loop(t){
- if(!holding)return;
- if(!last)last=t;
- const dt=Math.min(100,t-last);last=t;acc+=dt;
- if(acc>=850){acc-=850;advance()}
- $("bar").style.width=Math.min(100,acc/850*100)+"%";
- raf=requestAnimationFrame(loop)
-}
-function startHold(e){if(s.ended||holding)return;e.preventDefault();holding=true;last=0;try{e.currentTarget.setPointerCapture(e.pointerId)}catch{}$("hold").classList.add("active");if(!raf)raf=requestAnimationFrame(loop)}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(s))}catch{}}function fmt(n){n=Math.max(0,Math.round(n));if(n>=1e9)return(n/1e9).toFixed(1)+"B";if(n>=1e6)return(n/1e6).toFixed(1)+"M";if(n>=1e3)return(n/1e3).toFixed(1)+"K";return String(n)}
+function status(){$("level").textContent=s.ended?"TAMAMLANDI":"SEVİYE "+Math.min(100,s.step+1);$("milestone").textContent=s.step+" / 100";$("compute").textContent=fmt(s.compute);$("data").textContent=fmt(s.data)+" GB";$("energy").textContent=Math.round(s.energy)+"%";$("cash").textContent="₺"+Math.round(Math.max(0,s.cash)).toLocaleString("tr-TR");renderLab();save()}
+function tell(t){$("story").textContent=t}function renderLab(){let count=Math.min(14,Math.floor(s.step/6)),box=$("rackbox");while(box.children.length<count){let r=document.createElement("div"),i=box.children.length;r.className="rack";r.style.height=(38+(i%5)*10)+"px";box.appendChild(r)}while(box.children.length>count)box.lastChild.remove();$("core").innerHTML="MODEL<br>"+(0.01+s.step*.13).toFixed(2);let z=88+Math.min(40,s.step*.35);$("core").style.width=z+"px";$("core").style.height=z+"px"}
+function randomEvent(){if(Math.random()>.28)return"";let ids=events.map((_,i)=>i).filter(i=>!s.usedEvents.includes(i));if(!ids.length)return"";let id=ids[Math.floor(Math.random()*ids.length)];s.usedEvents.push(id);let t=events[id];if(t.includes("yatırım")||t.includes("sözleşme"))s.cash+=1500+s.step*80;else if(t.includes("arız")||t.includes("gecikti"))s.cash=Math.max(0,s.cash-(300+s.step*20));else s.compute*=1.015;return t}
+function advance(){if(s.ended||s.step>=100)return finish();let m=milestones[s.step];s.step++;s.compute*=1.16+s.step*.001;s.data+=25+s.step*14;s.cash+=180+s.step*32;s.energy=Math.max(12,100-Math.min(70,s.step*.55));let text=s.step+"/100 · "+m[0]+" — "+m[1];let a=$("lab");a.classList.remove("flash");void a.offsetWidth;a.classList.add("flash");if(s.step%3===0){let ev=randomEvent();if(ev)text+="  OLAY · "+ev}tell(text);if(s.step>=100)finish();status()}
+function finish(){s.ended=true;holding=false;tell("100/100 · UFUK — Tek bilgisayarla başlayan sistem dev bir araştırma ağına dönüştü.");$("hold").textContent="100 / 100 · TAMAMLANDI";stopHold();save()}
+function loop(t){if(!holding)return;if(!last)last=t;let dt=Math.min(100,t-last);last=t;acc+=dt;if(acc>=720){acc-=720;advance()}$("bar").style.width=Math.min(100,acc/720*100)+"%";if(holding)raf=requestAnimationFrame(loop)}
+function startHold(e){if(s.ended||holding)return;e.preventDefault();holding=true;last=0;try{e.currentTarget.setPointerCapture(e.pointerId)}catch{}$("hold").classList.add("active");raf=requestAnimationFrame(loop)}
 function stopHold(e){if(e)e.preventDefault();holding=false;last=0;acc=0;$("bar").style.width="0";$("hold").classList.remove("active");if(raf){cancelAnimationFrame(raf);raf=0}}
-const hold=$("hold");hold.addEventListener("pointerdown",startHold);hold.addEventListener("pointerup",stopHold);hold.addEventListener("pointercancel",stopHold);
-hold.addEventListener("touchstart",e=>e.preventDefault(),{passive:false});hold.addEventListener("contextmenu",e=>e.preventDefault());
-$("begin").onclick=()=>{$("start").style.display="none";status();tell(chapters[Math.min(s.stage,chapters.length-1)][1])};
-document.addEventListener("visibilitychange",()=>{if(document.hidden)stopHold()});
-document.addEventListener("contextmenu",e=>e.preventDefault());status();
+let h=$("hold");h.addEventListener("pointerdown",startHold);h.addEventListener("pointerup",stopHold);h.addEventListener("pointercancel",stopHold);h.addEventListener("lostpointercapture",stopHold);h.addEventListener("contextmenu",e=>e.preventDefault());
+$("begin").onclick=()=>{$("start").style.display="none";status();if(s.step>0&&!s.ended)tell("Kayıtlı sistem devam ediyor · "+s.step+"/100");};document.addEventListener("visibilitychange",()=>{if(document.hidden)stopHold()});document.addEventListener("contextmenu",e=>e.preventDefault());status();
 </script></body></html>
