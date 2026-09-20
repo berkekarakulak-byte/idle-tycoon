@@ -1,106 +1,81 @@
 <!doctype html><html lang="tr"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-<title>GECE VARDİYASI</title><style>
-:root{--bg:#050706;--panel:#0d110f;--line:#29312d;--txt:#eef1ed;--muted:#87908a;--warn:#d7b66b;--bad:#c86b6b}
+<title>MAHALLE</title><style>
+:root{--bg:#080a09;--p:#111512;--line:#303731;--txt:#f2f3ef;--muted:#8f9891;--green:#8ec49b;--red:#d47c7c;--gold:#d6bb77}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
-html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#020302;color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",Arial,sans-serif}
-button{font:inherit;color:inherit;-webkit-appearance:none}#app{height:100dvh;max-width:480px;margin:auto;position:relative;overflow:hidden;background:linear-gradient(#09100c,#030504)}
-header{height:11%;padding:calc(env(safe-area-inset-top) + 10px) 15px 7px;display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1px solid #17201b}
-.logo{font-size:12px;font-weight:950;letter-spacing:3px}.clock{text-align:right;font:800 20px monospace}.clock small{display:block;color:var(--muted);font:700 8px -apple-system;letter-spacing:1px}
-#store{height:58%;position:relative;overflow:hidden;background:radial-gradient(circle at 50% 20%,#263229,#101612 46%,#050806 80%)}
-.ceiling{position:absolute;top:10%;left:15%;right:15%;height:5px;background:#b7c6b4;box-shadow:0 0 22px #dfffd68c}
-.shelves{position:absolute;left:5%;right:5%;bottom:13%;height:40%;display:flex;gap:8px;opacity:.72}.shelf{flex:1;border:5px solid #252c28;background:repeating-linear-gradient(#171d19 0 19%,#343c37 20% 22%)}
-.counter{position:absolute;left:0;right:0;bottom:0;height:19%;background:linear-gradient(#272d29,#111512);border-top:3px solid #444d47;z-index:5}
-#person{position:absolute;left:50%;bottom:17%;transform:translateX(-50%);z-index:4;text-align:center;transition:.35s}.head{width:42px;height:49px;border-radius:50% 50% 44% 44%;background:#b3a28d;margin:auto}.body{width:92px;height:108px;border-radius:35px 35px 5px 5px;background:#202622;margin-top:-2px}.face{font-size:9px;color:#171717;padding-top:20px;font-weight:900}
-#speech{position:absolute;z-index:7;left:12px;right:12px;bottom:8px;background:#080b09e8;border:1px solid var(--line);border-radius:11px;padding:9px 11px;font-size:11px;line-height:1.4;min-height:43px}
-#hud{position:absolute;z-index:8;top:10px;left:10px;display:flex;gap:5px;flex-wrap:wrap}.tag{font-size:8px;border:1px solid #303933;background:#080b09cc;border-radius:7px;padding:5px 7px;color:#b1b8b3}
-#controls{height:31%;padding:9px 12px calc(env(safe-area-inset-bottom) + 9px);background:linear-gradient(#0b0e0c,#050605);border-top:1px solid #1c231f}
-#actions{height:100%;display:grid;grid-template-columns:1fr 1fr;gap:7px}.btn{border:1px solid #303833;background:linear-gradient(#171c18,#101411);border-radius:12px;font-size:10px;font-weight:850;letter-spacing:.35px;min-height:45px}.btn:active{transform:scale(.98)}.primary{background:#e6e9e4;color:#090b09;border-color:#fff}.danger{color:#e58c8c}.warn{color:#e4c985}
-#camera{position:absolute;inset:11% 0 31%;z-index:15;background:#050806;display:none;padding:12px}.camgrid{height:100%;display:grid;grid-template-columns:1fr 1fr;gap:7px}.cam{position:relative;border:1px solid #334039;background:repeating-linear-gradient(0deg,#101712 0 2px,#0b100d 3px 5px);padding:7px;font:700 8px monospace;color:#9ba69f;overflow:hidden}.cam i{position:absolute;width:12px;height:34px;border-radius:8px;background:#151515;bottom:18%;left:55%}.rec{color:#d87676}
-#overlay{position:absolute;inset:0;z-index:30;background:#030504f5;display:flex;align-items:center;padding:24px}.card{width:100%;padding:19px;border:1px solid #29332d;background:#0b0f0c;border-radius:17px}.card h1{font-size:23px;letter-spacing:4px;margin:0 0 8px}.card p{font-size:11px;line-height:1.55;color:#939b96}.start{width:100%;border:0;border-radius:11px;background:#e8ebe6;color:#080a08;padding:13px;font-weight:950;margin-top:9px}
-#eventFlash{position:absolute;inset:0;z-index:25;background:#fff;opacity:0;pointer-events:none}.flash{animation:fl .22s}@keyframes fl{50%{opacity:.7}}.shake{animation:sh .3s}@keyframes sh{25%{transform:translateX(-4px)}50%{transform:translateX(5px)}75%{transform:translateX(-2px)}}
+html,body{margin:0;height:100%;overflow:hidden;background:#050605;color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",Arial}
+button{font:inherit;color:inherit;-webkit-appearance:none}#app{height:100dvh;max-width:480px;margin:auto;background:linear-gradient(#101511,#060806);display:flex;flex-direction:column;overflow:hidden}
+header{padding:calc(env(safe-area-inset-top) + 8px) 12px 8px;border-bottom:1px solid #222923;display:flex;justify-content:space-between;align-items:center;height:10%}
+.logo{font-weight:950;letter-spacing:3px;font-size:14px}.day{text-align:right;font:900 16px monospace}.day small{display:block;font:700 8px -apple-system;color:var(--muted)}
+#world{height:54%;position:relative;overflow:hidden;background:linear-gradient(#8fa6ad 0 33%,#606e62 34% 35%,#252a25 36% 100%)}
+.skyline{position:absolute;left:0;right:0;top:13%;height:28%;display:flex;align-items:flex-end;gap:4px;padding:0 8px}.b{flex:1;background:#2e3431;border-top:2px solid #4a514d;position:relative}.b:after{content:"";position:absolute;inset:9px;background:repeating-linear-gradient(90deg,#b7a66e 0 4px,transparent 5px 13px),repeating-linear-gradient(0deg,transparent 0 9px,#9c9068 10px 13px);opacity:.55}
+.road{position:absolute;left:-10%;right:-10%;bottom:0;height:55%;background:#242724;transform:perspective(280px) rotateX(9deg);border-top:5px solid #4b5049}.road:after{content:"";position:absolute;left:49%;top:0;bottom:0;border-left:3px dashed #a9a47d}
+#car{position:absolute;z-index:3;left:50%;bottom:11%;transform:translateX(-50%);width:94px;height:48px;background:#161918;border:2px solid #5c625e;border-radius:25px 25px 8px 8px;box-shadow:0 8px 20px #000}.carwin{position:absolute;left:18px;right:18px;top:5px;height:18px;background:#29363a;border-radius:18px 18px 3px 3px}.wheel{position:absolute;bottom:-6px;width:17px;height:14px;background:#050505;border-radius:50%}.wl{left:10px}.wr{right:10px}
+#place{position:absolute;z-index:4;top:12px;left:12px;background:#090c0ad9;border:1px solid #333b35;border-radius:9px;padding:7px 9px;font-size:9px;font-weight:900;letter-spacing:1px}
+#msg{position:absolute;z-index:5;left:10px;right:10px;bottom:9px;padding:9px 11px;background:#080b09e8;border:1px solid #333b35;border-radius:10px;font-size:10px;line-height:1.4}
+#stats{height:9%;display:grid;grid-template-columns:repeat(4,1fr);gap:5px;padding:6px 8px;background:#090b09;border-top:1px solid #222823;border-bottom:1px solid #222823}.stat{text-align:center;border:1px solid #292f2b;border-radius:8px;padding:5px 2px;font-size:8px;color:var(--muted)}.stat b{display:block;color:#e7eae6;font-size:11px;margin-top:2px}
+#panel{height:27%;padding:8px 10px calc(env(safe-area-inset-bottom) + 8px);background:#080a08}.grid{height:100%;display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.btn{border:1px solid #303731;background:linear-gradient(#171b18,#101310);border-radius:11px;font-size:9px;font-weight:850;min-height:44px;padding:5px}.btn:active{transform:scale(.98)}.primary{background:#e8ebe6;color:#080a08;border-color:#fff}.gold{color:#e1c984}.red{color:#df8b8b}
+#modal,#start{position:absolute;inset:0;z-index:20;background:#050705f5;display:none;align-items:center;padding:20px}.card{width:100%;background:#0e120f;border:1px solid #313a33;border-radius:16px;padding:17px;max-height:82%;overflow:auto}.card h2{margin:0 0 8px;font-size:18px;letter-spacing:2px}.card p{font-size:10px;line-height:1.55;color:#a1aaa3}.choices{display:grid;gap:7px}.choices button{min-height:46px;border:1px solid #333c35;background:#171b18;border-radius:10px;text-align:left;padding:9px;font-size:10px}.choices b{display:block;font-size:11px;margin-bottom:3px}.x{width:100%;margin-top:9px;border:0;background:#e9ece7;color:#080a08;border-radius:10px;padding:12px;font-weight:900}
+#start{display:flex;z-index:30}.startTitle{font-size:27px;font-weight:1000;letter-spacing:5px;margin:0}.startBtn{width:100%;padding:13px;border:0;border-radius:11px;background:#e9ece7;color:#080a08;font-weight:950}
 </style></head><body><div id="app">
-<header><div class="logo">GECE VARDİYASI</div><div class="clock"><span id="time">23:00</span><small id="shift">VARDİYA BAŞLADI</small></div></header>
-<main id="store"><div class="ceiling"></div><div id="hud"><span class="tag" id="sanity">SİNİR %100</span><span class="tag" id="money">KASA ₺0</span><span class="tag" id="power">ELEKTRİK %100</span></div>
-<div class="shelves"><div class="shelf"></div><div class="shelf"></div><div class="shelf"></div></div>
-<div id="person"><div class="head"><div class="face" id="face">•‿•</div></div><div class="body"></div></div><div class="counter"></div>
-<div id="speech">Market sessiz.</div></main>
-<section id="controls"><div id="actions"></div></section>
-<div id="camera"><div class="camgrid"><div class="cam">CAM 01 · GİRİŞ<i id="c1"></i></div><div class="cam">CAM 02 · DEPO<i id="c2"></i></div><div class="cam">CAM 03 · OTOPARK<i id="c3"></i></div><div class="cam"><span class="rec">● REC</span> · KASA<i id="c4"></i></div></div></div>
-<div id="eventFlash"></div>
-<div id="overlay"><div class="card"><h1>GECE VARDİYASI</h1><p>23:00–07:00. Tek başına küçük bir markettesin.<br><br>Müşterilere hizmet et, kameraları kontrol et ve sabaha kadar hayatta kal. <b>Her müşteri içeri alınmamalı.</b></p><button class="start" id="start">VARDİYAYI BAŞLAT</button></div></div>
+<header><div class="logo">MAHALLE</div><div class="day"><span id="day">GÜN 1</span><small id="clock">08:00</small></div></header>
+<main id="world"><div class="skyline"><div class="b" style="height:65%"></div><div class="b" style="height:95%"></div><div class="b" style="height:55%"></div><div class="b" style="height:78%"></div><div class="b" style="height:60%"></div></div><div class="road"></div><div id="place">MAHALLE</div><div id="car"><div class="carwin"></div><i class="wheel wl"></i><i class="wheel wr"></i></div><div id="msg">Cebinde az para var. Mahallede yeni bir hayat başlıyor.</div></main>
+<section id="stats"><div class="stat">PARA<b id="money">₺500</b></div><div class="stat">ENERJİ<b id="energy">%100</b></div><div class="stat">İTİBAR<b id="rep">0</b></div><div class="stat">SEVİYE<b id="level">1</b></div></section>
+<section id="panel"><div class="grid" id="actions"></div></section>
+<div id="modal"><div class="card"><h2 id="mt"></h2><p id="md"></p><div class="choices" id="mc"></div><button class="x" id="close">GERİ DÖN</button></div></div>
+<div id="start"><div class="card"><h1 class="startTitle">MAHALLE</h1><p>Sıfırdan başla. Çalış, para kazan, araba ve ev al, ticarete gir. Her gün farklı fırsatlar ve olaylarla kendi hikâyeni kur.</p><button class="startBtn" id="play">HAYATA BAŞLA</button></div></div>
 </div><script>
-"use strict";const $=x=>document.getElementById(x),KEY="gece_vardiyasi_v1";
-const DEF={minute:0,money:0,sanity:100,power:100,step:0,locked:false,ended:false,strikes:0,seen:[],clues:0};
-let s={...DEF};try{let q=JSON.parse(localStorage.getItem(KEY)||"null");if(q&&typeof q==="object")s={...DEF,...q}}catch{}
-s.minute=Math.max(0,Math.min(480,+s.minute||0));s.sanity=Math.max(0,Math.min(100,+s.sanity||100));s.power=Math.max(0,Math.min(100,+s.power||100));
-let busy=false,timers=[];function later(fn,ms){let id=setTimeout(()=>{timers=timers.filter(x=>x!==id);fn()},ms);timers.push(id)}function clearTimers(){timers.forEach(clearTimeout);timers=[]}
-const normal=[
- {name:"Öğrenci",face:"•‿•",line:"Bir su alabilir miyim?",price:25},
- {name:"Taksi Şoförü",face:"•ᴗ•",line:"Kahve var mı? Uzun gece.",price:65},
- {name:"Hemşire",face:"•‿•",line:"Sandviç ve su lütfen.",price:95},
- {name:"Kurye",face:"•ᴗ•",line:"Enerji içeceği alacağım.",price:70}
-];
-const odd=[
- {name:"Islak Adam",face:"•_•",line:"Dışarıda yağmur yağmıyor, değil mi?",danger:1,clue:"Ayakkabıları sırılsıklam."},
- {name:"Aynı Müşteri",face:"•_•",line:"Beni biraz önce görmedin.",danger:1,clue:"Aynı ürünü üçüncü kez taşıyor."},
- {name:"Gülümseyen",face:"•◡•",line:"Saat kaç olursa olsun kapıyı aç.",danger:2,clue:"Kamerada yüzü görünmüyor."},
- {name:"Sessiz Kadın",face:"•_•",line:"...",danger:2,clue:"Gölgesi ters yöne düşüyor."}
+"use strict";const $=x=>document.getElementById(x),KEY="mahalle_v1";
+const DEF={day:1,hour:8,money:500,energy:100,rep:0,xp:0,job:null,car:"Eski Hatchback",home:"Aile Evi",business:null,inventory:[],used:[],ended:false};
+let s={...DEF};try{const q=JSON.parse(localStorage.getItem(KEY)||"null");if(q&&typeof q==="object")s={...DEF,...q}}catch{}if(!Array.isArray(s.inventory))s.inventory=[];if(!Array.isArray(s.used))s.used=[];
+const events=[
+ ["Yerde bir cüzdan buldun.","Sahibine ulaştırırsan itibar kazanırsın.",[["TESLİM ET",0,8],["PARAYI AL",650,-5]]],
+ ["Eski arkadaşın seni halı saha maçına çağırdı.","Akşamını burada geçirebilirsin.",[["MAÇA GİT",-120,5],["PAS GEÇ",0,0]]],
+ ["Bir komşunun arabası çalışmıyor.","Yardım istiyor.",[["YARDIM ET",0,6],["ACELEM VAR",0,-2]]],
+ ["Sokak pazarında ucuz telefon gördün.","Satıcı bugün son gün diyor.",[["AL",-900,0],["ALMA",0,0]]],
+ ["Mahallede küçük bir turnuva var.","Giriş ₺200, ödül ₺1.000.",[["KATIL",-200,3],["İZLE",0,1]]],
+ ["Bir dükkân sahibi akşam için yardım arıyor.","2 saatlik iş teklif etti.",[["ÇALIŞ",450,2],["REDDET",0,0]]],
+ ["Aracının sileceğinde isimsiz bir not var.","'Bu sokağı gece kullanma.'",[["NOTU SAKLA",0,1],["ÇÖPE AT",0,0]]],
+ ["Mahallede elektrikler kesildi.","Bakkal jeneratörü taşımak için yardım istiyor.",[["YARDIM ET",0,7],["EVE GİT",0,-1]]],
+ ["İkinci el pazarı kuruldu.","Eski eşyalarını satabilirsin.",[["SATIŞ YAP",380,2],["GEZ",0,1]]],
+ ["Bir sokak müzisyeni kalabalık toplamış.","Bir süre dinlemek enerjini toparlayabilir.",[["DİNLE",-50,2],["DEVAM ET",0,0]]]
 ];
 function save(){try{localStorage.setItem(KEY,JSON.stringify(s))}catch{}}
-function timeText(){let total=23*60+s.minute,h=Math.floor(total/60)%24,m=total%60;return String(h).padStart(2,"0")+":"+String(m).padStart(2,"0")}
-function status(){$("time").textContent=timeText();$("money").textContent="KASA ₺"+s.money;$("sanity").textContent="SİNİR %"+s.sanity;$("power").textContent="ELEKTRİK %"+s.power;save()}
-function say(t){$("speech").textContent=t}
-function buttons(a){let box=$("actions");box.innerHTML="";a.forEach(x=>{let b=document.createElement("button");b.className="btn "+(x.c||"");b.textContent=x.t;b.onclick=()=>{if(!busy)x.f()};box.appendChild(b)})}
-function shake(){let a=$("app");a.classList.remove("shake");void a.offsetWidth;a.classList.add("shake")}
-function flash(){let f=$("eventFlash");f.classList.remove("flash");void f.offsetWidth;f.classList.add("flash")}
-function advance(n=20){s.minute=Math.min(480,s.minute+n);s.power=Math.max(0,s.power-(s.locked?1:2));status();if(s.minute>=480)return end(true,"07:00. Güneş doğdu. Vardiyan bitti.");if(s.sanity<=0)return end(false,"Ne gördüğünü artık ayırt edemiyorsun.");later(next,550)}
-function next(){
- if(s.ended)return;busy=false;$("camera").style.display="none";s.step++;
- let late=s.minute>=180, anomaly=Math.min(.18+(late?.18:0)+s.step*.012,.58);
- if(s.power<=0)anomaly+=.18;
- if(Math.random()<.12&&s.step>3)return storeEvent();
- let bad=Math.random()<anomaly,obj=bad?odd[Math.floor(Math.random()*odd.length)]:normal[Math.floor(Math.random()*normal.length)];
- $("person").style.opacity=1;$("face").textContent=obj.face;s.current={bad,name:obj.name,line:obj.line,price:obj.price||0,danger:obj.danger||0,clue:obj.clue||""};
- say(obj.name+": “"+obj.line+"”");status();
- buttons([{t:"SATIŞ YAP",c:"primary",f:serve},{t:"KAMERALAR",f:cameras},{t:s.locked?"KAPIYI AÇ":"KAPIYI KİLİTLE",c:"warn",f:toggleLock},{t:"MÜŞTERİYİ GÖNDER",c:"danger",f:reject}])
+function lvl(){return 1+Math.floor(s.xp/100)}
+function status(){$("day").textContent="GÜN "+s.day;$("clock").textContent=String(s.hour).padStart(2,"0")+":00";$("money").textContent="₺"+Math.round(s.money).toLocaleString("tr-TR");$("energy").textContent="%"+Math.max(0,s.energy);$("rep").textContent=s.rep;$("level").textContent=lvl();save()}
+function msg(t){$("msg").textContent=t}
+function buttons(){let a=[
+ ["💼 İŞ","job",work],["🗺️ GEZ","",explore],["🏠 EV","",home],["🚗 GARAJ","",garage],["🏪 TİCARET","gold",business],["📱 TELEFON","",phone],["🛒 MAĞAZA","",shop],["😴 UYU","primary",sleep],["💾 DURUM","",profile]
+],b=$("actions");b.innerHTML="";a.forEach(x=>{let q=document.createElement("button");q.className="btn "+x[1];q.textContent=x[0];q.onclick=x[2];b.appendChild(q)})}
+function modal(title,desc,choices=[]){$("mt").textContent=title;$("md").textContent=desc;let c=$("mc");c.innerHTML="";choices.forEach(x=>{let b=document.createElement("button");b.innerHTML="<b>"+x[0]+"</b>"+(x[1]||"");b.onclick=x[2];c.appendChild(b)});$("modal").style.display="flex"}
+function close(){$("modal").style.display="none";status()}$("close").onclick=close;
+function tick(h,e=0){s.hour+=h;s.energy=Math.max(0,Math.min(100,s.energy+e));s.xp+=Math.max(2,h*2);while(s.hour>=24){s.hour-=24;s.day++}status();if(s.energy<=0){msg("Enerjin bitti. Eve dönmen gerekiyor.");s.energy=10}}
+function work(){
+ if(!s.job)return modal("İŞ BUL","Şimdilik düzenli işin yok. Birini seç.",[
+ ["KURYE","Günlük ₺900 · enerji -30",()=>{s.job="Kurye";close();msg("Kurye olarak işe başladın.")}],
+ ["OTO YIKAMA","Günlük ₺750 · enerji -24",()=>{s.job="Oto Yıkama";close();msg("Oto yıkamada işe başladın.")}],
+ ["KAFE","Günlük ₺800 · enerji -22",()=>{s.job="Kafe";close();msg("Kafede işe başladın.")}]]);
+ let pay=s.job==="Kurye"?900:s.job==="Kafe"?800:750;if(s.energy<20)return msg("Çalışacak enerjin yok.");
+ s.money+=pay;s.rep+=1;tick(8,-(s.job==="Kurye"?30:24));msg(s.job+" vardiyası bitti. +₺"+pay);randomEvent(.35)
 }
-function serve(){
- let o=s.current;if(o.bad){s.sanity=Math.max(0,s.sanity-12*o.danger);s.strikes++;shake();say("Kasaya yaklaşınca ışıklar titredi. Bu normal bir müşteri değildi.");if(o.danger>1)s.power=Math.max(0,s.power-12)}
- else{s.money+=o.price;s.sanity=Math.min(100,s.sanity+2);say("Satış tamamlandı. ₺"+o.price)}
- $("person").style.opacity=.15;advance()
+function explore(){if(s.energy<8)return msg("Gezmek için enerjin az.");tick(2,-8);$("place").textContent=["SANAYİ","ÇARŞI","SAHİL YOLU","ARA SOKAK","PARK"][Math.floor(Math.random()*5)];randomEvent(.82)}
+function randomEvent(chance){if(Math.random()>chance)return msg("Bugün mahallede kayda değer bir şey olmadı.");
+ let ids=events.map((_,i)=>i).filter(i=>!s.used.includes(i));if(!ids.length)s.used=[];
+ ids=events.map((_,i)=>i).filter(i=>!s.used.includes(i));let id=ids[Math.floor(Math.random()*ids.length)];s.used.push(id);let e=events[id];
+ modal("RASTGELE OLAY",e[0]+" "+e[1],e[2].map(o=>[o[0],(o[1]?((o[1]>0?"+":"")+"₺"+Math.abs(o[1])):""),()=>{s.money+=o[1];s.rep+=o[2];if(o[0]==="DİNLE")s.energy=Math.min(100,s.energy+18);close();msg("Kararını verdin: "+o[0]);status()}]))
 }
-function reject(){
- let o=s.current;if(o.bad){s.clues++;say("Müşteri birkaç saniye sana baktı ve dışarı çıktı.");s.sanity=Math.min(100,s.sanity+3)}
- else{s.money=Math.max(0,s.money-20);say("Normal müşteriyi geri çevirdin. ₺20 kayıp.");}
- $("person").style.opacity=.15;advance()
-}
-function toggleLock(){s.locked=!s.locked;s.power=Math.max(0,s.power-2);say(s.locked?"Giriş kapısını kilitledin.":"Kapının kilidini açtın.");status();buttons([{t:"DEVAM ET",c:"primary",f:()=>advance(10)},{t:"KAMERALAR",f:cameras}])}
-function cameras(){
- s.power=Math.max(0,s.power-4);status();$("camera").style.display="block";
- ["c1","c2","c3","c4"].forEach(id=>$(id).style.display=Math.random()<.45?"block":"none");
- let o=s.current;if(o&&o.bad){say("Kamera ipucu: "+o.clue);s.clues++}else say("Kameralarda olağan dışı bir şey görünmüyor.");
- buttons([{t:"KAMERAYI KAPAT",c:"primary",f:()=>{$("camera").style.display="none";nextDecision()}},{t:"ELEKTRİĞİ KORU",f:()=>{$("camera").style.display="none";s.power=Math.min(100,s.power+2);nextDecision()}}])
-}
-function nextDecision(){
- let o=s.current;if(!o)return next();
- buttons([{t:"SATIŞ YAP",c:"primary",f:serve},{t:"MÜŞTERİYİ GÖNDER",c:"danger",f:reject},{t:s.locked?"KAPIYI AÇ":"KAPIYI KİLİTLE",c:"warn",f:toggleLock}])
-}
-function storeEvent(){
- $("person").style.opacity=0;let r=Math.random();
- if(r<.34){say("Depodan sert bir ses geldi.");buttons([{t:"DEPOYA BAK",c:"danger",f:()=>{if(Math.random()<.5){s.sanity-=10;shake();say("Rafların arasında birinin nefesini duydun.")}else{say("Yerde düşmüş ürünler var. Başka kimse yok.");s.clues++}advance(25)}},{t:"KAPIYI KİLİTLE",f:()=>{s.locked=true;advance(15)}}])}
- else if(r<.67){say("Otoparktaki araba üçüncü kez farlarını yaktı.");buttons([{t:"KAMERADAN İZLE",f:()=>{s.power-=6;s.clues++;say("Arabada kimse yok.");advance(15)}},{t:"GÖRMEZDEN GEL",f:()=>{s.sanity-=5;advance(15)}}])}
- else{say("Marketin bütün ışıkları aynı anda söndü.");s.power=Math.max(0,s.power-18);buttons([{t:"SİGORTAYI AÇ",c:"primary",f:()=>{s.power=Math.min(100,s.power+28);flash();advance(20)}},{t:"KARANLIKTA BEKLE",c:"danger",f:()=>{s.sanity-=14;shake();advance(20)}}])}
- status()
-}
-function end(win,text){clearTimers();s.ended=true;busy=true;status();$("person").style.opacity=0;$("camera").style.display="none";say(text);$("shift").textContent=win?"VARDİYA TAMAMLANDI":"VARDİYA BİTTİ";
- let ending=win?(s.strikes===0?"KUSURSUZ VARDİYA":s.clues>=5?"GERÇEĞİ GÖRDÜN":"SABAHA ÇIKTIN"):"GECE SENİ ALDI";
- buttons([{t:ending,c:"primary",f:()=>{}},{t:"YENİDEN BAŞLA",f:reset}])
-}
-function reset(){clearTimers();localStorage.removeItem(KEY);s={...DEF,seen:[]};busy=false;$("shift").textContent="VARDİYA BAŞLADI";$("person").style.opacity=1;status();say("Yeni vardiya başladı.");next()}
-$("start").onclick=()=>{$("overlay").style.display="none";if(s.ended)reset();else{status();next()}};
-document.addEventListener("contextmenu",e=>e.preventDefault());
-document.addEventListener("touchstart",e=>{if(e.target.closest("button"))e.preventDefault()},{passive:false,capture:true});
-document.addEventListener("touchend",e=>{let b=e.target.closest("button");if(b){e.preventDefault();b.click()}},{passive:false,capture:true});
-status();
+function home(){modal("EV",s.home,s.home==="Aile Evi"?[["KİRALIK DAİRE","₺18.000",()=>buyHome("Kiralık Daire",18000)],["STÜDYO DAİRE","₺42.000",()=>buyHome("Stüdyo Daire",42000)]]:[["EVDE DİNLEN","Enerji +25",()=>{s.energy=Math.min(100,s.energy+25);tick(3);close()}]])}
+function buyHome(n,p){if(s.money<p)return msg("Bu ev için paran yetmiyor.");s.money-=p;s.home=n;s.rep+=10;close();msg(n+" artık senin.");status()}
+function garage(){modal("GARAJ","Aracın: "+s.car,[["SEDAN","₺25.000",()=>buyCar("Sedan",25000)],["SPOR COUPE","₺80.000",()=>buyCar("Spor Coupe",80000)],["SUV","₺120.000",()=>buyCar("SUV",120000)]])}
+function buyCar(n,p){if(s.money<p)return msg("Bu araç için paran yetmiyor.");s.money-=p;s.car=n;s.rep+=Math.floor(p/5000);close();msg(n+" satın aldın.");status()}
+function business(){if(s.business)return modal("İŞLETME",s.business+" bugün açık.",[["GÜNÜN KASASINI TOPLA","₺"+(900+lvl()*120),()=>{let v=900+lvl()*120;s.money+=v;tick(2,-5);close();msg("İşletmeden +₺"+v)}]]);
+ modal("TİCARETE GİR","Yeterli sermayen varsa kendi işini aç.",[["KÜÇÜK BÜFE","₺30.000",()=>buyBiz("Küçük Büfe",30000)],["OTO YIKAMA","₺65.000",()=>buyBiz("Oto Yıkama",65000)],["KAFE","₺100.000",()=>buyBiz("Kafe",100000)]])}
+function buyBiz(n,p){if(s.money<p)return msg("Sermayen yetmiyor.");s.money-=p;s.business=n;s.rep+=20;close();msg(n+" açıldı.");status()}
+function shop(){modal("MAĞAZA","Günlük ihtiyaçlar ve yükseltmeler.",[["ENERJİ İÇECEĞİ","₺150 · enerji +25",()=>{if(s.money>=150){s.money-=150;s.energy=Math.min(100,s.energy+25);close();status()}}],["ŞIK KIYAFET","₺1.500 · itibar +4",()=>{if(s.money>=1500){s.money-=1500;s.rep+=4;close();status()}}]])}
+function phone(){modal("TELEFON","Mesajlar: "+(s.rep>20?"Mahallede adın duyulmaya başladı.":"Henüz önemli bir mesaj yok."),[["İLANLARA BAK","Yeni iş ve fırsatları kontrol et.",()=>{close();randomEvent(1)}]])}
+function sleep(){s.day++;s.hour=8;s.energy=100;if(s.business)s.money+=450+lvl()*60;$("place").textContent="MAHALLE";status();msg("Yeni bir gün başladı.");randomEvent(.22)}
+function profile(){modal("DURUM","İş: "+(s.job||"Yok")+" · Ev: "+s.home+" · Araç: "+s.car+" · İşletme: "+(s.business||"Yok")+" · XP: "+s.xp,[])}
+$("play").onclick=()=>{$("start").style.display="none";status();buttons()};document.addEventListener("contextmenu",e=>e.preventDefault());
+document.addEventListener("touchstart",e=>{if(e.target.closest("button"))e.preventDefault()},{passive:false,capture:true});document.addEventListener("touchend",e=>{let b=e.target.closest("button");if(b){e.preventDefault();b.click()}},{passive:false,capture:true});
+status();buttons();
 </script></body></html>
