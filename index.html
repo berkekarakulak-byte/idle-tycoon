@@ -12,12 +12,19 @@ header{padding:calc(env(safe-area-inset-top) + 8px) 13px 8px;height:11%;display:
 #bottom{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:min(520px,100%);padding:8px 10px calc(env(safe-area-inset-bottom) + 8px);background:linear-gradient(transparent,#050706 18%);pointer-events:none}.train{pointer-events:auto;width:100%;height:58px;border:1px solid #596a5f;border-radius:15px;background:linear-gradient(#1d2a21,#101712);font-weight:1000;letter-spacing:1px;touch-action:none;box-shadow:0 10px 30px #000}.train.active{background:#dce7df;color:#071009;transform:scale(.99)}
 .toast{position:absolute;top:12%;left:50%;transform:translate(-50%,-15px);z-index:30;background:#e4ece6;color:#08100a;border-radius:10px;padding:8px 12px;font-size:9px;font-weight:900;opacity:0;transition:.2s;pointer-events:none}.toast.show{opacity:1;transform:translate(-50%,0)}
 .badge{display:inline-block;border:1px solid #425347;border-radius:20px;padding:3px 6px;font-size:7px;margin:2px;color:#a9b6ad}
+
+#chest{position:absolute;z-index:25;right:16px;bottom:100px;width:66px;height:66px;border:1px solid #819186;border-radius:18px;background:#142019;display:none;place-items:center;font-size:31px;box-shadow:0 0 28px #d8e8dc35;animation:chestPop .55s ease, chestPulse 1.8s infinite;touch-action:manipulation}
+#chest small{position:absolute;bottom:-14px;font-size:7px;white-space:nowrap;color:#aebbb2;font-weight:900}
+@keyframes chestPop{from{transform:scale(.3) rotate(-12deg);opacity:0}to{transform:scale(1);opacity:1}}@keyframes chestPulse{50%{transform:translateY(-4px);filter:brightness(1.25)}}
+#loot{position:absolute;inset:0;z-index:40;background:#020504dc;display:none;align-items:center;justify-content:center;padding:24px}.lootcard{width:100%;max-width:340px;text-align:center;border:1px solid #53655a;border-radius:20px;background:#0c1510;padding:24px}.looticon{font-size:55px}.lootcard h2{font-size:18px;margin:10px 0 5px}.lootcard p{font-size:10px;color:#aebbb2;line-height:1.5}.lootcard button{width:100%;margin-top:14px;border:0;border-radius:11px;padding:12px;background:#e2ebe4;color:#071009;font-weight:950}
 </style></head><body><div id="app">
 <header><div class="brand">NEURAL TYCOON</div><div class="era"><span id="era">GARAGE AI</span><small id="level">SEVİYE 1</small></div></header>
 <section id="hero"><div class="money" id="money">₺500</div><div class="rate" id="rate">₺0 / sn</div><div id="notice">Eski bir bilgisayar ve küçük bir model. Buradan başlıyorsun.</div><div class="network" id="net"><div class="core"></div></div><div class="progress"><i id="xpbar"></i></div></section>
 <nav id="tabs"><button class="tab on" data-p="infra">ALTYAPI</button><button class="tab" data-p="research">AR-GE</button><button class="tab" data-p="company">ŞİRKET</button><button class="tab" data-p="world">DÜNYA</button></nav>
 <main id="content"><section class="panel on" id="infra"></section><section class="panel" id="research"></section><section class="panel" id="company"></section><section class="panel" id="world"></section></main>
-<div id="bottom"><button class="train" id="train">MODELİ EĞİT</button></div><div class="toast" id="toast"></div></div>
+<div id="bottom"><button class="train" id="train">MODELİ EĞİT</button></div><button id="chest" onclick="openChest()">🎁<small id="chestname">SANDIK</small></button>
+<div id="loot"><div class="lootcard"><div class="looticon" id="looticon">🎁</div><h2 id="loottitle">ÖDÜL</h2><p id="loottext"></p><button onclick="closeLoot()">DEVAM ET</button></div></div>
+<div class="toast" id="toast"></div></div>
 <script>
 "use strict";
 const $=x=>document.getElementById(x), KEY="neural_tycoon_v3";
@@ -56,12 +63,12 @@ const REWARDS=[
 ["Araştırma Ustası",x=>x.research.length>=6,5000000],["Dünya Ağı",x=>x.cities.length>=8,25000000]
 ];
 const ERAS=[[1,"GARAGE AI"],[10,"STARTUP"],[25,"AI LAB"],[45,"TECH COMPANY"],[65,"GLOBAL AI"],[85,"FRONTIER NETWORK"],[110,"POST-SCALE"]];
-const DEF={money:500,level:1,xp:0,items:{},research:[],events:[],prestige:0,total:0,last:Date.now(),train:0,employees:[],products:[],cities:["Ankara"],rewards:[],round:0,equity:100};
+const DEF={money:500,level:1,xp:0,items:{},research:[],events:[],prestige:0,total:0,last:Date.now(),train:0,employees:[],products:[],cities:["Ankara"],rewards:[],round:0,equity:100,chests:0,nextChest:Date.now()+45000,boostUntil:0,boostMult:1};
 let s={...DEF};try{let q=JSON.parse(localStorage.getItem(KEY)||"null");if(q&&typeof q==="object")s={...DEF,...q,items:{...(q.items||{})},research:Array.isArray(q.research)?q.research:[],events:Array.isArray(q.events)?q.events:[]}}catch{}
 if(!Array.isArray(s.employees))s.employees=[];if(!Array.isArray(s.products))s.products=[];if(!Array.isArray(s.cities))s.cities=["Ankara"];if(!Array.isArray(s.rewards))s.rewards=[];
 s.research=[...new Set(s.research)];s.events=[...new Set(s.events.filter(i=>Number.isInteger(i)&&i>=0&&i<EVENTS.length))];
 function f(n){n=Math.max(0,n);if(n>=1e12)return(n/1e12).toFixed(2)+"T";if(n>=1e9)return(n/1e9).toFixed(2)+"B";if(n>=1e6)return(n/1e6).toFixed(2)+"M";if(n>=1e3)return(n/1e3).toFixed(1)+"K";return Math.floor(n).toLocaleString("tr-TR")}
-function mult(){let m=1+s.prestige*.25;for(let i of s.employees)m*=EMP[i]?.[2]||1;for(let i of s.products)m*=PRODUCTS[i]?.[3]||1;for(const r of RESEARCH)if(s.research.includes(r[0]))m*=r[3];return m}
+function mult(){let m=1+s.prestige*.25;if(Date.now()<(s.boostUntil||0))m*=s.boostMult||1;for(let i of s.employees)m*=EMP[i]?.[2]||1;for(let i of s.products)m*=PRODUCTS[i]?.[3]||1;for(const r of RESEARCH)if(s.research.includes(r[0]))m*=r[3];return m}
 function income(){let x=.15;for(const it of ITEMS)x+=(s.items[it[0]]||0)*it[4];return x*mult()}
 function cost(it){return Math.floor(it[3]*Math.pow(1.17,s.items[it[0]]||0))}
 function save(){s.last=Date.now();try{localStorage.setItem(KEY,JSON.stringify(s))}catch{}}
@@ -80,10 +87,29 @@ function launch(i){let x=PRODUCTS[i];if(!x||s.products.includes(i)||s.level<x[1]
 function expand(i){let c=CITIES[i];if(!c||s.cities.includes(c[0])||s.level<c[1])return;if(s.money<c[2])return toast("BÜTÇE YETERSİZ");s.money-=c[2];s.cities.push(c[0]);s.xp+=200;notice(c[0]+" merkezi açıldı.");checkRewards();render();save()}
 function funding(){let stages=["Seed","Series A","Series B","Series C","Halka Arz"];let i=Math.min(4,s.round||0);if((s.round||0)>=5)return toast("HALKA AÇIK ŞİRKET");let req=[12,28,48,70,95][i];if(s.level<req)return toast("SEVİYE "+req+" GEREKİYOR");let cash=[50000,400000,4000000,40000000,400000000][i];s.money+=cash;s.total+=cash;s.equity=Math.max(35,(s.equity||100)-[5,8,10,12,15][i]);s.round=i+1;notice(stages[i]+" tamamlandı · ₺"+f(cash)+" yatırım.");checkRewards();render();save()}
 function checkRewards(){for(let i=0;i<REWARDS.length;i++){if(!s.rewards.includes(i)&&REWARDS[i][1](s)){s.rewards.push(i);s.money+=REWARDS[i][2];s.total+=REWARDS[i][2];toast("ÖDÜL · "+REWARDS[i][0]+" +₺"+f(REWARDS[i][2]));}}}
+function scheduleChest(){
+ let now=Date.now();if(!Number.isFinite(+s.nextChest)||s.nextChest<now-3600000)s.nextChest=now+45000+Math.random()*75000;
+}
+function chestTick(){
+ if($("chest").style.display==="grid")return;
+ if(Date.now()>=s.nextChest){$("chest").style.display="grid";let r=Math.random(),name=r<.04?"EFSANEVİ":r<.16?"EPİK":r<.42?"NADİR":"NORMAL";$("chest").dataset.rarity=name;$("chestname").textContent=name+" SANDIK";s.nextChest=Date.now()+65000+Math.random()*110000;save()}
+}
+function openChest(){
+ let rarity=$("chest").dataset.rarity||"NORMAL",scale={NORMAL:1,NADİR:2,EPİK:4,EFSANEVİ:8}[rarity]||1;
+ $("chest").style.display="none";s.chests=(s.chests||0)+1;
+ let roll=Math.random(),title="",text="",icon="🎁";
+ if(roll<.48){let gain=Math.max(500,income()*(80+Math.random()*100)*scale);s.money+=gain;s.total+=gain;title="NAKİT";text="₺"+f(gain)+" şirket kasasına eklendi.";icon="💰"}
+ else if(roll<.72){let mins=3+scale*2;s.boostMult=Math.min(5,1+scale*.5);s.boostUntil=Date.now()+mins*60000;title="GELİR BOOST";text=mins+" dakika boyunca x"+s.boostMult.toFixed(1)+" gelir.";icon="⚡"}
+ else if(roll<.87){let avail=ITEMS.filter(it=>s.level>=it[6]);if(avail.length){let it=avail[Math.floor(Math.random()*avail.length)];s.items[it[0]]=(s.items[it[0]]||0)+1;title="ÜCRETSİZ YÜKSELTME";text=it[1]+" ücretsiz +1 seviye.";icon="⬆️"}else{let gain=2500*scale;s.money+=gain;s.total+=gain;title="NAKİT";text="₺"+f(gain)+" kazandın.";icon="💰"}}
+ else if(roll<.96){let ids=EMP.map((_,i)=>i).filter(i=>!s.employees.includes(i));if(ids.length){let i=ids[Math.floor(Math.random()*ids.length)];s.employees.push(i);title="ÖZEL ÇALIŞAN";text=EMP[i][0]+" ücretsiz ekibe katıldı.";icon="🧑‍💻"}else{let gain=10000*scale;s.money+=gain;s.total+=gain;title="BONUS";text="₺"+f(gain)+" kazandın.";icon="💎"}}
+ else{let gain=Math.max(50000,income()*1500*scale);s.money+=gain;s.total+=gain;title="JACKPOT";text="₺"+f(gain)+" büyük ödül!";icon="👑"}
+ $("looticon").textContent=icon;$("loottitle").textContent=rarity+" · "+title;$("loottext").textContent=text;$("loot").style.display="flex";checkRewards();render();save()
+}
+function closeLoot(){$("loot").style.display="none"}
 function renderWorld(){let h='<div class="statgrid"><div class="stat">PAZAR PAYI<b>%'+Math.min(99,(s.level*.52+s.products.length*3)).toFixed(1)+'</b></div><div class="stat">MERKEZLER<b>'+s.cities.length+'</b></div></div>';
 h+='<div class="card"><div class="icon">♟</div><div class="ct"><b>Rakipler</b><span>'+RIVALS.map((r,i)=>r+' %'+Math.max(1,Math.round(18-i*2-s.level*.08))).join(' · ')+'</span></div></div>';
 CITIES.forEach((c,i)=>{let own=s.cities.includes(c[0]),lock=s.level<c[1];h+=`<div class="card ${lock?"locked":""}"><div class="icon">⌖</div><div class="ct"><b>${c[0]}</b><span>${own?"MERKEZ AKTİF":lock?"Seviye "+c[1]+" gerekli":"Yeni pazar"}</span></div><button class="buy" ${(own||lock)?"disabled":""} onclick="expand(${i})">${own?"AÇIK":"₺"+f(c[2])}</button></div>`});$("world").innerHTML=h}
-function renderCompany(){let h=`<div class="statgrid"><div class="stat">TOPLAM KAZANÇ<b>₺${f(s.total)}</b></div><div class="stat">ŞİRKET PAYIN<b>%${s.equity||100}</b></div><div class="stat">ÇALIŞAN<b>${s.employees.length}</b></div><div class="stat">ÜRÜN<b>${s.products.length}</b></div></div>`;
+function renderCompany(){let h=`<div class="statgrid"><div class="stat">TOPLAM KAZANÇ<b>₺${f(s.total)}</b></div><div class="stat">ŞİRKET PAYIN<b>%${s.equity||100}</b></div><div class="stat">ÇALIŞAN<b>${s.employees.length}</b></div><div class="stat">ÜRÜN<b>${s.products.length}</b></div><div class="stat">SANDIK<b>${s.chests||0}</b></div></div>`;
 h+=`<div class="card"><div class="icon">₺</div><div class="ct"><b>Yatırım Turu</b><span>Seed → A/B/C → Halka Arz</span></div><button class="buy" ${(s.round||0)>=5?"disabled":""} onclick="funding()">${(s.round||0)>=5?"TAMAM":"GÖRÜŞ"}</button></div>`;let pg=Math.max(1,Math.floor(Math.log10(Math.max(10,s.total))-4));h+=`<div class="card ${s.level<75?"locked":""}"><div class="icon">↻</div><div class="ct"><b>Yeni Nesil</b><span>Kalıcı üretim bonusu · +%25 x ${pg}</span></div><button class="buy" ${s.level<75?"disabled":""} onclick="prestige()">BAŞLAT</button></div>`;
 EMP.forEach((e,i)=>{let own=s.employees.includes(i);h+=`<div class="card"><div class="icon">♙</div><div class="ct"><b>${e[0]}</b><span>${own?"EKİPTE":"Üretim x"+e[2]}</span></div><button class="buy" ${own?"disabled":""} onclick="hire(${i})">${own?"AKTİF":"₺"+f(e[1])}</button></div>`});
 PRODUCTS.forEach((x,i)=>{let own=s.products.includes(i),lock=s.level<x[1];h+=`<div class="card ${lock?"locked":""}"><div class="icon">◆</div><div class="ct"><b>${x[0]}</b><span>${own?"PİYASADA":lock?"Seviye "+x[1]+" gerekli":"Gelir x"+x[3]}</span></div><button class="buy" ${(own||lock)?"disabled":""} onclick="launch(${i})">${own?"CANLI":"₺"+f(x[2])}</button></div>`});
@@ -97,5 +123,5 @@ function start(e){e.preventDefault();if(holding)return;holding=true;last=0;btn.c
 function stop(e){if(e)e.preventDefault();holding=false;last=0;acc=0;btn.classList.remove("active");if(raf){cancelAnimationFrame(raf);raf=0}save()}
 btn.addEventListener("pointerdown",start);btn.addEventListener("pointerup",stop);btn.addEventListener("pointercancel",stop);btn.addEventListener("lostpointercapture",stop);document.addEventListener("contextmenu",e=>e.preventDefault());document.addEventListener("visibilitychange",()=>{if(document.hidden)stop()});
 let now=Date.now(),away=Math.min(8*3600,Math.max(0,(now-(Number(s.last)||now))/1000));if(away>20){let bonus=income()*away*.55;s.money+=bonus;s.total+=bonus;notice("Sistem sen yokken ₺"+f(bonus)+" üretti.");toast("OFFLINE KAZANÇ +₺"+f(bonus))}
-s.last=now;render();setInterval(()=>{let inc=income()/5;s.money+=inc;s.total+=inc;if(Math.random()<.006)maybeEvent();render()},200);setInterval(save,5000);
+s.last=now;scheduleChest();render();setInterval(chestTick,1000);setInterval(()=>{let inc=income()/5;s.money+=inc;s.total+=inc;if(Math.random()<.006)maybeEvent();render()},200);setInterval(save,5000);
 </script></body></html>
