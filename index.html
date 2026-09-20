@@ -58,7 +58,30 @@ function render(){let i=si(),st=stages[i],nx=stages[i+1];$("clicks").textContent
 }
 function pulse(){let q=document.createElement("i");q.className="pulse";$("pixelWrap").appendChild(q);setTimeout(()=>q.remove(),1050)}
 function tap(){if($("choice").style.display==="grid")return;s.clicks++;$("pixel").classList.remove("tap");void $("pixel").offsetWidth;$("pixel").classList.add("tap");pulse();render()}
-$("pixel").addEventListener("pointerdown",e=>{e.preventDefault();tap()},{passive:false});$("touch").onclick=tap;
+$("pixel").addEventListener("pointerdown",e=>{e.preventDefault();tap()},{passive:false});
+
+/* Dokun butonu: kısa basış = 1, basılı tutma = sürekli dokunma */
+let holdTimer=null,holdLoop=null,holding=false;
+function stopHold(){
+ holding=false;
+ clearTimeout(holdTimer); clearInterval(holdLoop);
+ holdTimer=null; holdLoop=null;
+}
+$("touch").addEventListener("pointerdown",e=>{
+ e.preventDefault();
+ stopHold();
+ tap();
+ holding=true;
+ holdTimer=setTimeout(()=>{
+   if(!holding)return;
+   holdLoop=setInterval(()=>{ if(holding) tap(); },85);
+ },280);
+},{passive:false});
+$("touch").addEventListener("pointerup",stopHold);
+$("touch").addEventListener("pointercancel",stopHold);
+$("touch").addEventListener("pointerleave",stopHold);
+window.addEventListener("blur",stopHold);
+document.addEventListener("visibilitychange",()=>{if(document.hidden)stopHold()});
 document.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>$(b.dataset.open).classList.add("open"));document.querySelectorAll(".close").forEach(b=>b.onclick=()=>b.closest(".sheet").classList.remove("open"));
 document.querySelectorAll("[data-choice]").forEach(b=>b.onclick=()=>{s.choice=b.dataset.choice;$("choice").style.display="none";showStory(s.choice==="answer"?"Sinyal cevabını aldı. Bir şey değişti.":"Sinyal sustu. Ama seni izlemeyi bırakmadı.");save()});
 render();
