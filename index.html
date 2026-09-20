@@ -32,8 +32,8 @@ header{height:10%;padding:calc(env(safe-area-inset-top) + 8px) 13px 7px;display:
 </div><script>
 "use strict";
 const $=id=>document.getElementById(id),KEY="mahalle_hold_v1";
-const DEF={day:1,hour:8,money:500,energy:100,rep:0,stage:0,job:"",car:"Yok",home:"Aile Evi",business:"",step:0,used:[],ended:false};
-let s={...DEF};try{let q=JSON.parse(localStorage.getItem(KEY)||"null");if(q&&typeof q==="object")s={...DEF,...q}}catch{}if(!Array.isArray(s.used))s.used=[];
+const DEF={day:1,hour:8,money:500,energy:100,rep:0,stage:0,job:"",car:"Yok",home:"Aile Evi",business:"",step:0,used:[],ended:false,age:18,daysAlive:0,debt:0,relationship:"Bekâr",family:0,career:0,achievements:[],rareUsed:[]};
+let s={...DEF};try{let q=JSON.parse(localStorage.getItem(KEY)||"null");if(q&&typeof q==="object")s={...DEF,...q}}catch{}if(!Array.isArray(s.used))s.used=[];if(!Array.isArray(s.achievements))s.achievements=[];if(!Array.isArray(s.rareUsed))s.rareUsed=[];
 let holding=false,raf=0,last=0,acc=0;
 const chapters=[
  ["BAŞLANGIÇ","İş arıyorsun. Mahalledeki küçük kafede eleman arandığını gördün."],
@@ -61,9 +61,36 @@ const events=[
 ];
 function save(){try{localStorage.setItem(KEY,JSON.stringify(s))}catch{}}
 function money(){return "₺"+Math.max(0,Math.round(s.money)).toLocaleString("tr-TR")}
-function status(){$("day").textContent="GÜN "+s.day;$("clock").textContent=String(s.hour).padStart(2,"0")+":00";$("money").textContent=money();$("energy").textContent="%"+Math.round(s.energy);$("rep").textContent=s.rep;$("life").textContent=chapters[Math.min(s.stage,chapters.length-1)][0];save()}
+function status(){$("day").textContent="GÜN "+s.day;$("clock").textContent=String(s.hour).padStart(2,"0")+":00 · "+s.age+" YAŞ";$("money").textContent=money();$("energy").textContent="%"+Math.round(s.energy);$("rep").textContent=s.rep;$("life").textContent=chapters[Math.min(s.stage,chapters.length-1)][0];save()}
 function tell(t){$("story").textContent=t}
 function bump(){let a=$("scene");a.classList.remove("pulse");void a.offsetWidth;a.classList.add("pulse")}
+
+const lifeEvents=[
+ ()=>{s.money-=220;tell("Telefon faturası ve günlük masraflar geldi. -₺220")},
+ ()=>{s.money-=Math.max(120,Math.round((s.car==="Yok"?0:380)));tell(s.car==="Yok"?"Bugün sakin geçti.":"Aracın küçük bakım istedi. Masraf çıktı.")},
+ ()=>{s.energy=Math.min(100,s.energy+18);tell("Uzun zamandır görmediğin arkadaşlarınla oturdun. Biraz nefes aldın.")},
+ ()=>{s.rep+=3;tell("Mahallede birine yardım ettin. İnsanlar seni daha çok tanımaya başladı.")},
+ ()=>{if(!s.job){s.job="Kafe";tell("Beklemediğin bir iş teklifi aldın: Kafe.")}else{s.career++;s.money+=450;tell("İş yerinde ekstra sorumluluk aldın. Prim kazandın.")}},
+ ()=>{if(s.relationship==="Bekâr"&&s.age>=20){s.relationship="İlişkisi Var";tell("Hayatına biri girdi. Hikâyen artık yalnız ilerlemiyor.")}else if(s.relationship==="İlişkisi Var"&&s.age>=23){s.relationship="Evli";s.rep+=5;tell("Uzun ilişkiniz evliliğe dönüştü.")}else{tell("Ailenle sakin bir akşam geçirdin.")}},
+ ()=>{if(s.relationship==="Evli"&&s.family===0&&s.age>=25){s.family=1;tell("Ailen büyüdü. Artık kararlarının başka bir ağırlığı var.")}else{tell("Bugün planların dışında küçük ama güzel bir gün yaşadın.")}},
+ ()=>{let gain=300+Math.floor(Math.random()*900);s.money+=gain;tell("Beklenmedik küçük bir fırsat çıktı. +₺"+gain)}
+];
+const rareEvents=[
+ ()=>{let gain=5000+Math.floor(Math.random()*7000);s.money+=gain;s.rep+=5;tell("NADİR OLAY · Büyük bir iş fırsatı yakaladın. +₺"+gain);bump()},
+ ()=>{let loss=Math.min(s.money,2500+Math.floor(Math.random()*3000));s.money-=loss;tell("NADİR OLAY · Kötü bir anlaşma yaptın. -₺"+loss);bump()},
+ ()=>{s.career+=3;s.rep+=8;tell("NADİR OLAY · İş hayatında beklenmedik bir sıçrama yaptın.");bump()},
+ ()=>{s.money+=15000;tell("NADİR OLAY · Uzun süredir unuttuğun bir yatırım ciddi değer kazandı. +₺15.000");bump()}
+];
+function lifeEvent(){
+ if(Math.random()<.09){
+   let ids=rareEvents.map((_,i)=>i).filter(i=>!s.rareUsed.includes(i));
+   if(ids.length){let id=ids[Math.floor(Math.random()*ids.length)];s.rareUsed.push(id);rareEvents[id]();return}
+ }
+ lifeEvents[Math.floor(Math.random()*lifeEvents.length)]()
+}
+function achievement(name){
+ if(!s.achievements.includes(name)){s.achievements.push(name);s.rep+=2;tell("BAŞARIM · "+name);bump()}
+}
 function randomEvent(){
  let ids=events.map((_,i)=>i).filter(i=>!s.used.includes(i));if(!ids.length){s.used=[];ids=events.map((_,i)=>i)}
  let id=ids[Math.floor(Math.random()*ids.length)];s.used.push(id);s.rep+=Math.random()<.6?1:0;tell(events[id])
@@ -71,7 +98,15 @@ function randomEvent(){
 function advance(){
  if(s.ended)return;
  s.step++;s.hour+=2;s.energy=Math.max(5,s.energy-7);
- if(s.hour>=24){s.day++;s.hour=8;s.energy=Math.min(100,s.energy+72);if(s.business)s.money+=900+s.rep*18;tell("Yeni bir sabah. "+(s.business?"Dükkân gece boyunca da para kazandırdı.":"Mahalle yeniden hareketleniyor."))}
+ if(s.hour>=24){
+   s.day++;s.daysAlive++;s.hour=8;s.energy=Math.min(100,s.energy+72);
+   if(s.business)s.money+=900+s.rep*18;
+   if(s.home==="Kiralık Daire"&&s.day%30===0)s.money-=4500;
+   if(s.car!=="Yok"&&s.day%7===0)s.money-=450;
+   if(s.day%365===0){s.age++;tell("Bir yıl daha geçti. Artık "+s.age+" yaşındasın.")}
+   else tell("Yeni bir sabah. "+(s.business?"Dükkân gece boyunca da para kazandırdı.":"Mahalle yeniden hareketleniyor."));
+   if(s.day%3===0&&Math.random()<.55)lifeEvent();
+ }
  if(s.stage===0&&s.step>=2){s.stage=1;s.job="Kafe";s.money+=800;s.rep+=2;tell("Kafede işe kabul edildin. İlk vardiyanın sonunda ₺800 kazandın.");bump()}
  else if(s.stage===1){s.money+=650;if(s.step>=7){s.stage=2;tell("Birkaç haftadır çalışıyorsun. Artık herkes seni tanıyor.");s.rep+=4}}
  else if(s.stage===2){s.money+=780;if(s.money>=6500){s.stage=3;tell("Biriktirdiğin parayla ikinci el araba bakmaya başladın.")}}
@@ -81,13 +116,25 @@ function advance(){
  else if(s.stage===6){s.money+=1450+s.rep*12;if(s.money>=70000){s.stage=7;s.rep+=20;$("place").textContent="MERKEZ";tell("Küçük büfe artık ciddi bir işe dönüştü. Mahallede başladığın hayat bambaşka bir yere geldi.");bump()}}
  else{s.money+=1900+s.rep*20;if(s.money>=180000){s.ended=true;tell("Yıllar sonra aynı sokağa baktın. Cebinde ₺500 ile başladığın hikâye artık sana ait bir hayat olmuştu. SON.");$("hold").textContent="HİKÂYE TAMAMLANDI"}}
  if(!s.ended&&s.step%4===0)randomEvent();
- if(s.energy<=12){s.day++;s.hour=8;s.energy=100;tell("Yorgunluktan eve döndün ve sabaha kadar uyudun.")}
+ if(s.energy<=12){s.day++;s.daysAlive++;s.hour=8;s.energy=100;tell("Yorgunluktan eve döndün ve sabaha kadar uyudun.")}
+ if(s.money<0){s.debt+=Math.abs(s.money);s.money=0;tell("Paran bitti. Borçlanarak günü kapattın. Toplam borç: ₺"+Math.round(s.debt))}
+ if(s.money>=10000)achievement("İLK 10 BİN");
+ if(s.car!=="Yok")achievement("İLK ARABA");
+ if(s.home!=="Aile Evi")achievement("KENDİ EVİN");
+ if(s.business)achievement("PATRON");
  status()
 }
-function loop(t){if(!holding)return;if(!last)last=t;acc+=t-last;last=t;let pct=Math.min(100,acc/850*100);$("bar").style.width=pct+"%";if(acc>=850){acc=0;advance()}raf=requestAnimationFrame(loop)}
-function startHold(e){if(s.ended)return;e.preventDefault();holding=true;last=0;$("hold").classList.add("active");if(!raf)raf=requestAnimationFrame(loop)}
+function loop(t){
+ if(!holding)return;
+ if(!last)last=t;
+ const dt=Math.min(100,t-last);last=t;acc+=dt;
+ if(acc>=850){acc-=850;advance()}
+ $("bar").style.width=Math.min(100,acc/850*100)+"%";
+ raf=requestAnimationFrame(loop)
+}
+function startHold(e){if(s.ended||holding)return;e.preventDefault();holding=true;last=0;try{e.currentTarget.setPointerCapture(e.pointerId)}catch{}$("hold").classList.add("active");if(!raf)raf=requestAnimationFrame(loop)}
 function stopHold(e){if(e)e.preventDefault();holding=false;last=0;acc=0;$("bar").style.width="0";$("hold").classList.remove("active");if(raf){cancelAnimationFrame(raf);raf=0}}
-const hold=$("hold");hold.addEventListener("pointerdown",startHold);hold.addEventListener("pointerup",stopHold);hold.addEventListener("pointercancel",stopHold);hold.addEventListener("pointerleave",stopHold);
+const hold=$("hold");hold.addEventListener("pointerdown",startHold);hold.addEventListener("pointerup",stopHold);hold.addEventListener("pointercancel",stopHold);
 hold.addEventListener("touchstart",e=>e.preventDefault(),{passive:false});hold.addEventListener("contextmenu",e=>e.preventDefault());
 $("begin").onclick=()=>{$("start").style.display="none";status();tell(chapters[Math.min(s.stage,chapters.length-1)][1])};
 document.addEventListener("visibilitychange",()=>{if(document.hidden)stopHold()});
